@@ -78,6 +78,7 @@
 		</div>
 	</div>
 	<a class="btn btn-sm fade-half back-to-top inner-link" href="#top"> <?php _e('Top', 'khaown'); ?> </a>
+    <a href="http://www.beian.miit.gov.cn/"> <?php _e('备案号：豫ICP备17038861号', 'khaown'); ?> </a>
 </footer><!-- #colophon -->
 
 </div><!-- #page -->

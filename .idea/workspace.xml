@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e7f62883-f5dc-4789-8f11-7ea532a7745f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/themes/khaown/footer.php" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/khaown/footer.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,6 +53,7 @@
       <workItem from="1584357572959" duration="362000" />
       <workItem from="1584405157740" duration="882000" />
       <workItem from="1584407079709" duration="358000" />
+      <workItem from="1584412527017" duration="1316000" />
     </task>
     <servers />
   </component>
