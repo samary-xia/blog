@@ -23,4 +23,4 @@ node_modules/
 *.sql
 *.sqlite
 
-.idea/
+.idea/*
