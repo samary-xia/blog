@@ -1,0 +1,688 @@
+# Copyright (C) 2019 Motahar Hossain
+# This file is distributed under the GNU General Public License v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Khaown 1.5\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/theme/khaown-free\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2019-11-17T17:38:55+01:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.3.0\n"
+"X-Domain: khaown\n"
+
+#. Theme Name of the theme
+msgid "Khaown"
+msgstr ""
+
+#. Theme URI of the theme
+msgid "http://e-motahar.com/khaown-wordpress-restaurant-theme/"
+msgstr ""
+
+#. Description of the theme
+msgid "Khaown theme is a fully customizable, fast loading, responsive, seo optimised and stunning default designed for blog, portfolio, e-commerce, non-profit, restaurant and a wide range of websites. Everything is customizable. You can change the font-family, font-size, color, background-color and everything. It has the default stunnig design and you can customize everything. It's responsive for mobile and other devices. And the code seo friendly and brwoser compatible."
+msgstr ""
+
+#. Author of the theme
+msgid "Motahar Hossain"
+msgstr ""
+
+#. Author URI of the theme
+msgid "http://e-motahar.com"
+msgstr ""
+
+#: 404.php:26
+msgid "Page Not Found"
+msgstr ""
+
+#: 404.php:46
+msgid "Nothing found related to your query."
+msgstr ""
+
+#: 404.php:47
+msgid "There is no page or post related to this search term. Please search with another term. Nothing found related to your query."
+msgstr ""
+
+#: 404.php:48
+msgid "Go to Homepage"
+msgstr ""
+
+#: classes/class-khaown-walker-comment.php:66
+msgid "%s <span class=\"screen-reader-text says\">says:</span>"
+msgstr ""
+
+#. translators: 1: comment date, 2: comment time
+#: classes/class-khaown-walker-comment.php:86
+msgid "%1$s at %2$s"
+msgstr ""
+
+#: classes/class-khaown-walker-comment.php:94
+msgid "Edit"
+msgstr ""
+
+#: classes/class-khaown-walker-comment.php:99
+msgid "Your comment is awaiting moderation."
+msgstr ""
+
+#: comments.php:48
+#: comments.php:51
+#: comments.php:52
+msgid "Comments"
+msgstr ""
+
+#: comments.php:51
+msgid "Previous"
+msgstr ""
+
+#: comments.php:52
+msgid "Next"
+msgstr ""
+
+#: footer.php:66
+#: functions.php:63
+msgid "Footer Menu"
+msgstr ""
+
+#: footer.php:80
+msgid "Top"
+msgstr ""
+
+#: functions.php:62
+#: functions.php:149
+msgid "Primary"
+msgstr ""
+
+#: functions.php:64
+#: template-parts/header/sitenav-social.php:1
+msgid "Social Links Menu"
+msgstr ""
+
+#: functions.php:118
+msgid "Small"
+msgstr ""
+
+#: functions.php:119
+msgid "S"
+msgstr ""
+
+#: functions.php:124
+msgid "Normal"
+msgstr ""
+
+#: functions.php:125
+msgid "M"
+msgstr ""
+
+#: functions.php:130
+msgid "Large"
+msgstr ""
+
+#: functions.php:131
+msgid "L"
+msgstr ""
+
+#: functions.php:136
+msgid "Huge"
+msgstr ""
+
+#: functions.php:137
+msgid "XL"
+msgstr ""
+
+#: functions.php:154
+msgid "Secondary"
+msgstr ""
+
+#: functions.php:159
+msgid "Dark Gray"
+msgstr ""
+
+#: functions.php:164
+msgid "Light Gray"
+msgstr ""
+
+#: functions.php:169
+msgid "White"
+msgstr ""
+
+#: functions.php:191
+#: inc/customizer.php:204
+#: inc/customizer.php:224
+#: inc/customizer.php:251
+#: inc/customizer.php:278
+msgid "Sidebar"
+msgstr ""
+
+#: functions.php:193
+msgid "Add widgets here to appear in your sidebar."
+msgstr ""
+
+#: header.php:26
+msgid "Top Menu"
+msgstr ""
+
+#: inc/back-compat.php:39
+#: inc/back-compat.php:53
+#: inc/back-compat.php:73
+msgid "khaown requires at least WordPress version 4.7. You are running version %s. Please upgrade and try again."
+msgstr ""
+
+#: inc/customizer.php:46
+msgid "Body Background Color"
+msgstr ""
+
+#: inc/customizer.php:52
+msgid "Text Color"
+msgstr ""
+
+#: inc/customizer.php:59
+msgid "Link Color"
+msgstr ""
+
+#: inc/customizer.php:66
+msgid "Link Color (on hover)"
+msgstr ""
+
+#: inc/customizer.php:97
+msgid "Layout"
+msgstr ""
+
+#: inc/customizer.php:98
+msgid "Customize your layout desing"
+msgstr ""
+
+#: inc/customizer.php:104
+msgid "flat_design"
+msgstr ""
+
+#: inc/customizer.php:111
+msgid "Choose Design Type"
+msgstr ""
+
+#: inc/customizer.php:114
+msgid "Flat Design"
+msgstr ""
+
+#: inc/customizer.php:115
+msgid "Deep Design"
+msgstr ""
+
+#: inc/customizer.php:122
+msgid "border_none"
+msgstr ""
+
+#: inc/customizer.php:129
+msgid "Box Border"
+msgstr ""
+
+#: inc/customizer.php:132
+msgid "Has Border"
+msgstr ""
+
+#: inc/customizer.php:133
+msgid "Border None"
+msgstr ""
+
+#: inc/customizer.php:141
+msgid "0"
+msgstr ""
+
+#: inc/customizer.php:148
+msgid "Border Radius"
+msgstr ""
+
+#: inc/customizer.php:158
+msgid "Posts Background Color"
+msgstr ""
+
+#: inc/customizer.php:165
+msgid "Veriant Posts Background Color"
+msgstr ""
+
+#: inc/customizer.php:172
+msgid "Veriant Posts Text Color"
+msgstr ""
+
+#: inc/customizer.php:205
+#: inc/customizer.php:789
+msgid "Setup your theme Top header"
+msgstr ""
+
+#: inc/customizer.php:210
+msgid "Blog Page Sidebar"
+msgstr ""
+
+#: inc/customizer.php:217
+msgid "right-sidebar"
+msgstr ""
+
+#: inc/customizer.php:228
+#: inc/customizer.php:255
+#: inc/customizer.php:282
+msgctxt "no-sidebar"
+msgid "No Sidebar"
+msgstr ""
+
+#: inc/customizer.php:229
+#: inc/customizer.php:256
+#: inc/customizer.php:283
+msgctxt "left-sidebar"
+msgid "Left Sidebar"
+msgstr ""
+
+#: inc/customizer.php:230
+#: inc/customizer.php:257
+#: inc/customizer.php:284
+msgctxt "right-sidebar"
+msgid "Right Sidebar"
+msgstr ""
+
+#: inc/customizer.php:237
+msgid "Search Page Sidebar"
+msgstr ""
+
+#: inc/customizer.php:244
+#: inc/customizer.php:271
+msgid "no-sidebar"
+msgstr ""
+
+#: inc/customizer.php:264
+msgid "Archive Page Sidebar"
+msgstr ""
+
+#: inc/customizer.php:294
+msgid "Typography"
+msgstr ""
+
+#: inc/customizer.php:295
+msgid "Setup your theme typography"
+msgstr ""
+
+#: inc/customizer.php:301
+msgid "default_font"
+msgstr ""
+
+#: inc/customizer.php:308
+msgid "Choose Font Family"
+msgstr ""
+
+#: inc/customizer.php:311
+msgid "Default Font"
+msgstr ""
+
+#: inc/customizer.php:312
+msgid "Custom Font"
+msgstr ""
+
+#: inc/customizer.php:329
+msgid "Copy Font Family From fonts.google.com"
+msgstr ""
+
+#: inc/customizer.php:343
+msgid "Font Style"
+msgstr ""
+
+#: inc/customizer.php:347
+msgctxt "normal"
+msgid "Normal"
+msgstr ""
+
+#: inc/customizer.php:348
+msgctxt "italic"
+msgid "Italic"
+msgstr ""
+
+#: inc/customizer.php:362
+msgid "Text Transform"
+msgstr ""
+
+#: inc/customizer.php:366
+#: inc/customizer.php:487
+msgctxt "default"
+msgid "Default"
+msgstr ""
+
+#: inc/customizer.php:367
+#: inc/customizer.php:488
+msgctxt "uppercase"
+msgid "Uppercase"
+msgstr ""
+
+#: inc/customizer.php:368
+#: inc/customizer.php:489
+msgctxt "lowercase"
+msgid "Lowercase"
+msgstr ""
+
+#: inc/customizer.php:369
+#: inc/customizer.php:490
+msgctxt "capitalize"
+msgid "Capitalize"
+msgstr ""
+
+#: inc/customizer.php:383
+msgid "Font Size"
+msgstr ""
+
+#: inc/customizer.php:398
+msgid "Font Weight"
+msgstr ""
+
+#: inc/customizer.php:402
+#: inc/customizer.php:557
+#: inc/customizer.php:703
+#: inc/customizer.php:874
+msgctxt "100"
+msgid "100"
+msgstr ""
+
+#: inc/customizer.php:403
+#: inc/customizer.php:558
+#: inc/customizer.php:704
+#: inc/customizer.php:875
+msgctxt "200"
+msgid "200"
+msgstr ""
+
+#: inc/customizer.php:404
+#: inc/customizer.php:559
+#: inc/customizer.php:705
+#: inc/customizer.php:876
+msgctxt "300"
+msgid "300"
+msgstr ""
+
+#: inc/customizer.php:405
+#: inc/customizer.php:560
+#: inc/customizer.php:706
+#: inc/customizer.php:877
+msgctxt "400"
+msgid "400"
+msgstr ""
+
+#: inc/customizer.php:406
+#: inc/customizer.php:561
+#: inc/customizer.php:707
+#: inc/customizer.php:878
+msgctxt "500"
+msgid "500"
+msgstr ""
+
+#: inc/customizer.php:407
+#: inc/customizer.php:562
+#: inc/customizer.php:708
+#: inc/customizer.php:879
+msgctxt "600"
+msgid "600"
+msgstr ""
+
+#: inc/customizer.php:408
+#: inc/customizer.php:563
+#: inc/customizer.php:709
+#: inc/customizer.php:880
+msgctxt "700"
+msgid "700"
+msgstr ""
+
+#: inc/customizer.php:422
+msgid "Line Height"
+msgstr ""
+
+#: inc/customizer.php:437
+msgid "Letter Spacing"
+msgstr ""
+
+#: inc/customizer.php:452
+msgid "Word Spacing"
+msgstr ""
+
+#: inc/customizer.php:465
+msgid "Headings"
+msgstr ""
+
+#: inc/customizer.php:466
+msgid "Customize your theme headings"
+msgstr ""
+
+#: inc/customizer.php:471
+msgid "General"
+msgstr ""
+
+#: inc/customizer.php:485
+msgid "Heading Text Case"
+msgstr ""
+
+#: inc/customizer.php:508
+msgid "Heading Text Color"
+msgstr ""
+
+#: inc/customizer.php:523
+msgid "Heading Letter Spacing"
+msgstr ""
+
+#: inc/customizer.php:538
+msgid "Heading Word Spacing"
+msgstr ""
+
+#: inc/customizer.php:555
+msgid "Heading Font Weight"
+msgstr ""
+
+#: inc/customizer.php:570
+msgid "H1 Heading"
+msgstr ""
+
+#: inc/customizer.php:583
+msgid "H1 Font Size"
+msgstr ""
+
+#: inc/customizer.php:598
+msgid "H1 Line Height"
+msgstr ""
+
+#: inc/customizer.php:603
+msgid "H2 Heading"
+msgstr ""
+
+#: inc/customizer.php:615
+msgid "H2 Font Size"
+msgstr ""
+
+#: inc/customizer.php:631
+msgid "H2 Line Height"
+msgstr ""
+
+#: inc/customizer.php:641
+msgid "Navigation Bar"
+msgstr ""
+
+#: inc/customizer.php:642
+msgid "Setup your theme Navigation"
+msgstr ""
+
+#: inc/customizer.php:688
+msgid "Nav Bar Font Size"
+msgstr ""
+
+#: inc/customizer.php:711
+msgid "Nav Bar Font Weight"
+msgstr ""
+
+#: inc/customizer.php:736
+msgid "Button"
+msgstr ""
+
+#: inc/customizer.php:737
+msgid "Your Button color, hover color, etc."
+msgstr ""
+
+#: inc/customizer.php:788
+msgid "Top Header"
+msgstr ""
+
+#: inc/customizer.php:803
+msgid "Hide Top Header"
+msgstr ""
+
+#: inc/customizer.php:859
+msgid "Site Title Font Size"
+msgstr ""
+
+#: inc/customizer.php:882
+msgid "Site Title Font Weight"
+msgstr ""
+
+#: inc/customizer.php:896
+msgid "Site Title Bottom Space"
+msgstr ""
+
+#: inc/customizer.php:910
+msgid "Site Desc Font Size"
+msgstr ""
+
+#: inc/customizer.php:921
+msgid "Social Accounts"
+msgstr ""
+
+#: inc/customizer.php:935
+msgid "Hide All Social Accounts"
+msgstr ""
+
+#: inc/template-functions.php:114
+msgid "Category Archives: "
+msgstr ""
+
+#: inc/template-functions.php:116
+msgid "Tag Archives: "
+msgstr ""
+
+#: inc/template-functions.php:118
+msgid "Author Archives: "
+msgstr ""
+
+#: inc/template-functions.php:120
+msgid "Yearly Archives: "
+msgstr ""
+
+#: inc/template-functions.php:120
+msgctxt "yearly archives date format"
+msgid "Y"
+msgstr ""
+
+#: inc/template-functions.php:122
+msgid "Monthly Archives: "
+msgstr ""
+
+#: inc/template-functions.php:122
+msgctxt "monthly archives date format"
+msgid "F Y"
+msgstr ""
+
+#: inc/template-functions.php:124
+msgid "Daily Archives: "
+msgstr ""
+
+#: inc/template-functions.php:126
+msgid "Post Type Archives: "
+msgstr ""
+
+#. translators: %s: Taxonomy singular name
+#: inc/template-functions.php:130
+msgid "%s Archives:"
+msgstr ""
+
+#: inc/template-functions.php:132
+msgid "Archives:"
+msgstr ""
+
+#: inc/template-tags.php:47
+msgid "Posted by"
+msgstr ""
+
+#. translators: %s: Name of current post. Only visible to screen readers.
+#: inc/template-tags.php:64
+msgid "Leave a comment<span class=\"screen-reader-text\"> on %s</span>"
+msgstr ""
+
+#. translators: used between list items, there is a space after the comma.
+#: inc/template-tags.php:87
+#: inc/template-tags.php:99
+msgid ", "
+msgstr ""
+
+#: inc/template-tags.php:93
+msgid "Posted in"
+msgstr ""
+
+#: inc/template-tags.php:105
+msgid "Tags:"
+msgstr ""
+
+#. translators: %s: Name of current post. Only visible to screen readers.
+#: inc/template-tags.php:121
+#: template-parts/header/entry-header.php:32
+msgid "Edit <span class=\"screen-reader-text\">%s</span>"
+msgstr ""
+
+#: inc/template-tags.php:231
+msgid "Newer posts"
+msgstr ""
+
+#: inc/template-tags.php:235
+msgid "Older posts"
+msgstr ""
+
+#: searchform.php:4
+#: searchform.php:5
+msgid "Search"
+msgstr ""
+
+#. translators: %s: parent post link
+#: single.php:43
+msgid "<span class=\"meta-nav\">Published in</span><span class=\"khaown-post-title\">%s</span>"
+msgstr ""
+
+#: single.php:50
+msgid "Next Post"
+msgstr ""
+
+#: single.php:51
+msgid "Next post:"
+msgstr ""
+
+#: single.php:53
+msgid "Previous Post"
+msgstr ""
+
+#: single.php:54
+msgid "Previous post:"
+msgstr ""
+
+#. translators: %s: Name of current post. Only visible to screen readers
+#: template-parts/content/content-page.php:22
+#: template-parts/content/content-single.php:22
+#: template-parts/content/content.php:33
+#: template-parts/content/content.php:64
+msgid "Continue reading<span class=\"screen-reader-text\"> \"%s\"</span>"
+msgstr ""
+
+#: template-parts/content/content-page.php:35
+#: template-parts/content/content-single.php:35
+#: template-parts/content/content.php:46
+#: template-parts/content/content.php:77
+msgid "Pages:"
+msgstr ""
+
+#. translators: %1(X comments)$s
+#: template-parts/post/discussion-meta.php:16
+msgid "%d Comment"
+msgid_plural "%d Comments"
+msgstr[0] ""
+msgstr[1] ""
+
+#: template-parts/post/discussion-meta.php:18
+msgid "No comments"
+msgstr ""

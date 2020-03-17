@@ -1,0 +1,40 @@
+/*
+Theme Name: Khaown
+Author: motahar1
+Author URI: http://e-motahar.com
+Description: Khaown theme is a fully customizable, fast loading, responsive, seo optimised and stunning default designed for blog, portfolio, e-commerce, non-profit, restaurant and a wide range of websites. Everything is customizable. You can change the font-family, font-size, color, background-color and everything. It has the default stunnig design and you can customize everything. It's responsive for mobile and other devices. And the code seo friendly and brwoser compatible.
+Requires at least: WordPress 4.9.6
+Version: 3.1
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: khaown
+Tags: accessibility-ready, blog, news, custom-logo, custom-colors, custom-menu, custom-background, custom-Header, flexible-header, editor-style, featured-images, one-column, two-columns, left-sidebar, right-sidebar, full-width-template, theme-options, threaded-comments, translation-ready
+
+
+Khaown is based on Underscores https://underscores.me/, (C) 2012-2020 Automattic, Inc.
+Underscores is distributed under the terms of the GNU GPL v2 or later.
+
+Normalizing styles have been helped along thanks to the fine work of.
+Nicolas Gallagher and Jonathan Neal https://necolas.github.com/normalize.css/
+
+*/
+
+/*--------------------------------------------------------------
+>>> TABLE OF CONTENTS:
+----------------------------------------------------------------
+# theme styles
+# Custom
+--------------------------------------------------------------*/
+
+/*--------------------------------------------------------------
+## khaown theme
+--------------------------------------------------------------*/
+@import "sass/khaown/theme-khaown";
+
+/*--------------------------------------------------------------
+## Custom
+--------------------------------------------------------------*/
+@import "sass/custom/custom";
+
+
+ 
