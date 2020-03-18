@@ -20,7 +20,7 @@
 					<?php } else { ?>
 						<?php $blog_info = get_bloginfo( 'name' ); ?>
 						<?php if ( ! empty( $blog_info ) ) : ?>
-							<h1 class="site-title khaown-site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php echo bloginfo( 'name' ); ?></a></h1>
+							<!-- <h1 class="site-title khaown-site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php echo bloginfo( 'name' ); ?></a></h1> -->
 					<?php endif; ?>
 					<?php } ?>
 				<div class="social-accounts">
@@ -75,13 +75,18 @@
 					?>
 				</nav><!-- .footer-navigation -->
 			<?php endif; ?>
+		
 		</div>
 	</div>
-	<a class="btn btn-sm fade-half back-to-top inner-link" href="#top"> <?php _e('Top', 'khaown'); ?> </a>
-    <a href="http://www.beian.miit.gov.cn/"> <?php _e('备案号：豫ICP备17038861号', 'khaown'); ?> </a>
+
+	<a class="btn btn-sm fade-half back-to-top inner-link bak-top themify ti-arrow-up" href="#top">  </a>
+
 </footer><!-- #colophon -->
 
-</div><!-- #page -->
+<div class="clkned">
+	<a class="container "  href="http://www.beian.miit.gov.cn/"> <?php _e('备案号：豫ICP备17038861号', 'khaown'); ?> </a>	
+</div> 
+ <!-- #page -->
 
 <?php wp_footer(); ?>
 </body>
