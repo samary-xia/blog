@@ -84,7 +84,9 @@
 </footer><!-- #colophon -->
 
 <div class="clkned">
-	<a class="container "  href="http://www.beian.miit.gov.cn/"> <?php _e('备案号：豫ICP备17038861号', 'khaown'); ?> </a>	
+	<a class="container "  href="http://www.beian.miit.gov.cn/"> <?php _e('备案号：豫ICP备17038861号', 'khaown'); ?> </a>
+    <a class="container "  href="https://www.samary.cn/about"> <?php _e('关于本站', 'khaown'); ?> </a>
+    <a class="container "  href="https://www.samary.cn/contact-us/"> <?php _e('联系我们', 'khaown'); ?> </a>
 </div> 
  <!-- #page -->
 
