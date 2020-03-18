@@ -14,8 +14,9 @@ get_header();
 
 <div class="main-container">
 
-    <section class="page-title page-title-4 bg-menu-4">
-        <div class="container">
+    <section class="page-title page-title-4 bg-menu-4 bdetbg">
+        <canvas id="sakura"></canvas>
+        <div class="container ioebgdt">
             <div class="row">
 				<div class="col-sm-7 text-left">		
 					<h1 class="khaown-site-title"><?php _e('Searched: ', 'khaown'); ?><strong><?php echo get_search_query(); ?></strong></h1>					
