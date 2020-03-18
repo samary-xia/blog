@@ -235,13 +235,13 @@ function khaown_scripts() {
 	wp_enqueue_style( 'khaown-themify-icons', get_template_directory_uri() . '/themify-icons.css', array(), wp_get_theme()->get( 'Version' ), 'all' );
 	wp_enqueue_style( 'khaown-font', "https://fonts.googleapis.com/css?family=Rajdhani:300,400,500,600,700&display=swap", array(), wp_get_theme()->get( 'Version' ) );
 	wp_enqueue_style( 'khaown-style', get_stylesheet_uri(), array(), wp_get_theme()->get( 'Version' ) );
-
+	wp_enqueue_style( 'khaown-zhidinyi', get_template_directory_uri() . '/css/style.css', array(), wp_get_theme()->get( 'Version' ), 'all' ); //自己加的
 	wp_style_add_data( 'khaown-style', 'rtl', 'replace' );
 
 	wp_enqueue_script("jquery");
 	wp_enqueue_script( 'khaown-bootstrap-js', get_theme_file_uri( '/js/bootstrap.min.js' ), array(), '1.1', true );
 	wp_enqueue_script( 'khaown-scripts', get_theme_file_uri( '/js/scripts.js' ), array(), '1.1', true );
-
+	wp_enqueue_script( 'khaown-yinyon', get_theme_file_uri( '/js/buann.js' ), array(), '1.1', true );//自己加的
 	wp_enqueue_style( 'khaown-print-style', get_template_directory_uri() . '/print.css', array(), wp_get_theme()->get( 'Version' ), 'print' );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
