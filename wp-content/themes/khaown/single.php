@@ -46,11 +46,11 @@ get_header();
 									// Previous/next post navigation.
 									the_post_navigation(
 										array(
-											'next_text' => '<span class="meta-nav" aria-hidden="true">' . __( 'Next Post', 'khaown' ) . '</span> ' .
-												'<span class="screen-reader-text">' . __( 'Next post:', 'khaown' ) . '</span> <br/>' .
+											'next_text' => '<span class="meta-nav" aria-hidden="true">' . __( '下一篇', 'khaown' ) . '</span> ' .
+												'<span class="screen-reader-text">' . __( '下一篇:', 'khaown' ) . '</span> <br/>' .
 												'<span class="khaown-post-title">%title</span>',
-											'prev_text' => '<span class="meta-nav" aria-hidden="true">' . __( 'Previous Post', 'khaown' ) . '</span> ' .
-												'<span class="screen-reader-text">' . __( 'Previous post:', 'khaown' ) . '</span> <br/>' .
+											'prev_text' => '<span class="meta-nav" aria-hidden="true">' . __( '上一篇', 'khaown' ) . '</span> ' .
+												'<span class="screen-reader-text">' . __( '上一篇:', 'khaown' ) . '</span> <br/>' .
 												'<span class="khaown-post-title">%title</span>',
 										)
 									);

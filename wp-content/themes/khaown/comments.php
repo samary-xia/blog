@@ -57,9 +57,9 @@ if ( post_password_required() ) {
 <?php
 $form_args = array(
         // change the title of send button 
-        'label_submit'=>'POST COMMENT',
+        'label_submit'=>'提交评论',
         // change the title of the reply section
-        'title_reply'=>'Write a Reply or Comment',
+        'title_reply'=>'添加评论',
         // remove "Text or HTML to be displayed after the set of comment fields"
         'comment_notes_after' => '',
         // redefine your own textarea (the comment body)
