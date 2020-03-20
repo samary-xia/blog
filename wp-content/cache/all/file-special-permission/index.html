@@ -1,0 +1,685 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- sakura shader -->
+<script id="sakura_point_vsh" type="x-shader/x_vertex">
+uniform mat4 uProjection;
+uniform mat4 uModelview;
+uniform vec3 uResolution;
+uniform vec3 uOffset;
+uniform vec3 uDOF;  //x:focus distance, y:focus radius, z:max radius
+uniform vec3 uFade; //x:start distance, y:half distance, z:near fade start
+attribute vec3 aPosition;
+attribute vec3 aEuler;
+attribute vec2 aMisc; //x:size, y:fade
+varying vec3 pposition;
+varying float psize;
+varying float palpha;
+varying float pdist;
+//varying mat3 rotMat;
+varying vec3 normX;
+varying vec3 normY;
+varying vec3 normZ;
+varying vec3 normal;
+varying float diffuse;
+varying float specular;
+varying float rstop;
+varying float distancefade;
+void main(void) {
+// Projection is based on vertical angle
+vec4 pos = uModelview * vec4(aPosition + uOffset, 1.0);
+gl_Position = uProjection * pos;
+gl_PointSize = aMisc.x * uProjection[1][1] / -pos.z * uResolution.y * 0.5;
+pposition = pos.xyz;
+psize = aMisc.x;
+pdist = length(pos.xyz);
+palpha = smoothstep(0.0, 1.0, (pdist - 0.1) / uFade.z);
+vec3 elrsn = sin(aEuler);
+vec3 elrcs = cos(aEuler);
+mat3 rotx = mat3(
+1.0, 0.0, 0.0,
+0.0, elrcs.x, elrsn.x,
+0.0, -elrsn.x, elrcs.x
+);
+mat3 roty = mat3(
+elrcs.y, 0.0, -elrsn.y,
+0.0, 1.0, 0.0,
+elrsn.y, 0.0, elrcs.y
+);
+mat3 rotz = mat3(
+elrcs.z, elrsn.z, 0.0, 
+-elrsn.z, elrcs.z, 0.0,
+0.0, 0.0, 1.0
+);
+mat3 rotmat = rotx * roty * rotz;
+normal = rotmat[2];
+mat3 trrotm = mat3(
+rotmat[0][0], rotmat[1][0], rotmat[2][0],
+rotmat[0][1], rotmat[1][1], rotmat[2][1],
+rotmat[0][2], rotmat[1][2], rotmat[2][2]
+);
+normX = trrotm[0];
+normY = trrotm[1];
+normZ = trrotm[2];
+const vec3 lit = vec3(0.6917144638660746, 0.6917144638660746, -0.20751433915982237);
+float tmpdfs = dot(lit, normal);
+if(tmpdfs < 0.0) {
+normal = -normal;
+tmpdfs = dot(lit, normal);
+}
+diffuse = 0.4 + tmpdfs;
+vec3 eyev = normalize(-pos.xyz);
+if(dot(eyev, normal) > 0.0) {
+vec3 hv = normalize(eyev + lit);
+specular = pow(max(dot(hv, normal), 0.0), 20.0);
+}
+else {
+specular = 0.0;
+}
+rstop = clamp((abs(pdist - uDOF.x) - uDOF.y) / uDOF.z, 0.0, 1.0);
+rstop = pow(rstop, 0.5);
+//-0.69315 = ln(0.5)
+distancefade = min(1.0, exp((uFade.x - pdist) * 0.69315 / uFade.y));
+}
+</script>
+<script id="sakura_point_fsh" type="x-shader/x_fragment">
+#ifdef GL_ES
+//precision mediump float;
+precision highp float;
+#endif
+uniform vec3 uDOF;  //x:focus distance, y:focus radius, z:max radius
+uniform vec3 uFade; //x:start distance, y:half distance, z:near fade start
+const vec3 fadeCol = vec3(0.08, 0.03, 0.06);
+varying vec3 pposition;
+varying float psize;
+varying float palpha;
+varying float pdist;
+//varying mat3 rotMat;
+varying vec3 normX;
+varying vec3 normY;
+varying vec3 normZ;
+varying vec3 normal;
+varying float diffuse;
+varying float specular;
+varying float rstop;
+varying float distancefade;
+float ellipse(vec2 p, vec2 o, vec2 r) {
+vec2 lp = (p - o) / r;
+return length(lp) - 1.0;
+}
+void main(void) {
+vec3 p = vec3(gl_PointCoord - vec2(0.5, 0.5), 0.0) * 2.0;
+vec3 d = vec3(0.0, 0.0, -1.0);
+float nd = normZ.z; //dot(-normZ, d);
+if(abs(nd) < 0.0001) discard;
+float np = dot(normZ, p);
+vec3 tp = p + d * np / nd;
+vec2 coord = vec2(dot(normX, tp), dot(normY, tp));
+//angle = 15 degree
+const float flwrsn = 0.258819045102521;
+const float flwrcs = 0.965925826289068;
+mat2 flwrm = mat2(flwrcs, -flwrsn, flwrsn, flwrcs);
+vec2 flwrp = vec2(abs(coord.x), coord.y) * flwrm;
+float r;
+if(flwrp.x < 0.0) {
+r = ellipse(flwrp, vec2(0.065, 0.024) * 0.5, vec2(0.36, 0.96) * 0.5);
+}
+else {
+r = ellipse(flwrp, vec2(0.065, 0.024) * 0.5, vec2(0.58, 0.96) * 0.5);
+}
+if(r > rstop) discard;
+vec3 col = mix(vec3(1.0, 0.8, 0.75), vec3(1.0, 0.9, 0.87), r);
+float grady = mix(0.0, 1.0, pow(coord.y * 0.5 + 0.5, 0.35));
+col *= vec3(1.0, grady, grady);
+col *= mix(0.8, 1.0, pow(abs(coord.x), 0.3));
+col = col * diffuse + specular;
+col = mix(fadeCol, col, distancefade);
+float alpha = (rstop > 0.001)? (0.5 - r / (rstop * 2.0)) : 1.0;
+alpha = smoothstep(0.0, 1.0, alpha) * palpha;
+gl_FragColor = vec4(col * 0.5, alpha);
+}
+</script>
+<!-- effects -->
+<script id="fx_common_vsh" type="x-shader/x_vertex">
+uniform vec3 uResolution;
+attribute vec2 aPosition;
+varying vec2 texCoord;
+varying vec2 screenCoord;
+void main(void) {
+gl_Position = vec4(aPosition, 0.0, 1.0);
+texCoord = aPosition.xy * 0.5 + vec2(0.5, 0.5);
+screenCoord = aPosition.xy * vec2(uResolution.z, 1.0);
+}
+</script>
+<script id="bg_fsh" type="x-shader/x_fragment">
+#ifdef GL_ES
+//precision mediump float;
+precision highp float;
+#endif
+uniform vec2 uTimes;
+varying vec2 texCoord;
+varying vec2 screenCoord;
+void main(void) {
+vec3 col;
+float c;
+vec2 tmpv = texCoord * vec2(0.8, 1.0) - vec2(0.95, 1.0);
+c = exp(-pow(length(tmpv) * 1.8, 2.0));
+col = mix(vec3(0.02, 0.0, 0.03), vec3(0.96, 0.98, 1.0) * 1.5, c);
+gl_FragColor = vec4(col * 0.5, 1.0);
+}
+</script>
+<script id="fx_brightbuf_fsh" type="x-shader/x_fragment">
+#ifdef GL_ES
+//precision mediump float;
+precision highp float;
+#endif
+uniform sampler2D uSrc;
+uniform vec2 uDelta;
+varying vec2 texCoord;
+varying vec2 screenCoord;
+void main(void) {
+vec4 col = texture2D(uSrc, texCoord);
+gl_FragColor = vec4(col.rgb * 2.0 - vec3(0.5), 1.0);
+}
+</script>
+<script id="fx_dirblur_r4_fsh" type="x-shader/x_fragment">
+#ifdef GL_ES
+//precision mediump float;
+precision highp float;
+#endif
+uniform sampler2D uSrc;
+uniform vec2 uDelta;
+uniform vec4 uBlurDir; //dir(x, y), stride(z, w)
+varying vec2 texCoord;
+varying vec2 screenCoord;
+void main(void) {
+vec4 col = texture2D(uSrc, texCoord);
+col = col + texture2D(uSrc, texCoord + uBlurDir.xy * uDelta);
+col = col + texture2D(uSrc, texCoord - uBlurDir.xy * uDelta);
+col = col + texture2D(uSrc, texCoord + (uBlurDir.xy + uBlurDir.zw) * uDelta);
+col = col + texture2D(uSrc, texCoord - (uBlurDir.xy + uBlurDir.zw) * uDelta);
+gl_FragColor = col / 5.0;
+}
+</script>
+<!-- effect fragment shader template -->
+<script id="fx_common_fsh" type="x-shader/x_fragment">
+#ifdef GL_ES
+//precision mediump float;
+precision highp float;
+#endif
+uniform sampler2D uSrc;
+uniform vec2 uDelta;
+varying vec2 texCoord;
+varying vec2 screenCoord;
+void main(void) {
+gl_FragColor = texture2D(uSrc, texCoord);
+}
+</script>
+<!-- post processing -->
+<script id="pp_final_vsh" type="x-shader/x_vertex">
+uniform vec3 uResolution;
+attribute vec2 aPosition;
+varying vec2 texCoord;
+varying vec2 screenCoord;
+void main(void) {
+gl_Position = vec4(aPosition, 0.0, 1.0);
+texCoord = aPosition.xy * 0.5 + vec2(0.5, 0.5);
+screenCoord = aPosition.xy * vec2(uResolution.z, 1.0);
+}
+</script>
+<script id="pp_final_fsh" type="x-shader/x_fragment">
+#ifdef GL_ES
+//precision mediump float;
+precision highp float;
+#endif
+uniform sampler2D uSrc;
+uniform sampler2D uBloom;
+uniform vec2 uDelta;
+varying vec2 texCoord;
+varying vec2 screenCoord;
+void main(void) {
+vec4 srccol = texture2D(uSrc, texCoord) * 2.0;
+vec4 bloomcol = texture2D(uBloom, texCoord);
+vec4 col;
+col = srccol + bloomcol * (vec4(1.0) + srccol);
+col *= smoothstep(1.0, 0.0, pow(length((texCoord - vec2(0.5)) * 2.0), 1.2) * 0.5);
+col = pow(col, vec4(0.45454545454545)); //(1.0 / 2.2)
+gl_FragColor = vec4(col.rgb, 1.0);
+gl_FragColor.a = 1.0;
+}
+</script>
+<link rel="profile" href="https://gmpg.org/xfn/11" />
+<title>Linux文件特殊权限 - Samary Blog</title>
+<!-- This site is optimized with the Yoast SEO plugin v13.3 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="Samary Blog - Linux文件特殊权限"/>
+<meta name="robots" content="max-snippet:-1, max-image-preview:large, max-video-preview:-1"/>
+<link rel="canonical" href="https://www.samary.cn/file-special-permission/" />
+<meta property="og:locale" content="zh_CN" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Linux文件特殊权限 - Samary Blog" />
+<meta property="og:description" content="Samary Blog - Linux文件特殊权限" />
+<meta property="og:url" content="https://www.samary.cn/file-special-permission/" />
+<meta property="og:site_name" content="Samary Blog" />
+<meta property="article:tag" content="Linux" />
+<meta property="article:tag" content="Linux文件与目录管理" />
+<meta property="article:tag" content="Linux文件特殊权限" />
+<meta property="article:tag" content="SBIT" />
+<meta property="article:tag" content="SGID" />
+<meta property="article:tag" content="SUID" />
+<meta property="article:section" content="Linux" />
+<meta property="article:published_time" content="2020-03-16T15:22:52+00:00" />
+<meta property="article:modified_time" content="2020-03-17T09:18:03+00:00" />
+<meta property="og:updated_time" content="2020-03-17T09:18:03+00:00" />
+<meta property="og:image" content="http://static.zybuluo.com/LingPai/whht6xyof2bisnaddvnjx164/s&#038;t.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:description" content="Samary Blog - Linux文件特殊权限" />
+<meta name="twitter:title" content="Linux文件特殊权限 - Samary Blog" />
+<meta name="twitter:image" content="http://static.zybuluo.com/LingPai/whht6xyof2bisnaddvnjx164/s&#038;t.png" />
+<script type='application/ld+json' class='yoast-schema-graph yoast-schema-graph--main'>{"@context":"https://schema.org","@graph":[{"@type":["Person","Organization"],"@id":"https://www.samary.cn/#/schema/person/c1664f05a716668d8acc6b05abe00f4f","name":"samary","image":{"@type":"ImageObject","@id":"https://www.samary.cn/#personlogo","inLanguage":"zh-CN","url":"https://secure.gravatar.com/avatar/a4c23e2c1157c0bab7d96d5dfc7d1de4?s=96&d=monsterid&r=g","caption":"samary"},"logo":{"@id":"https://www.samary.cn/#personlogo"},"description":"\u4e00\u4f4d\u4e0d\u613f\u610f\u900f\u9732\u59d3\u540d\u7684\u7a0b\u5e8f\u5458","sameAs":[]},{"@type":"WebSite","@id":"https://www.samary.cn/#website","url":"https://www.samary.cn/","name":"Samary Blog","inLanguage":"zh-CN","description":"\u9ed1\u53d1\u4e0d\u77e5\u52e4\u5b66\u65e9\uff0c\u767d\u9996\u65b9\u6094\u8bfb\u4e66\u8fdf","publisher":{"@id":"https://www.samary.cn/#/schema/person/c1664f05a716668d8acc6b05abe00f4f"},"potentialAction":[{"@type":"SearchAction","target":"https://www.samary.cn/?s={search_term_string}","query-input":"required name=search_term_string"}]},{"@type":"ImageObject","@id":"https://www.samary.cn/file-special-permission/#primaryimage","inLanguage":"zh-CN","url":"http://static.zybuluo.com/LingPai/whht6xyof2bisnaddvnjx164/s&amp;t.png"},{"@type":"WebPage","@id":"https://www.samary.cn/file-special-permission/#webpage","url":"https://www.samary.cn/file-special-permission/","name":"Linux\u6587\u4ef6\u7279\u6b8a\u6743\u9650 - Samary Blog","isPartOf":{"@id":"https://www.samary.cn/#website"},"inLanguage":"zh-CN","primaryImageOfPage":{"@id":"https://www.samary.cn/file-special-permission/#primaryimage"},"datePublished":"2020-03-16T15:22:52+00:00","dateModified":"2020-03-17T09:18:03+00:00","description":"Samary Blog - Linux\u6587\u4ef6\u7279\u6b8a\u6743\u9650","breadcrumb":{"@id":"https://www.samary.cn/file-special-permission/#breadcrumb"},"potentialAction":[{"@type":"ReadAction","target":["https://www.samary.cn/file-special-permission/"]}]},{"@type":"BreadcrumbList","@id":"https://www.samary.cn/file-special-permission/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"WebPage","@id":"https://www.samary.cn/","url":"https://www.samary.cn/","name":"Home"}},{"@type":"ListItem","position":2,"item":{"@type":"WebPage","@id":"https://www.samary.cn/category/linux/","url":"https://www.samary.cn/category/linux/","name":"Linux"}},{"@type":"ListItem","position":3,"item":{"@type":"WebPage","@id":"https://www.samary.cn/category/linux/basic-learning/","url":"https://www.samary.cn/category/linux/basic-learning/","name":"\u57fa\u7840\u5b66\u4e60\u7bc7"}},{"@type":"ListItem","position":4,"item":{"@type":"WebPage","@id":"https://www.samary.cn/category/linux/basic-learning/file-and-directory-management/","url":"https://www.samary.cn/category/linux/basic-learning/file-and-directory-management/","name":"\u6587\u4ef6\u4e0e\u76ee\u5f55\u7ba1\u7406"}},{"@type":"ListItem","position":5,"item":{"@type":"WebPage","@id":"https://www.samary.cn/file-special-permission/","url":"https://www.samary.cn/file-special-permission/","name":"Linux\u6587\u4ef6\u7279\u6b8a\u6743\u9650"}}]},{"@type":"Article","@id":"https://www.samary.cn/file-special-permission/#article","isPartOf":{"@id":"https://www.samary.cn/file-special-permission/#webpage"},"author":{"@id":"https://www.samary.cn/#/schema/person/c1664f05a716668d8acc6b05abe00f4f"},"headline":"Linux\u6587\u4ef6\u7279\u6b8a\u6743\u9650","datePublished":"2020-03-16T15:22:52+00:00","dateModified":"2020-03-17T09:18:03+00:00","commentCount":0,"mainEntityOfPage":{"@id":"https://www.samary.cn/file-special-permission/#webpage"},"publisher":{"@id":"https://www.samary.cn/#/schema/person/c1664f05a716668d8acc6b05abe00f4f"},"image":{"@id":"https://www.samary.cn/file-special-permission/#primaryimage"},"keywords":"Linux,Linux\u6587\u4ef6\u4e0e\u76ee\u5f55\u7ba1\u7406,Linux\u6587\u4ef6\u7279\u6b8a\u6743\u9650,SBIT,SGID,SUID","articleSection":"Linux,\u57fa\u7840\u5b66\u4e60\u7bc7,\u6587\u4ef6\u4e0e\u76ee\u5f55\u7ba1\u7406","inLanguage":"zh-CN","potentialAction":[{"@type":"CommentAction","name":"Comment","target":["https://www.samary.cn/file-special-permission/#respond"]}]}]}</script>
+<!-- / Yoast SEO plugin. -->
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title="Samary Blog &raquo; Feed" href="https://www.samary.cn/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Samary Blog &raquo; 评论Feed" href="https://www.samary.cn/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Samary Blog &raquo; Linux文件特殊权限评论Feed" href="https://www.samary.cn/file-special-permission/feed/" />
+<script type="text/javascript">
+window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/12.0.0-1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/12.0.0-1\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/www.samary.cn\/wp-includes\/js\/wp-emoji-release.min.js?ver=5.3.2"}};
+!function(e,a,t){var r,n,o,i,p=a.createElement("canvas"),s=p.getContext&&p.getContext("2d");function c(e,t){var a=String.fromCharCode;s.clearRect(0,0,p.width,p.height),s.fillText(a.apply(this,e),0,0);var r=p.toDataURL();return s.clearRect(0,0,p.width,p.height),s.fillText(a.apply(this,t),0,0),r===p.toDataURL()}function l(e){if(!s||!s.fillText)return!1;switch(s.textBaseline="top",s.font="600 32px Arial",e){case"flag":return!c([127987,65039,8205,9895,65039],[127987,65039,8203,9895,65039])&&(!c([55356,56826,55356,56819],[55356,56826,8203,55356,56819])&&!c([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]));case"emoji":return!c([55357,56424,55356,57342,8205,55358,56605,8205,55357,56424,55356,57340],[55357,56424,55356,57342,8203,55358,56605,8203,55357,56424,55356,57340])}return!1}function d(e){var t=a.createElement("script");t.src=e,t.defer=t.type="text/javascript",a.getElementsByTagName("head")[0].appendChild(t)}for(i=Array("flag","emoji"),t.supports={everything:!0,everythingExceptFlag:!0},o=0;o<i.length;o++)t.supports[i[o]]=l(i[o]),t.supports.everything=t.supports.everything&&t.supports[i[o]],"flag"!==i[o]&&(t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&t.supports[i[o]]);t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&!t.supports.flag,t.DOMReady=!1,t.readyCallback=function(){t.DOMReady=!0},t.supports.everything||(n=function(){t.readyCallback()},a.addEventListener?(a.addEventListener("DOMContentLoaded",n,!1),e.addEventListener("load",n,!1)):(e.attachEvent("onload",n),a.attachEvent("onreadystatechange",function(){"complete"===a.readyState&&t.readyCallback()})),(r=t.source||{}).concatemoji?d(r.concatemoji):r.wpemoji&&r.twemoji&&(d(r.twemoji),d(r.wpemoji)))}(window,document,window._wpemojiSettings);
+</script>
+<style type="text/css">
+img.wp-smiley,
+img.emoji {
+display: inline !important;
+border: none !important;
+box-shadow: none !important;
+height: 1em !important;
+width: 1em !important;
+margin: 0 .07em !important;
+vertical-align: -0.1em !important;
+background: none !important;
+padding: 0 !important;
+}
+</style>
+<!-- <link rel='stylesheet' id='wp-block-library-css'  href='https://www.samary.cn/wp-includes/css/dist/block-library/style.min.css?ver=5.3.2' type='text/css' media='all' /> -->
+<!-- <link rel='stylesheet' id='wp-block-library-theme-css'  href='https://www.samary.cn/wp-includes/css/dist/block-library/theme.min.css?ver=5.3.2' type='text/css' media='all' /> -->
+<!-- <link rel='stylesheet' id='wp-ulike-css'  href='https://www.samary.cn/wp-content/plugins/wp-ulike/assets/css/wp-ulike.min.css?ver=4.1.8' type='text/css' media='all' /> -->
+<!-- <link rel='stylesheet' id='khaown-bootstrap-style-css'  href='https://www.samary.cn/wp-content/themes/khaown/bootstrap-v3.3.5.css?ver=3.1' type='text/css' media='all' /> -->
+<!-- <link rel='stylesheet' id='khaown-themify-icons-css'  href='https://www.samary.cn/wp-content/themes/khaown/themify-icons.css?ver=3.1' type='text/css' media='all' /> -->
+<link rel="stylesheet" type="text/css" href="//www.samary.cn/wp-content/cache/wpfc-minified/119hqasy/dctwt.css" media="all"/>
+<link rel='stylesheet' id='khaown-font-css'  href='https://fonts.googleapis.com/css?family=Rajdhani%3A300%2C400%2C500%2C600%2C700&#038;display=swap&#038;ver=3.1' type='text/css' media='all' />
+<!-- <link rel='stylesheet' id='khaown-style-css'  href='https://www.samary.cn/wp-content/themes/khaown/style.css?ver=3.1' type='text/css' media='all' /> -->
+<!-- <link rel='stylesheet' id='khaown-zhidinyi-css'  href='https://www.samary.cn/wp-content/themes/khaown/css/style.css?ver=3.1' type='text/css' media='all' /> -->
+<link rel="stylesheet" type="text/css" href="//www.samary.cn/wp-content/cache/wpfc-minified/lntbin9o/dctwt.css" media="all"/>
+<!-- <link rel='stylesheet' id='khaown-print-style-css'  href='https://www.samary.cn/wp-content/themes/khaown/print.css?ver=3.1' type='text/css' media='print' /> -->
+<link rel="stylesheet" type="text/css" href="//www.samary.cn/wp-content/cache/wpfc-minified/d7e6jfog/dctwt.css" media="print"/>
+<script src='//www.samary.cn/wp-content/cache/wpfc-minified/eus6fe33/dctwt.js' type="text/javascript"></script>
+<!-- <script type='text/javascript' src='https://www.samary.cn/wp-includes/js/jquery/jquery.js?ver=1.12.4-wp'></script> -->
+<!-- <script type='text/javascript' src='https://www.samary.cn/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script> -->
+<link rel='https://api.w.org/' href='https://www.samary.cn/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.samary.cn/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://www.samary.cn/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 5.3.2" />
+<link rel='shortlink' href='https://www.samary.cn/?p=122' />
+<link rel="alternate" type="application/json+oembed" href="https://www.samary.cn/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.samary.cn%2Ffile-special-permission%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://www.samary.cn/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.samary.cn%2Ffile-special-permission%2F&#038;format=xml" />
+<style type="text/css" id="custom-theme-colors" >
+.blog-posts .row .bg-color-blog-posts {
+background: #f8f8f8;
+border-radius: 0px;
+box-shadow: 0;
+}
+.feature.bordered {
+border: 1px solid #ccc;
+}
+body {
+background-color: #ffffff;
+}
+p, .row p, span, button, .btn, .blog-posts .row p {
+font-size: 16px;
+font-weight: 400;
+font-style: normal;
+text-transform: none;
+line-height: 32px;
+letter-spacing: 0px;
+word-spacing: 0px;
+color: #545454;
+}
+a, .widget a {
+font-size: 16px;
+font-weight: 400;
+color: #545454;
+font-style: normal;
+line-height: 32px;
+letter-spacing: 0px;
+word-spacing: 0px;
+}
+svg.svg-icon {
+fill: #a0a0a0;
+}
+a:hover, a:visited, a:active, .widget a:hover, .post-navigation .nav-links a:hover, .entry .entry-meta a:hover, .entry .entry-footer a:hover {
+color: #a0a0a0;
+}
+h1, h2, h3, h4, h5, h6, p, ul, ol, pre, table, blockquote, input, button, select, textarea, .blog-posts .row p, span, button, .btn {
+font-style: normal;
+}
+h1, h2, h3, h4, h5, h6 {		
+font-weight: 400;
+letter-spacing: 1px;
+text-transform: uppercase;
+color: #7a7a7a;
+word-spacing: 0px;
+}
+h1 {
+font-size: 28px;
+line-height: 36px;
+}
+h2, .widget h2.widget-title {
+font-size: 24px;
+line-height: 32px;
+}
+.blog-posts .row .bg-color-blog-posts {
+border-radius: 5px;
+background: #fff;
+}
+.bg-menu-4 {
+background-color: #60a59e;
+}
+.page-title h1.khaown-site-title a {
+color: #ffffff;
+font-size: 32px;
+font-weight: 500;
+}
+.page-title h1.khaown-site-title {
+font-size: 32px;
+font-weight: 500;
+margin-bottom: 5px;
+color: #ffffff;
+}
+p.khaown-site-description {
+color: #ffffff;
+font-size: 15px;
+}
+nav, .menu > li ul {
+background: #ffffff;
+}
+nav .menu ul li span {
+color: #000000;
+font-size: 15px;
+font-weight: 500;
+}
+.menu > li {
+margin-right: 15px;
+}
+.blog-posts article:nth-child(3n-1) .bg-color-blog-posts {
+background: #8a8c8e !important;
+}
+input[type='submit'], button[type='submit'], .em_comment input#submit {
+border: 0px solid #292929;
+background: ;
+}
+.blog-posts article:nth-child(3n-1) .row p, .blog-posts article:nth-child(3n-1) .row h1 {
+color: #ffffff;
+}
+.site-branding {
+margin: 0;
+line-height: inherit;
+}
+.social-accounts a {
+color: #a0a0a0;
+font-size: 14px;
+padding: 5px;
+}
+.social-accounts a:hover {
+color: #0073aa;
+}
+section.restaurant-schedule {
+background-color: #7774B3;
+}
+section.restaurant-schedule strong, section.restaurant-schedule span, section.restaurant-schedule h3 {
+color: #292929;
+}
+.btn, .em_comment input#submit, input[type='submit'], button {
+background-color: #000000;
+color: #ffffff;
+}
+.btn:hover, .em_comment input#submit:hover,
+input[type='submit']:hover, button:hover {
+background-color: #010101;
+color: #f9f9f9;
+}
+@media all and (max-width: 990px) {
+.khaown-btn-style {
+background-color: #000000;
+color: #ffffff;
+}
+.khaown-btn-style:hover {
+background-color: #010101;
+color: #f9f9f9;
+}
+}
+</style> 
+<link rel="pingback" href="https://www.samary.cn/xmlrpc.php"><link rel="icon" href="https://www.samary.cn/wp-content/uploads/2020/03/fca6ed93faecf7fd71abf60f3fc3fb66-150x150.jpg" sizes="32x32" />
+<link rel="icon" href="https://www.samary.cn/wp-content/uploads/2020/03/fca6ed93faecf7fd71abf60f3fc3fb66-300x300.jpg" sizes="192x192" />
+<link rel="apple-touch-icon-precomposed" href="https://www.samary.cn/wp-content/uploads/2020/03/fca6ed93faecf7fd71abf60f3fc3fb66-300x300.jpg" />
+<meta name="msapplication-TileImage" content="https://www.samary.cn/wp-content/uploads/2020/03/fca6ed93faecf7fd71abf60f3fc3fb66-300x300.jpg" />
+<script>
+var _hmt = _hmt || [];
+(function () {
+var hm = document.createElement("script");
+hm.src = "https://hm.baidu.com/hm.js?03ad23c5787fb9154e2b990ff2a24bd0";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head>
+<body class="post-template-default single single-post postid-122 single-format-standard wp-embed-responsive scroll-assist custom-background singular image-filters-enabled">
+<script>
+(function(){
+var bp = document.createElement('script');
+var curProtocol = window.location.protocol.split(':')[0];
+if (curProtocol === 'https') {
+bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+}
+else {
+bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+}
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<header class="nav-container">
+<a id="top"></a>
+<nav class="absolute" aria-label="Top Menu">
+<div class="nav-bar">
+<div class="module left site-branding">
+<h1 class="site-title khaown-site-title"><a href="https://www.samary.cn/" rel="home">Samary Blog</a></h1>
+</div>				<!-- .site-branding-container -->
+<div class="module widget-handle mobile-toggle right visible-sm visible-xs">
+<i class="ti-menu"></i>
+</div>
+<div class="module-group right">
+<div class="module left nav-main-menu-ul ">
+<ul class="menu">  
+<div id="khaown-main-menu" class="menu-%e9%a1%b6%e9%83%a8%e8%8f%9c%e5%8d%95-container"><ul id="menu-%e9%a1%b6%e9%83%a8%e8%8f%9c%e5%8d%95" class="menu"><li id="menu-item-18" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home current-post-parent"><a href="https://www.samary.cn/"><span>首页</span></a></li>
+<li id="menu-item-64" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-has-children has-sub"><a href="https://www.samary.cn/category/linux/"><span>Linux</span></a>
+<ul>
+<li id="menu-item-110" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent"><a href="https://www.samary.cn/category/linux/basic-learning/file-and-directory-management/"><span>文件与目录管理</span></a></li>
+</ul>
+</li>
+<li id="menu-item-217" class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href="https://www.samary.cn/category/redis/"><span>Redis</span></a></li>
+<li id="menu-item-63" class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href="https://www.samary.cn/category/other/"><span>其他</span></a></li>
+<li id="menu-item-112" class="menu-item menu-item-type-post_type menu-item-object-page"><a href="https://www.samary.cn/about/"><span>关于本站</span></a></li>
+<li id="menu-item-113" class="menu-item menu-item-type-post_type menu-item-object-page"><a href="https://www.samary.cn/contact-us/"><span>联系我们</span></a></li>
+</ul></div>                 </ul>
+</div>
+</div>
+<!--end of module group-->				<!-- .entry-header -->
+</div>
+</nav>
+</header>
+<a class="skip-link screen-reader-text" href="#content" tabindex="2"> Skip to content</a>
+<div id="content" class="main-container nav-margin-space">
+<main id="main-container" >
+<article id="post-122" class="post-122 post type-post status-publish format-standard hentry category-linux category-basic-learning category-file-and-directory-management tag-linux tag-linux-file-and-directory-management tag-sbit tag-sgid tag-suid entry">
+<div id="single-content">
+<div class="container">
+<div class="row">
+<div class="col-md-8 col-md-offset-2 ">
+<header class="khaown-entry-header">
+<h1 class="khaown-entry-title">Linux文件特殊权限</h1>
+<div class="entry-meta">
+<span class="byline"><svg class="svg-icon" width="16" height="16" aria-hidden="true" role="img" focusable="false" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg><span class="screen-reader-text">Posted by</span><span class="author vcard"><a class="url fn n" href="https://www.samary.cn/author/samary/">samary</a></span></span>	<span class="posted-on"><svg class="svg-icon" width="16" height="16" aria-hidden="true" role="img" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><defs><path id="a" d="M0 0h24v24H0V0z"></path></defs><clipPath id="b"><use xlink:href="#a" overflow="visible"></use></clipPath><path clip-path="url(#b)" d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm4.2 14.2L11 13V7h1.5v5.2l4.5 2.7-.8 1.3z"></path></svg><a href="https://www.samary.cn/file-special-permission/" rel="bookmark"><time class="entry-date published" datetime="2020-03-16T23:22:52+08:00">2020年3月16日</time><time class="updated" datetime="2020-03-17T17:18:03+08:00">2020年3月17日</time></a></span>	<span class="comment-count">
+<span class="comments-link"><svg class="svg-icon" width="16" height="16" aria-hidden="true" role="img" focusable="false" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg><a href="https://www.samary.cn/file-special-permission/#respond">Leave a comment<span class="screen-reader-text"> on Linux文件特殊权限</span></a></span>	</span>
+</div><!-- .entry-meta -->
+</header>
+<div class="wpulike wpulike-default " ><div class="wp_ulike_general_class wp_ulike_is_already_liked"><button type="button"
+data-ulike-id="122"
+data-ulike-nonce="fb39468f92"
+data-ulike-type="likeThis"
+data-ulike-template="wpulike-default"
+data-ulike-display-likers=""
+data-ulike-disable-pophover=""
+class="wp_ulike_btn wp_ulike_put_image image-unlike wp_ulike_btn_is_active wp_likethis_122"></button><span class="count-box">4+</span>			</div></div>
+<p>我们知道在Linux里文件和目录有r、w、x这三个读、写、执行的权限。但有时还会在权限里看到s和t，例如：</p>
+<figure class="wp-block-image"><img src="http://static.zybuluo.com/LingPai/whht6xyof2bisnaddvnjx164/s&amp;t.png" alt="s&amp;t.png-18kB"/></figure>
+<p>这又是代表的什么权限呢？实际上，s和t是Linux里的特殊权限，具体有SUID、SGID、SBIT三种。</p>
+<h3>SUID</h3>
+<ul><li>当s出现在文件所有者的x权限上时，就被称为Set UID，简称SUID。例如前言中的/usr/bin/passwd文件，它的权限状态是：<code>-rwsr-xr-x 1 root root</code>。</li><li>SUID具体的功能和限制是：</li></ul>
+<ol><li>SUID权限仅对二进制程序有效；</li><li>执行者对于该程序需要具有x的可执行权限；</li><li>本权限仅在执行改程序的过程中有效；</li><li>执行者将具有该程序的拥有者（owner）权限；</li></ol>
+<p>举例来说，Linux里所有的账号和密码都记录在/etc/shadow文件里，这个文件的权限是：<code>-rw-r----- 1 root shadow</code>。但我们的一般用户修改密码时（passwd命令）必然会变动该文件的内容，而一般用户又不具有该文件的修改权限，那是怎么修改成功的呢？这就是SUID的功能了。</p>
+<p>因为一般用户对于passwd（/usr/bin/passwd）都是有执行权限的；而passwd的拥有者（owner）是root账号；又因为passwd的拥有者具有s权限；所以一般用户执行passwd的过程中会获得passwd的拥有者的权限（即root权限）；因此/etc/shadow可被一般用户所执行的passwd修改。</p>
+<p>通过上面这个例子相信大家就能够理解SUID的作用了。</p>
+<p>另外需要注意的是，<strong>SUID仅可用在二进制程序上</strong>，不能用着shell脚本上。因为shell脚本也只是将很多的二进制文件调用执行而已。所以SUID的权限部分，还是得看shell脚本调用进来的程序的设置。</p>
+<p>此外，<strong>SUID对于目录是无效的</strong>，这点也需要注意。</p>
+<h3>SGID</h3>
+<p>当s标记在文件拥有者的x上时为SUID，那s标记在用户组的x上时则称为Set GID，简称SGID。例如：</p>
+<figure class="wp-block-image"><img src="http://static.zybuluo.com/LingPai/dbuoh9pd8mm5qr0rvekdiolw/SGID.png" alt="SGID.png-11.1kB"/></figure>
+<p>和SUID不同的是，<strong>SGID对于文件和目录都有效</strong>。</p>
+<p>对文件来说，SGID有如下功能：</p>
+<ol><li>SGID对二进制程序有用；</li><li>程序执行者对于该程序来说，需具备x的权限；</li><li>执行者在执行过程中将会获得该程序用户组的支持；</li></ol>
+<p class="has-small-font-size">举例来说，/usr/bin/locatec程序依赖/var/lib/mlocate/mlocate.db文件的内容；而一般用户对于mlocate.db没有任何权限；但在执行/usr/bin/locate程序时，一般用户会获得mlocate用户组的支持；因此就能够去读取mlocate.db文件。</p>
+<figure class="wp-block-image"><img src="http://static.zybuluo.com/LingPai/vyg3uenfp7jv7mflgp7y6w5q/locate.png" alt="locate.png-43.7kB"/></figure>
+<p>对目录来说，SGID有如下功能：</p>
+<ol><li>用户若对于此目录具有r和x的权限，则能够进入此目录；</li><li>用户在此目录下的有效用户组（effective group）将会变成该目录的用户组；</li><li>若用户在此目录下具有w的权限，则用户创建的新文件的用户组和此目录的用户组相同；</li></ol>
+<p> SGID用于目录时，一般用来搭建同一用户组下所有用户都有最大权限，且不许其他人进行查阅的“共同开发目录”。例如：</p>
+<figure class="wp-block-image"><img src="http://static.zybuluo.com/LingPai/b79l35k360hbnu69fvw6sxtc/SGID-Dir.png" alt="SGID-Dir.png-149kB"/></figure>
+<p>为什么一定要用SGID权限呢，直接把用户组改成project不可以实现这个效果么？答案是无法实现。因为默认文件的所有者和所属组都是文件的创建者，除非收到修改文件所属组，否则project组下的workerb用户，只会有r权限，没有w权限。演示如下：</p>
+<figure class="wp-block-image"><img src="http://static.zybuluo.com/LingPai/e1570uup1y6ke8pkc2rhp99a/SGID-Dir2.png" alt="SGID-Dir2.png-62.7kB"/></figure>
+<h3>SBIT</h3>
+<ul><li>当t标记在目录权限的x上时为SBIT。</li><li>SBIT（Sticky Bit）只对目录有效，对文件没有效果。</li><li>SBIT对目录的作用是：</li></ul>
+<ol><li>当用户对于此目录具有w、x权限时；</li><li>当用户在该目录下创建文件或目录时，仅有自己与root才有权利删除该文件；</li></ol>
+<p> 也就是说，当一个用户对目录A具有了w权限，即代表该用户可对目录A内的任何文件和子目录进行删除、重命名、移动等操作。但如果目录A有了SBIT权限，则该用户只能对自己创建的子目录和文件进行删除、重命名、移动等，而无法对别人的文件进行这些操作。以/tmp目录为例，演示如下：</p>
+<figure class="wp-block-image"><img src="http://static.zybuluo.com/LingPai/8i4omgn6vsbzhon9av2acb3d/SBIT.png" alt="SBIT.png-25.3kB"/></figure>
+<h3>SUID/SGID/SBIT的权限设置</h3>
+<p>我们知道可以用类似<code>chmod 755 dir</code>这样的数字权限表示法来修改目录或文件的r、w、x权限，对于特殊权限这个方法也是适用的，只需要在现有的三位数字前再加上一位数字。三个特殊权限的数字表示分别为：</p>
+<pre class="wp-block-preformatted"> SUID：4
+ SGID：2
+ SBIT：1</pre>
+<p> 演示如下： <br></p>
+<figure class="wp-block-image"><img src="http://static.zybuluo.com/LingPai/jvp3tkij79wgw69ogesliv3w/testPower.png" alt="testPower.png-18.3kB"/></figure>
+<p> 此外，字符表示法对特殊权限也是适用的。演示如下：</p>
+<figure class="wp-block-image is-style-default"><img src="http://static.zybuluo.com/LingPai/4ta0jxg0ulhjfvlq1zcj99ms/testPower2.png" alt=""/></figure>
+<p> 最后还有一点需要注意的是，s和t都是加在x权限位置上的，也就是说具有x权限是s和t权限的前提。如果在没有x权限的情况下加了s或t权限，则会显示大写的S或T，表示“空的”，也不会有任何效果的：</p>
+<figure class="wp-block-image"><img src="http://static.zybuluo.com/LingPai/r5hx9gpabcqb169i85xf4wdy/testPower3.png" alt="testPower3.png-16.9kB"/></figure>
+<p> <br> </p>
+<nav class="navigation post-navigation" role="navigation" aria-label="文章">
+<h2 class="screen-reader-text">文章导航</h2>
+<div class="nav-links"><div class="nav-previous"><a href="https://www.samary.cn/file-permissions/" rel="prev"><span class="meta-nav" aria-hidden="true">上一篇</span> <span class="screen-reader-text">上一篇:</span> <br/><span class="khaown-post-title">Linux文件权限</span></a></div><div class="nav-next"><a href="https://www.samary.cn/linux-file-hide-properties/" rel="next"><span class="meta-nav" aria-hidden="true">下一篇</span> <span class="screen-reader-text">下一篇:</span> <br/><span class="khaown-post-title">Linux文件隐藏属性</span></a></div></div>
+</nav>
+<!-- If comments are open or we have at least one comment, load up the comment template. -->
+<div id="comments" class="comm em_comment mb-80">
+<h2 class="discussion-meta">
+<div class="discussion-meta-info">
+<i class="ti ti-comments"></i>
+当前还没有评论</h2>
+<div id="respond" class="comment-respond">
+<h3 id="reply-title" class="comment-reply-title">添加评论 <small><a rel="nofollow" id="cancel-comment-reply-link" href="/file-special-permission/#respond" style="display:none;">取消回复</a></small></h3><form action="https://www.samary.cn/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate><p class="comment-notes"><span id="email-notes">电子邮件地址不会被公开。</span> 必填项已用<span class="required">*</span>标注</p><p class="comment-form-author"><input placeholder="* 您的名字... "  required="required" id="author" name="author" type="text" value="" size="30" maxlength="245" />
+</p>
+<p class="comment-form-email"><input placeholder="* 您的邮箱..."  required="required" id="email" name="email" type="email" type="text" value="" size="30" maxlength="100" aria-describedby="email-notes" />
+</p>
+<p class="comment-form-comment"> 
+<textarea placeholder="* 您的评论内容..." id="comment" name="comment" cols="45" rows="4" maxlength="65525" aria-required="true" required="required"></textarea>
+</p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="提交评论" /> <input type='hidden' name='comment_post_ID' value='122' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p></form>	</div><!-- #respond -->
+</div>
+</div>
+</div>
+<!--end of row-->
+</div>
+<!--end of container-->
+</div><!-- .entry-content -->
+</article><!-- #post-122 -->
+<!-- End of the loop. -->
+<section class="related-news mt80">
+<div class="container">
+<div class="row">
+<h4 class="ml16"> You May Also Like:</h4>
+<div class="col-sm-3">
+<a href="https://www.samary.cn/linu-modify-the-file-time-or-create-a-new-file/" rel="bookmark" title="Linux修改文件时间或创建新文件">
+<h5 class="mt8 mb8">
+Linux修改文件时间或创建新文件                                        </h5>                                        
+</a>
+</div>
+<div class="col-sm-3">
+<a href="https://www.samary.cn/linux-move-files-and-directories/" rel="bookmark" title="Linux移动文件与文件夹(或重命名)">
+<h5 class="mt8 mb8">
+Linux移动文件与文件夹(或重命名)                                        </h5>                                        
+</a>
+</div>
+<div class="col-sm-3">
+<a href="https://www.samary.cn/linux-delete-files-and-folders/" rel="bookmark" title="Linux删除文件与文件夹">
+<h5 class="mt8 mb8">
+Linux删除文件与文件夹                                        </h5>                                        
+</a>
+</div>
+<div class="col-sm-3">
+<a href="https://www.samary.cn/linux-copying-files-and-folders/" rel="bookmark" title="Linux文件与文件夹的复制">
+<h5 class="mt8 mb8">
+Linux文件与文件夹的复制                                        </h5>                                        
+</a>
+</div>
+</div>
+</div>
+</section>
+</main><!-- #main -->
+<footer id="footer" class="site-footer container">
+<div class="row">
+<div class="col-md-4">
+<div class="site-info">
+<!-- <h1 class="site-title khaown-site-title"><a href="https://www.samary.cn/" rel="home">Samary Blog</a></h1> -->
+<div class="social-accounts">
+</div>
+</div><!-- .site-info -->
+</div>
+<div class="col-md-8">
+<div class="site-info">
+</div>
+</div>
+<a class="btn btn-sm fade-half back-to-top inner-link bak-top themify ti-arrow-up" href="#top">  </a>
+</footer><!-- #colophon -->
+<div class="clkned">
+<a class="container "  href="http://www.beian.miit.gov.cn/"> 备案号：豫ICP备17038861号 </a>
+<a class="container "  href="https://www.samary.cn/about"> 关于本站 </a>
+<a class="container "  href="https://www.samary.cn/contact-us/"> 联系我们 </a>
+</div> 
+<!-- #page -->
+<script type='text/javascript'>
+/* <![CDATA[ */
+var wp_ulike_params = {"ajax_url":"https:\/\/www.samary.cn\/wp-admin\/admin-ajax.php","notifications":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.samary.cn/wp-content/plugins/wp-ulike/assets/js/wp-ulike.min.js?ver=4.1.8'></script>
+<script type='text/javascript' src='https://www.samary.cn/wp-content/themes/khaown/js/bootstrap.min.js?ver=1.1'></script>
+<script type='text/javascript' src='https://www.samary.cn/wp-content/themes/khaown/js/scripts.js?ver=1.1'></script>
+<script type='text/javascript' src='https://www.samary.cn/wp-content/themes/khaown/js/buann.js?ver=1.1'></script>
+<script type='text/javascript' src='https://www.samary.cn/wp-includes/js/comment-reply.min.js?ver=5.3.2'></script>
+<script type='text/javascript' src='https://www.samary.cn/wp-includes/js/wp-embed.min.js?ver=5.3.2'></script>
+<script>
+/(trident|msie)/i.test(navigator.userAgent)&&document.getElementById&&window.addEventListener&&window.addEventListener("hashchange",function(){var t,e=location.hash.substring(1);/^[A-z0-9_-]+$/.test(e)&&(t=document.getElementById(e))&&(/^(?:a|select|input|button|textarea)$/i.test(t.tagName)||(t.tabIndex=-1),t.focus())},!1);
+</script>
+</body>
+</html><!-- WP Fastest Cache file was created in 0.13363599777222 seconds, on 20-03-20 19:41:31 -->

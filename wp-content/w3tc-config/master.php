@@ -856,7 +856,7 @@
             ]
         }
     },
-    "common.track_usage": false,
+    "common.track_usage": true,
     "common.tweeted": false,
     "config.check": true,
     "config.path": "",
@@ -880,9 +880,12 @@
     "common.instance_id": 1820285109,
     "common.force_master": true,
     "extensions.active": {
-        "fragmentcache": "w3-total-cache\/Extension_FragmentCache_Plugin.php"
+        "fragmentcache": "w3-total-cache\/Extension_FragmentCache_Plugin.php",
+        "wordpress-seo": "w3-total-cache\/Extension_WordPressSeo_Plugin.php"
     },
-    "extensions.active_frontend": [],
+    "extensions.active_frontend": {
+        "wordpress-seo": "*"
+    },
     "extensions.active_dropin": [],
     "plugin.license_key": "",
     "plugin.type": ""

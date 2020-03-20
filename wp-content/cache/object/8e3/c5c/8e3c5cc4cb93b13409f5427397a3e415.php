@@ -1,0 +1,1 @@
+êìt^<?php exit; ?>a:1:{s:7:"content";s:321:"{"common.install":1584697079,"license.status":"no_key","license.next_check":1585129079,"license.terms":"","license.community_terms":"accept","common.show_note.flush_posts_needed":true,"common.show_note.flush_posts_needed.timestamp":1584698076,"minify.hide_minify_help":true,"common.show_note.nginx_restart_required":true}";}

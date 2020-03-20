@@ -320,6 +320,20 @@
 </head>
 
 <body <?php body_class( "scroll-assist custom-background" ); ?>>
+	<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
 	<?php do_action( 'wp_body_open' ); ?>
 	<header class="nav-container">
 		<a id="top"></a>

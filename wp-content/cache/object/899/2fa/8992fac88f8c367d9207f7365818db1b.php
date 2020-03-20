@@ -1,0 +1,1 @@
+‘“t^<?php exit; ?>a:1:{s:7:"content";a:4:{s:28:"wpseo_license_server_version";b:1;s:11:"db_upgraded";b:1;s:23:"auto_core_update_failed";b:1;s:29:"_transient_timeout_doing_cron";b:1;}}
