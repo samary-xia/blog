@@ -352,3 +352,9 @@
 
 	<a class="skip-link screen-reader-text" href="#content" tabindex="2"> <?php _e('Skip to content', 'khaown'); ?></a>
 	<div id="content" class="main-container nav-margin-space">
+<?php
+if ( function_exists('yoast_breadcrumb') ) {
+    //面包屑导航
+    yoast_breadcrumb( '<p id="breadcrumbs">','</p>' );
+}
+?>
