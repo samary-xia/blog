@@ -67,6 +67,58 @@ width: 100%;
     #breadcrumbs{
         padding-top: 25px;
     }
+
+
+
+    #comments li .comment-body{
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+    #comments li .comment-body   .comment-meta , #comments li .comment-body  .comment-content{
+            width: 100%;
+    }
+
+    .wpulike-robeen .count-box {
+    position: relative;
+    border-radius: .25em;
+    font-size: 12px;
+    text-decoration: none;
+    background-color: #fff;
+    margin-left: 8px;
+    line-height: 28px;
+    display: inline-block;
+    padding: 0 10px;
+    box-shadow: 0 0 0 1px #bdbdbd inset;
+    color: #616161;
+    vertical-align: middle;
+    text-align: center;
+}
+    .wpulike-robeen .count-box:before{
+        content: '';
+        position: absolute;
+        border: 1px solid transparent;
+        background: #fff;
+        border-bottom-color: #bdbdbd;
+        left: -5px;
+        top: 50%;
+        border-left-color: #bdbdbd;
+        transform: rotate(45deg) translatey(-50%);
+        width: 5px;
+        height: 5px;
+        margin: 0;
+    }
+    
+    .em_comment .reply a{
+        margin-bottom:0px;
+        display: block;
+        margin-left: 20px;
+        background: #999;
+        color: #fff;
+        padding: 0 13px;
+        border-radius: 7px;
+        font-size: 14px;;
+    }
 /* .openst .khaown-entry-header .entry-meta{
     padding-left: 100px;
     padding-top: 10px;
