@@ -68,6 +68,6 @@
 <?php
 if ( function_exists('yoast_breadcrumb') ) {
     //面包屑导航
-    yoast_breadcrumb( '<p id="breadcrumbs">','</p>' );
+    yoast_breadcrumb( '<p id="breadcrumbs" class="container">','</p>' );
 }
 ?>

@@ -64,6 +64,9 @@
     .openst   .khaown-entry-title{
 width: 100%;
     }
+    #breadcrumbs{
+        padding-top: 25px;
+    }
 /* .openst .khaown-entry-header .entry-meta{
     padding-left: 100px;
     padding-top: 10px;
