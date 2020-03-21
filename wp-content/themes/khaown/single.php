@@ -31,7 +31,12 @@ get_header();
 					<div class="container">
 						<div class="row">
 							<div class="col-md-8 col-md-offset-2 openst">
-						
+                                <?php
+                                if ( function_exists('yoast_breadcrumb') ) {
+                                    //面包屑导航
+                                    yoast_breadcrumb( '<span id="breadcrumbs" class="container">','</span>' );
+                                }
+                                ?>
 								<?php get_template_part( 'template-parts/content/content', 'single' );
 
 								if ( is_singular( 'attachment' ) ) {

@@ -32,6 +32,12 @@ get_header();
         <div class="container">
             <div class="blog-posts em-site-content">
                 <div class="row mt48">
+                    <?php
+                    if ( function_exists('yoast_breadcrumb') ) {
+                        //面包屑导航
+                        yoast_breadcrumb( '<p id="breadcrumbs" class="container">','</p>' );
+                    }
+                    ?>
 					<?php 
 						$sidebar_position = get_theme_mod("archive_page_sidebar_position", "left-sidebar"); 
 						if( ($sidebar_position === "right-sidebar") && is_active_sidebar( 'sidebar-2' ) ) { ?>
