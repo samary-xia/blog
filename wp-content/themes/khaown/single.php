@@ -30,8 +30,8 @@ get_header();
 				<div id="single-content">
 					<div class="container">
 						<div class="row">
-							<div class="col-md-8 col-md-offset-2 ">
-
+							<div class="col-md-8 col-md-offset-2 openst">
+						
 								<?php get_template_part( 'template-parts/content/content', 'single' );
 
 								if ( is_singular( 'attachment' ) ) {
@@ -56,7 +56,7 @@ get_header();
 									);
 								}
 								?>
-
+							
 								<!-- If comments are open or we have at least one comment, load up the comment template. -->
 								<?php if ( comments_open() || get_comments_number() ) { ?>
 									<div id="comments" class="comm em_comment mb-80">
