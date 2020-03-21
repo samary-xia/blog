@@ -12,7 +12,7 @@
 ?>
 
 <header class="khaown-entry-header">
-	<?php get_template_part( 'template-parts/header/entry', 'header' ); ?>
+	<?php get_template_part( 'template-parts/header/entry', 'header' ); echo wp_ulike('put');?>
 </header>
 <?php
 	the_content(
