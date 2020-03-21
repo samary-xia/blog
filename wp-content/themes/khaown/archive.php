@@ -14,7 +14,6 @@ get_header();
 
 <div class="main-container">
     <section class="page-title page-title-4 bg-menu-4 bdetbg">
-	<canvas id="sakura"></canvas>
         <div class="container ioebgdt">
             <div class="row">
 				<div class="col-sm-7 text-left">		
