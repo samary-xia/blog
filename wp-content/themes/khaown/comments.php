@@ -29,7 +29,7 @@ if ( post_password_required() ) {
 	'callback'          => null,
 	'end-callback'      => null,
 	'type'              => 'all',
-	'reply_text'        => 'Reply',
+	'reply_text'        => '回复',
 	'page'              => '',
 	'per_page'          => '',
 	'avatar_size'       => 50,

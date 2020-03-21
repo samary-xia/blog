@@ -12,8 +12,8 @@
 ?>
 
 <div class="text-left">
-	<h4> <?php _e('Nothing found related to your query.', 'khaown'); ?> </h4>
-	<p><?php _e('There is no page or post related to this search term. Please search with another term. ', 'khaown'); ?> </p>
-	<h3><a href="<?php echo esc_url( home_url() ); ?>"><?php _e('Go to Homepage', 'khaown'); ?> </a></h3>
+	<h4> <?php _e('找不到与您的查询相关的信息。', 'khaown'); ?> </h4>
+	<p><?php _e('没有与此搜索词相关的页面或帖子。请搜索另一个术语。', 'khaown'); ?> </p>
+	<h3><a href="<?php echo esc_url( home_url() ); ?>"><?php _e('返回首页', 'khaown'); ?> </a></h3>
 </div>
 <!--end of container-->

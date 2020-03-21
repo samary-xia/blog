@@ -257,7 +257,7 @@ if( ! function_exists( 'wp_ulike_get_posts_microdata' ) ){
 		$itemtype  = apply_filters( 'wp_ulike_remove_microdata_post_meta', false );
 		return apply_filters( 'wp_ulike_generate_google_structured_data', ( $itemtype ? $ratings_meta : ( $post_meta . $ratings_meta ) ) );
 	}
-	// add_filter( 'wp_ulike_posts_microdata', 'wp_ulike_get_posts_microdata');
+	//add_filter( 'wp_ulike_posts_microdata', 'wp_ulike_get_posts_microdata');
 }
 
 /*******************************************************
@@ -298,7 +298,7 @@ if( ! function_exists( 'wp_ulike_put_comments' ) ){
 
 		return apply_filters( 'wp_ulike_comment_text', $output, $content );
 	}
-	add_filter( 'comment_text', 'wp_ulike_put_comments' );
+	add_filter( 'comment_reply_link', 'wp_ulike_put_comments' );
 }
 
 
