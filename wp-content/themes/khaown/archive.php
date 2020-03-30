@@ -32,7 +32,7 @@ get_header();
         <div class="container">
             <div class="blog-posts em-site-content">
                 <div class="row mt48">
-                    <?php echo do_shortcode("[breadcrumb]"); ?>
+                    <?php //echo do_shortcode("[breadcrumb]"); ?>
 					<?php 
 						$sidebar_position = get_theme_mod("archive_page_sidebar_position", "left-sidebar"); 
 						if( ($sidebar_position === "right-sidebar") && is_active_sidebar( 'sidebar-2' ) ) { ?>
