@@ -1,0 +1,1322 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="1894.3">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1"># Redis configuration file example.</p>
+<p class="p1">#</p>
+<p class="p1"># Note that in order to read the configuration file, Redis must be</p>
+<p class="p1"># started with the file path as first argument:</p>
+<p class="p1">#</p>
+<p class="p1"># ./redis-server /path/to/redis.conf</p>
+<p class="p2"><br></p>
+<p class="p1"># Note on units: when memory size is needed, it is possible to specify</p>
+<p class="p1"># it in the usual form of 1k 5GB 4M and so forth:</p>
+<p class="p1">#</p>
+<p class="p1"># 1k =&gt; 1000 bytes</p>
+<p class="p1"># 1kb =&gt; 1024 bytes</p>
+<p class="p1"># 1m =&gt; 1000000 bytes</p>
+<p class="p1"># 1mb =&gt; 1024*1024 bytes</p>
+<p class="p1"># 1g =&gt; 1000000000 bytes</p>
+<p class="p1"># 1gb =&gt; 1024*1024*1024 bytes</p>
+<p class="p1">#</p>
+<p class="p1"># units are case insensitive so 1GB 1Gb 1gB are all the same.</p>
+<p class="p2"><br></p>
+<p class="p1">################################## INCLUDES ###################################</p>
+<p class="p2"><br></p>
+<p class="p1"># Include one or more other config files here.<span class="Apple-converted-space">  </span>This is useful if you</p>
+<p class="p1"># have a standard template that goes to all Redis servers but also need</p>
+<p class="p1"># to customize a few per-server settings.<span class="Apple-converted-space">  </span>Include files can include</p>
+<p class="p1"># other files, so use this wisely.</p>
+<p class="p1">#</p>
+<p class="p1"># Notice option "include" won't be rewritten by command "CONFIG REWRITE"</p>
+<p class="p1"># from admin or Redis Sentinel. Since Redis always uses the last processed</p>
+<p class="p1"># line as value of a configuration directive, you'd better put includes</p>
+<p class="p1"># at the beginning of this file to avoid overwriting config change at runtime.</p>
+<p class="p1">#</p>
+<p class="p1"># If instead you are interested in using includes to override configuration</p>
+<p class="p1"># options, it is better to use include as the last line.</p>
+<p class="p1">#</p>
+<p class="p1"># include /path/to/local.conf</p>
+<p class="p1"># include /path/to/other.conf</p>
+<p class="p2"><br></p>
+<p class="p1">################################## MODULES #####################################</p>
+<p class="p2"><br></p>
+<p class="p1"># Load modules at startup. If the server is not able to load modules</p>
+<p class="p1"># it will abort. It is possible to use multiple loadmodule directives.</p>
+<p class="p1">#</p>
+<p class="p1"># loadmodule /path/to/my_module.so</p>
+<p class="p1"># loadmodule /path/to/other_module.so</p>
+<p class="p2"><br></p>
+<p class="p1">################################## NETWORK #####################################</p>
+<p class="p2"><br></p>
+<p class="p1"># By default, if no "bind" configuration directive is specified, Redis listens</p>
+<p class="p1"># for connections from all the network interfaces available on the server.</p>
+<p class="p1"># It is possible to listen to just one or multiple selected interfaces using</p>
+<p class="p1"># the "bind" configuration directive, followed by one or more IP addresses.</p>
+<p class="p1">#</p>
+<p class="p1"># Examples:</p>
+<p class="p1">#</p>
+<p class="p1"># bind 192.168.1.100 10.0.0.1</p>
+<p class="p1"># bind 127.0.0.1 ::1</p>
+<p class="p1">#</p>
+<p class="p1"># ~~~ WARNING ~~~ If the computer running Redis is directly exposed to the</p>
+<p class="p1"># internet, binding to all the interfaces is dangerous and will expose the</p>
+<p class="p1"># instance to everybody on the internet. So by default we uncomment the</p>
+<p class="p1"># following bind directive, that will force Redis to listen only into</p>
+<p class="p1"># the IPv4 lookback interface address (this means Redis will be able to</p>
+<p class="p1"># accept connections only from clients running into the same computer it</p>
+<p class="p1"># is running).</p>
+<p class="p1">#</p>
+<p class="p1"># IF YOU ARE SURE YOU WANT YOUR INSTANCE TO LISTEN TO ALL THE INTERFACES</p>
+<p class="p1"># JUST COMMENT THE FOLLOWING LINE.</p>
+<p class="p1"># ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</p>
+<p class="p1">bind 127.0.0.1</p>
+<p class="p2"><br></p>
+<p class="p1"># Protected mode is a layer of security protection, in order to avoid that</p>
+<p class="p1"># Redis instances left open on the internet are accessed and exploited.</p>
+<p class="p1">#</p>
+<p class="p1"># When protected mode is on and if:</p>
+<p class="p1">#</p>
+<p class="p1"># 1) The server is not binding explicitly to a set of addresses using the</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>"bind" directive.</p>
+<p class="p1"># 2) No password is configured.</p>
+<p class="p1">#</p>
+<p class="p1"># The server only accepts connections from clients connecting from the</p>
+<p class="p1"># IPv4 and IPv6 loopback addresses 127.0.0.1 and ::1, and from Unix domain</p>
+<p class="p1"># sockets.</p>
+<p class="p1">#</p>
+<p class="p1"># By default protected mode is enabled. You should disable it only if</p>
+<p class="p1"># you are sure you want clients from other hosts to connect to Redis</p>
+<p class="p1"># even if no authentication is configured, nor a specific set of interfaces</p>
+<p class="p1"># are explicitly listed using the "bind" directive.</p>
+<p class="p1">protected-mode yes</p>
+<p class="p2"><br></p>
+<p class="p1"># Accept connections on the specified port, default is 6379 (IANA #815344).</p>
+<p class="p1"># If port 0 is specified Redis will not listen on a TCP socket.</p>
+<p class="p1">port 6381</p>
+<p class="p2"><br></p>
+<p class="p1"># TCP listen() backlog.</p>
+<p class="p1">#</p>
+<p class="p1"># In high requests-per-second environments you need an high backlog in order</p>
+<p class="p1"># to avoid slow clients connections issues. Note that the Linux kernel</p>
+<p class="p1"># will silently truncate it to the value of /proc/sys/net/core/somaxconn so</p>
+<p class="p1"># make sure to raise both the value of somaxconn and tcp_max_syn_backlog</p>
+<p class="p1"># in order to get the desired effect.</p>
+<p class="p1">tcp-backlog 511</p>
+<p class="p2"><br></p>
+<p class="p1"># Unix socket.</p>
+<p class="p1">#</p>
+<p class="p1"># Specify the path for the Unix socket that will be used to listen for</p>
+<p class="p1"># incoming connections. There is no default, so Redis will not listen</p>
+<p class="p1"># on a unix socket when not specified.</p>
+<p class="p1">#</p>
+<p class="p1"># unixsocket /tmp/redis.sock</p>
+<p class="p1"># unixsocketperm 700</p>
+<p class="p2"><br></p>
+<p class="p1"># Close the connection after a client is idle for N seconds (0 to disable)</p>
+<p class="p1">timeout 0</p>
+<p class="p2"><br></p>
+<p class="p1"># TCP keepalive.</p>
+<p class="p1">#</p>
+<p class="p1"># If non-zero, use SO_KEEPALIVE to send TCP ACKs to clients in absence</p>
+<p class="p1"># of communication. This is useful for two reasons:</p>
+<p class="p1">#</p>
+<p class="p1"># 1) Detect dead peers.</p>
+<p class="p1"># 2) Take the connection alive from the point of view of network</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>equipment in the middle.</p>
+<p class="p1">#</p>
+<p class="p1"># On Linux, the specified value (in seconds) is the period used to send ACKs.</p>
+<p class="p1"># Note that to close the connection the double of the time is needed.</p>
+<p class="p1"># On other kernels the period depends on the kernel configuration.</p>
+<p class="p1">#</p>
+<p class="p1"># A reasonable value for this option is 300 seconds, which is the new</p>
+<p class="p1"># Redis default starting with Redis 3.2.1.</p>
+<p class="p1">tcp-keepalive 300</p>
+<p class="p2"><br></p>
+<p class="p1">################################# GENERAL #####################################</p>
+<p class="p2"><br></p>
+<p class="p1"># By default Redis does not run as a daemon. Use 'yes' if you need it.</p>
+<p class="p1"># Note that Redis will write a pid file in /var/run/redis.pid when daemonized.</p>
+<p class="p1">daemonize yes</p>
+<p class="p2"><br></p>
+<p class="p1"># If you run Redis from upstart or systemd, Redis can interact with your</p>
+<p class="p1"># supervision tree. Options:</p>
+<p class="p1"># <span class="Apple-converted-space">  </span>supervised no<span class="Apple-converted-space">      </span>- no supervision interaction</p>
+<p class="p1"># <span class="Apple-converted-space">  </span>supervised upstart - signal upstart by putting Redis into SIGSTOP mode</p>
+<p class="p1"># <span class="Apple-converted-space">  </span>supervised systemd - signal systemd by writing READY=1 to $NOTIFY_SOCKET</p>
+<p class="p1"># <span class="Apple-converted-space">  </span>supervised auto<span class="Apple-converted-space">    </span>- detect upstart or systemd method based on</p>
+<p class="p1">#<span class="Apple-converted-space">                        </span>UPSTART_JOB or NOTIFY_SOCKET environment variables</p>
+<p class="p1"># Note: these supervision methods only signal "process is ready."</p>
+<p class="p1"># <span class="Apple-converted-space">      </span>They do not enable continuous liveness pings back to your supervisor.</p>
+<p class="p1">supervised no</p>
+<p class="p2"><br></p>
+<p class="p1"># If a pid file is specified, Redis writes it where specified at startup</p>
+<p class="p1"># and removes it at exit.</p>
+<p class="p1">#</p>
+<p class="p1"># When the server runs non daemonized, no pid file is created if none is</p>
+<p class="p1"># specified in the configuration. When the server is daemonized, the pid file</p>
+<p class="p1"># is used even if not specified, defaulting to "/var/run/redis.pid".</p>
+<p class="p1">#</p>
+<p class="p1"># Creating a pid file is best effort: if Redis is not able to create it</p>
+<p class="p1"># nothing bad happens, the server will start and run normally.</p>
+<p class="p1">pidfile /var/run/redis_6381.pid</p>
+<p class="p2"><br></p>
+<p class="p1"># Specify the server verbosity level.</p>
+<p class="p1"># This can be one of:</p>
+<p class="p1"># debug (a lot of information, useful for development/testing)</p>
+<p class="p1"># verbose (many rarely useful info, but not a mess like the debug level)</p>
+<p class="p1"># notice (moderately verbose, what you want in production probably)</p>
+<p class="p1"># warning (only very important / critical messages are logged)</p>
+<p class="p1">loglevel notice</p>
+<p class="p2"><br></p>
+<p class="p1"># Specify the log file name. Also the empty string can be used to force</p>
+<p class="p1"># Redis to log on the standard output. Note that if you use standard</p>
+<p class="p1"># output for logging but daemonize, logs will be sent to /dev/null</p>
+<p class="p1">logfile "redis_6381.log"</p>
+<p class="p2"><br></p>
+<p class="p1"># To enable logging to the system logger, just set 'syslog-enabled' to yes,</p>
+<p class="p1"># and optionally update the other syslog parameters to suit your needs.</p>
+<p class="p1"># syslog-enabled no</p>
+<p class="p2"><br></p>
+<p class="p1"># Specify the syslog identity.</p>
+<p class="p1"># syslog-ident redis</p>
+<p class="p2"><br></p>
+<p class="p1"># Specify the syslog facility. Must be USER or between LOCAL0-LOCAL7.</p>
+<p class="p1"># syslog-facility local0</p>
+<p class="p2"><br></p>
+<p class="p1"># Set the number of databases. The default database is DB 0, you can select</p>
+<p class="p1"># a different one on a per-connection basis using SELECT &lt;dbid&gt; where</p>
+<p class="p1"># dbid is a number between 0 and 'databases'-1</p>
+<p class="p1">databases 16</p>
+<p class="p2"><br></p>
+<p class="p1"># By default Redis shows an ASCII art logo only when started to log to the</p>
+<p class="p1"># standard output and if the standard output is a TTY. Basically this means</p>
+<p class="p1"># that normally a logo is displayed only in interactive sessions.</p>
+<p class="p1">#</p>
+<p class="p1"># However it is possible to force the pre-4.0 behavior and always show a</p>
+<p class="p1"># ASCII art logo in startup logs by setting the following option to yes.</p>
+<p class="p1">always-show-logo yes</p>
+<p class="p2"><br></p>
+<p class="p1">################################ SNAPSHOTTING<span class="Apple-converted-space">  </span>################################</p>
+<p class="p1">#</p>
+<p class="p1"># Save the DB on disk:</p>
+<p class="p1">#</p>
+<p class="p1"># <span class="Apple-converted-space">  </span>save &lt;seconds&gt; &lt;changes&gt;</p>
+<p class="p1">#</p>
+<p class="p1"># <span class="Apple-converted-space">  </span>Will save the DB if both the given number of seconds and the given</p>
+<p class="p1"># <span class="Apple-converted-space">  </span>number of write operations against the DB occurred.</p>
+<p class="p1">#</p>
+<p class="p1"># <span class="Apple-converted-space">  </span>In the example below the behaviour will be to save:</p>
+<p class="p1"># <span class="Apple-converted-space">  </span>after 900 sec (15 min) if at least 1 key changed</p>
+<p class="p1"># <span class="Apple-converted-space">  </span>after 300 sec (5 min) if at least 10 keys changed</p>
+<p class="p1"># <span class="Apple-converted-space">  </span>after 60 sec if at least 10000 keys changed</p>
+<p class="p1">#</p>
+<p class="p1"># <span class="Apple-converted-space">  </span>Note: you can disable saving completely by commenting out all "save" lines.</p>
+<p class="p1">#</p>
+<p class="p1"># <span class="Apple-converted-space">  </span>It is also possible to remove all the previously configured save</p>
+<p class="p1"># <span class="Apple-converted-space">  </span>points by adding a save directive with a single empty string argument</p>
+<p class="p1"># <span class="Apple-converted-space">  </span>like in the following example:</p>
+<p class="p1">#</p>
+<p class="p1"># <span class="Apple-converted-space">  </span>save ""</p>
+<p class="p2"><br></p>
+<p class="p1">save 900 1</p>
+<p class="p1">save 300 10</p>
+<p class="p1">save 60 10000</p>
+<p class="p2"><br></p>
+<p class="p1"># By default Redis will stop accepting writes if RDB snapshots are enabled</p>
+<p class="p1"># (at least one save point) and the latest background save failed.</p>
+<p class="p1"># This will make the user aware (in a hard way) that data is not persisting</p>
+<p class="p1"># on disk properly, otherwise chances are that no one will notice and some</p>
+<p class="p1"># disaster will happen.</p>
+<p class="p1">#</p>
+<p class="p1"># If the background saving process will start working again Redis will</p>
+<p class="p1"># automatically allow writes again.</p>
+<p class="p1">#</p>
+<p class="p1"># However if you have setup your proper monitoring of the Redis server</p>
+<p class="p1"># and persistence, you may want to disable this feature so that Redis will</p>
+<p class="p1"># continue to work as usual even if there are problems with disk,</p>
+<p class="p1"># permissions, and so forth.</p>
+<p class="p1">stop-writes-on-bgsave-error yes</p>
+<p class="p2"><br></p>
+<p class="p1"># Compress string objects using LZF when dump .rdb databases?</p>
+<p class="p1"># For default that's set to 'yes' as it's almost always a win.</p>
+<p class="p1"># If you want to save some CPU in the saving child set it to 'no' but</p>
+<p class="p1"># the dataset will likely be bigger if you have compressible values or keys.</p>
+<p class="p1">rdbcompression yes</p>
+<p class="p2"><br></p>
+<p class="p1"># Since version 5 of RDB a CRC64 checksum is placed at the end of the file.</p>
+<p class="p1"># This makes the format more resistant to corruption but there is a performance</p>
+<p class="p1"># hit to pay (around 10%) when saving and loading RDB files, so you can disable it</p>
+<p class="p1"># for maximum performances.</p>
+<p class="p1">#</p>
+<p class="p1"># RDB files created with checksum disabled have a checksum of zero that will</p>
+<p class="p1"># tell the loading code to skip the check.</p>
+<p class="p1">rdbchecksum yes</p>
+<p class="p2"><br></p>
+<p class="p1"># The filename where to dump the DB</p>
+<p class="p1">dbfilename dump_6381.rdb</p>
+<p class="p2"><br></p>
+<p class="p1"># The working directory.</p>
+<p class="p1">#</p>
+<p class="p1"># The DB will be written inside this directory, with the filename specified</p>
+<p class="p1"># above using the 'dbfilename' configuration directive.</p>
+<p class="p1">#</p>
+<p class="p1"># The Append Only File will also be created inside this directory.</p>
+<p class="p1">#</p>
+<p class="p1"># Note that you must specify a directory here, not a file name.</p>
+<p class="p1">dir ./</p>
+<p class="p2"><br></p>
+<p class="p1">################################# REPLICATION #################################</p>
+<p class="p2"><br></p>
+<p class="p1"># Master-Slave replication. Use slaveof to make a Redis instance a copy of</p>
+<p class="p1"># another Redis server. A few things to understand ASAP about Redis replication.</p>
+<p class="p1">#</p>
+<p class="p1"># 1) Redis replication is asynchronous, but you can configure a master to</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>stop accepting writes if it appears to be not connected with at least</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>a given number of slaves.</p>
+<p class="p1"># 2) Redis slaves are able to perform a partial resynchronization with the</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>master if the replication link is lost for a relatively small amount of</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>time. You may want to configure the replication backlog size (see the next</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>sections of this file) with a sensible value depending on your needs.</p>
+<p class="p1"># 3) Replication is automatic and does not need user intervention. After a</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>network partition slaves automatically try to reconnect to masters</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>and resynchronize with them.</p>
+<p class="p1">#</p>
+<p class="p1"># slaveof &lt;masterip&gt; &lt;masterport&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"># If the master is password protected (using the "requirepass" configuration</p>
+<p class="p1"># directive below) it is possible to tell the slave to authenticate before</p>
+<p class="p1"># starting the replication synchronization process, otherwise the master will</p>
+<p class="p1"># refuse the slave request.</p>
+<p class="p1">#</p>
+<p class="p1"># masterauth &lt;master-password&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"># When a slave loses its connection with the master, or when the replication</p>
+<p class="p1"># is still in progress, the slave can act in two different ways:</p>
+<p class="p1">#</p>
+<p class="p1"># 1) if slave-serve-stale-data is set to 'yes' (the default) the slave will</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>still reply to client requests, possibly with out of date data, or the</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>data set may just be empty if this is the first synchronization.</p>
+<p class="p1">#</p>
+<p class="p1"># 2) if slave-serve-stale-data is set to 'no' the slave will reply with</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>an error "SYNC with master in progress" to all the kind of commands</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>but to INFO and SLAVEOF.</p>
+<p class="p1">#</p>
+<p class="p1">slave-serve-stale-data yes</p>
+<p class="p2"><br></p>
+<p class="p1"># You can configure a slave instance to accept writes or not. Writing against</p>
+<p class="p1"># a slave instance may be useful to store some ephemeral data (because data</p>
+<p class="p1"># written on a slave will be easily deleted after resync with the master) but</p>
+<p class="p1"># may also cause problems if clients are writing to it because of a</p>
+<p class="p1"># misconfiguration.</p>
+<p class="p1">#</p>
+<p class="p1"># Since Redis 2.6 by default slaves are read-only.</p>
+<p class="p1">#</p>
+<p class="p1"># Note: read only slaves are not designed to be exposed to untrusted clients</p>
+<p class="p1"># on the internet. It's just a protection layer against misuse of the instance.</p>
+<p class="p1"># Still a read only slave exports by default all the administrative commands</p>
+<p class="p1"># such as CONFIG, DEBUG, and so forth. To a limited extent you can improve</p>
+<p class="p1"># security of read only slaves using 'rename-command' to shadow all the</p>
+<p class="p1"># administrative / dangerous commands.</p>
+<p class="p1">slave-read-only yes</p>
+<p class="p2"><br></p>
+<p class="p1"># Replication SYNC strategy: disk or socket.</p>
+<p class="p1">#</p>
+<p class="p1"># -------------------------------------------------------</p>
+<p class="p1"># WARNING: DISKLESS REPLICATION IS EXPERIMENTAL CURRENTLY</p>
+<p class="p1"># -------------------------------------------------------</p>
+<p class="p1">#</p>
+<p class="p1"># New slaves and reconnecting slaves that are not able to continue the replication</p>
+<p class="p1"># process just receiving differences, need to do what is called a "full</p>
+<p class="p1"># synchronization". An RDB file is transmitted from the master to the slaves.</p>
+<p class="p1"># The transmission can happen in two different ways:</p>
+<p class="p1">#</p>
+<p class="p1"># 1) Disk-backed: The Redis master creates a new process that writes the RDB</p>
+<p class="p1"># <span class="Apple-converted-space">                </span>file on disk. Later the file is transferred by the parent</p>
+<p class="p1"># <span class="Apple-converted-space">                </span>process to the slaves incrementally.</p>
+<p class="p1"># 2) Diskless: The Redis master creates a new process that directly writes the</p>
+<p class="p1">#<span class="Apple-converted-space">              </span>RDB file to slave sockets, without touching the disk at all.</p>
+<p class="p1">#</p>
+<p class="p1"># With disk-backed replication, while the RDB file is generated, more slaves</p>
+<p class="p1"># can be queued and served with the RDB file as soon as the current child producing</p>
+<p class="p1"># the RDB file finishes its work. With diskless replication instead once</p>
+<p class="p1"># the transfer starts, new slaves arriving will be queued and a new transfer</p>
+<p class="p1"># will start when the current one terminates.</p>
+<p class="p1">#</p>
+<p class="p1"># When diskless replication is used, the master waits a configurable amount of</p>
+<p class="p1"># time (in seconds) before starting the transfer in the hope that multiple slaves</p>
+<p class="p1"># will arrive and the transfer can be parallelized.</p>
+<p class="p1">#</p>
+<p class="p1"># With slow disks and fast (large bandwidth) networks, diskless replication</p>
+<p class="p1"># works better.</p>
+<p class="p1">repl-diskless-sync no</p>
+<p class="p2"><br></p>
+<p class="p1"># When diskless replication is enabled, it is possible to configure the delay</p>
+<p class="p1"># the server waits in order to spawn the child that transfers the RDB via socket</p>
+<p class="p1"># to the slaves.</p>
+<p class="p1">#</p>
+<p class="p1"># This is important since once the transfer starts, it is not possible to serve</p>
+<p class="p1"># new slaves arriving, that will be queued for the next RDB transfer, so the server</p>
+<p class="p1"># waits a delay in order to let more slaves arrive.</p>
+<p class="p1">#</p>
+<p class="p1"># The delay is specified in seconds, and by default is 5 seconds. To disable</p>
+<p class="p1"># it entirely just set it to 0 seconds and the transfer will start ASAP.</p>
+<p class="p1">repl-diskless-sync-delay 5</p>
+<p class="p2"><br></p>
+<p class="p1"># Slaves send PINGs to server in a predefined interval. It's possible to change</p>
+<p class="p1"># this interval with the repl_ping_slave_period option. The default value is 10</p>
+<p class="p1"># seconds.</p>
+<p class="p1">#</p>
+<p class="p1"># repl-ping-slave-period 10</p>
+<p class="p2"><br></p>
+<p class="p1"># The following option sets the replication timeout for:</p>
+<p class="p1">#</p>
+<p class="p1"># 1) Bulk transfer I/O during SYNC, from the point of view of slave.</p>
+<p class="p1"># 2) Master timeout from the point of view of slaves (data, pings).</p>
+<p class="p1"># 3) Slave timeout from the point of view of masters (REPLCONF ACK pings).</p>
+<p class="p1">#</p>
+<p class="p1"># It is important to make sure that this value is greater than the value</p>
+<p class="p1"># specified for repl-ping-slave-period otherwise a timeout will be detected</p>
+<p class="p1"># every time there is low traffic between the master and the slave.</p>
+<p class="p1">#</p>
+<p class="p1"># repl-timeout 60</p>
+<p class="p2"><br></p>
+<p class="p1"># Disable TCP_NODELAY on the slave socket after SYNC?</p>
+<p class="p1">#</p>
+<p class="p1"># If you select "yes" Redis will use a smaller number of TCP packets and</p>
+<p class="p1"># less bandwidth to send data to slaves. But this can add a delay for</p>
+<p class="p1"># the data to appear on the slave side, up to 40 milliseconds with</p>
+<p class="p1"># Linux kernels using a default configuration.</p>
+<p class="p1">#</p>
+<p class="p1"># If you select "no" the delay for data to appear on the slave side will</p>
+<p class="p1"># be reduced but more bandwidth will be used for replication.</p>
+<p class="p1">#</p>
+<p class="p1"># By default we optimize for low latency, but in very high traffic conditions</p>
+<p class="p1"># or when the master and slaves are many hops away, turning this to "yes" may</p>
+<p class="p1"># be a good idea.</p>
+<p class="p1">repl-disable-tcp-nodelay no</p>
+<p class="p2"><br></p>
+<p class="p1"># Set the replication backlog size. The backlog is a buffer that accumulates</p>
+<p class="p1"># slave data when slaves are disconnected for some time, so that when a slave</p>
+<p class="p1"># wants to reconnect again, often a full resync is not needed, but a partial</p>
+<p class="p1"># resync is enough, just passing the portion of data the slave missed while</p>
+<p class="p1"># disconnected.</p>
+<p class="p1">#</p>
+<p class="p1"># The bigger the replication backlog, the longer the time the slave can be</p>
+<p class="p1"># disconnected and later be able to perform a partial resynchronization.</p>
+<p class="p1">#</p>
+<p class="p1"># The backlog is only allocated once there is at least a slave connected.</p>
+<p class="p1">#</p>
+<p class="p1"># repl-backlog-size 1mb</p>
+<p class="p2"><br></p>
+<p class="p1"># After a master has no longer connected slaves for some time, the backlog</p>
+<p class="p1"># will be freed. The following option configures the amount of seconds that</p>
+<p class="p1"># need to elapse, starting from the time the last slave disconnected, for</p>
+<p class="p1"># the backlog buffer to be freed.</p>
+<p class="p1">#</p>
+<p class="p1"># Note that slaves never free the backlog for timeout, since they may be</p>
+<p class="p1"># promoted to masters later, and should be able to correctly "partially</p>
+<p class="p1"># resynchronize" with the slaves: hence they should always accumulate backlog.</p>
+<p class="p1">#</p>
+<p class="p1"># A value of 0 means to never release the backlog.</p>
+<p class="p1">#</p>
+<p class="p1"># repl-backlog-ttl 3600</p>
+<p class="p2"><br></p>
+<p class="p1"># The slave priority is an integer number published by Redis in the INFO output.</p>
+<p class="p1"># It is used by Redis Sentinel in order to select a slave to promote into a</p>
+<p class="p1"># master if the master is no longer working correctly.</p>
+<p class="p1">#</p>
+<p class="p1"># A slave with a low priority number is considered better for promotion, so</p>
+<p class="p1"># for instance if there are three slaves with priority 10, 100, 25 Sentinel will</p>
+<p class="p1"># pick the one with priority 10, that is the lowest.</p>
+<p class="p1">#</p>
+<p class="p1"># However a special priority of 0 marks the slave as not able to perform the</p>
+<p class="p1"># role of master, so a slave with priority of 0 will never be selected by</p>
+<p class="p1"># Redis Sentinel for promotion.</p>
+<p class="p1">#</p>
+<p class="p1"># By default the priority is 100.</p>
+<p class="p1">slave-priority 100</p>
+<p class="p2"><br></p>
+<p class="p1"># It is possible for a master to stop accepting writes if there are less than</p>
+<p class="p1"># N slaves connected, having a lag less or equal than M seconds.</p>
+<p class="p1">#</p>
+<p class="p1"># The N slaves need to be in "online" state.</p>
+<p class="p1">#</p>
+<p class="p1"># The lag in seconds, that must be &lt;= the specified value, is calculated from</p>
+<p class="p1"># the last ping received from the slave, that is usually sent every second.</p>
+<p class="p1">#</p>
+<p class="p1"># This option does not GUARANTEE that N replicas will accept the write, but</p>
+<p class="p1"># will limit the window of exposure for lost writes in case not enough slaves</p>
+<p class="p1"># are available, to the specified number of seconds.</p>
+<p class="p1">#</p>
+<p class="p1"># For example to require at least 3 slaves with a lag &lt;= 10 seconds use:</p>
+<p class="p1">#</p>
+<p class="p1"># min-slaves-to-write 3</p>
+<p class="p1"># min-slaves-max-lag 10</p>
+<p class="p1">#</p>
+<p class="p1"># Setting one or the other to 0 disables the feature.</p>
+<p class="p1">#</p>
+<p class="p1"># By default min-slaves-to-write is set to 0 (feature disabled) and</p>
+<p class="p1"># min-slaves-max-lag is set to 10.</p>
+<p class="p2"><br></p>
+<p class="p1"># A Redis master is able to list the address and port of the attached</p>
+<p class="p1"># slaves in different ways. For example the "INFO replication" section</p>
+<p class="p1"># offers this information, which is used, among other tools, by</p>
+<p class="p1"># Redis Sentinel in order to discover slave instances.</p>
+<p class="p1"># Another place where this info is available is in the output of the</p>
+<p class="p1"># "ROLE" command of a master.</p>
+<p class="p1">#</p>
+<p class="p1"># The listed IP and address normally reported by a slave is obtained</p>
+<p class="p1"># in the following way:</p>
+<p class="p1">#</p>
+<p class="p1"># <span class="Apple-converted-space">  </span>IP: The address is auto detected by checking the peer address</p>
+<p class="p1"># <span class="Apple-converted-space">  </span>of the socket used by the slave to connect with the master.</p>
+<p class="p1">#</p>
+<p class="p1"># <span class="Apple-converted-space">  </span>Port: The port is communicated by the slave during the replication</p>
+<p class="p1"># <span class="Apple-converted-space">  </span>handshake, and is normally the port that the slave is using to</p>
+<p class="p1"># <span class="Apple-converted-space">  </span>list for connections.</p>
+<p class="p1">#</p>
+<p class="p1"># However when port forwarding or Network Address Translation (NAT) is</p>
+<p class="p1"># used, the slave may be actually reachable via different IP and port</p>
+<p class="p1"># pairs. The following two options can be used by a slave in order to</p>
+<p class="p1"># report to its master a specific set of IP and port, so that both INFO</p>
+<p class="p1"># and ROLE will report those values.</p>
+<p class="p1">#</p>
+<p class="p1"># There is no need to use both the options if you need to override just</p>
+<p class="p1"># the port or the IP address.</p>
+<p class="p1">#</p>
+<p class="p1"># slave-announce-ip 5.5.5.5</p>
+<p class="p1"># slave-announce-port 1234</p>
+<p class="p2"><br></p>
+<p class="p1">################################## SECURITY ###################################</p>
+<p class="p2"><br></p>
+<p class="p1"># Require clients to issue AUTH &lt;PASSWORD&gt; before processing any other</p>
+<p class="p1"># commands.<span class="Apple-converted-space">  </span>This might be useful in environments in which you do not trust</p>
+<p class="p1"># others with access to the host running redis-server.</p>
+<p class="p1">#</p>
+<p class="p1"># This should stay commented out for backward compatibility and because most</p>
+<p class="p1"># people do not need auth (e.g. they run their own servers).</p>
+<p class="p1">#</p>
+<p class="p1"># Warning: since Redis is pretty fast an outside user can try up to</p>
+<p class="p1"># 150k passwords per second against a good box. This means that you should</p>
+<p class="p1"># use a very strong password otherwise it will be very easy to break.</p>
+<p class="p1">#</p>
+<p class="p1"># requirepass foobared</p>
+<p class="p2"><br></p>
+<p class="p1"># Command renaming.</p>
+<p class="p1">#</p>
+<p class="p1"># It is possible to change the name of dangerous commands in a shared</p>
+<p class="p1"># environment. For instance the CONFIG command may be renamed into something</p>
+<p class="p1"># hard to guess so that it will still be available for internal-use tools</p>
+<p class="p1"># but not available for general clients.</p>
+<p class="p1">#</p>
+<p class="p1"># Example:</p>
+<p class="p1">#</p>
+<p class="p1"># rename-command CONFIG b840fc02d524045429941cc15f59e41cb7be6c52</p>
+<p class="p1">#</p>
+<p class="p1"># It is also possible to completely kill a command by renaming it into</p>
+<p class="p1"># an empty string:</p>
+<p class="p1">#</p>
+<p class="p1"># rename-command CONFIG ""</p>
+<p class="p1">#</p>
+<p class="p1"># Please note that changing the name of commands that are logged into the</p>
+<p class="p1"># AOF file or transmitted to slaves may cause problems.</p>
+<p class="p2"><br></p>
+<p class="p1">################################### CLIENTS ####################################</p>
+<p class="p2"><br></p>
+<p class="p1"># Set the max number of connected clients at the same time. By default</p>
+<p class="p1"># this limit is set to 10000 clients, however if the Redis server is not</p>
+<p class="p1"># able to configure the process file limit to allow for the specified limit</p>
+<p class="p1"># the max number of allowed clients is set to the current file limit</p>
+<p class="p1"># minus 32 (as Redis reserves a few file descriptors for internal uses).</p>
+<p class="p1">#</p>
+<p class="p1"># Once the limit is reached Redis will close all the new connections sending</p>
+<p class="p1"># an error 'max number of clients reached'.</p>
+<p class="p1">#</p>
+<p class="p1"># maxclients 10000</p>
+<p class="p2"><br></p>
+<p class="p1">############################## MEMORY MANAGEMENT ################################</p>
+<p class="p2"><br></p>
+<p class="p1"># Set a memory usage limit to the specified amount of bytes.</p>
+<p class="p1"># When the memory limit is reached Redis will try to remove keys</p>
+<p class="p1"># according to the eviction policy selected (see maxmemory-policy).</p>
+<p class="p1">#</p>
+<p class="p1"># If Redis can't remove keys according to the policy, or if the policy is</p>
+<p class="p1"># set to 'noeviction', Redis will start to reply with errors to commands</p>
+<p class="p1"># that would use more memory, like SET, LPUSH, and so on, and will continue</p>
+<p class="p1"># to reply to read-only commands like GET.</p>
+<p class="p1">#</p>
+<p class="p1"># This option is usually useful when using Redis as an LRU or LFU cache, or to</p>
+<p class="p1"># set a hard memory limit for an instance (using the 'noeviction' policy).</p>
+<p class="p1">#</p>
+<p class="p1"># WARNING: If you have slaves attached to an instance with maxmemory on,</p>
+<p class="p1"># the size of the output buffers needed to feed the slaves are subtracted</p>
+<p class="p1"># from the used memory count, so that network problems / resyncs will</p>
+<p class="p1"># not trigger a loop where keys are evicted, and in turn the output</p>
+<p class="p1"># buffer of slaves is full with DELs of keys evicted triggering the deletion</p>
+<p class="p1"># of more keys, and so forth until the database is completely emptied.</p>
+<p class="p1">#</p>
+<p class="p1"># In short... if you have slaves attached it is suggested that you set a lower</p>
+<p class="p1"># limit for maxmemory so that there is some free RAM on the system for slave</p>
+<p class="p1"># output buffers (but this is not needed if the policy is 'noeviction').</p>
+<p class="p1">#</p>
+<p class="p1"># maxmemory &lt;bytes&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"># MAXMEMORY POLICY: how Redis will select what to remove when maxmemory</p>
+<p class="p1"># is reached. You can select among five behaviors:</p>
+<p class="p1">#</p>
+<p class="p1"># volatile-lru -&gt; Evict using approximated LRU among the keys with an expire set.</p>
+<p class="p1"># allkeys-lru -&gt; Evict any key using approximated LRU.</p>
+<p class="p1"># volatile-lfu -&gt; Evict using approximated LFU among the keys with an expire set.</p>
+<p class="p1"># allkeys-lfu -&gt; Evict any key using approximated LFU.</p>
+<p class="p1"># volatile-random -&gt; Remove a random key among the ones with an expire set.</p>
+<p class="p1"># allkeys-random -&gt; Remove a random key, any key.</p>
+<p class="p1"># volatile-ttl -&gt; Remove the key with the nearest expire time (minor TTL)</p>
+<p class="p1"># noeviction -&gt; Don't evict anything, just return an error on write operations.</p>
+<p class="p1">#</p>
+<p class="p1"># LRU means Least Recently Used</p>
+<p class="p1"># LFU means Least Frequently Used</p>
+<p class="p1">#</p>
+<p class="p1"># Both LRU, LFU and volatile-ttl are implemented using approximated</p>
+<p class="p1"># randomized algorithms.</p>
+<p class="p1">#</p>
+<p class="p1"># Note: with any of the above policies, Redis will return an error on write</p>
+<p class="p1"># <span class="Apple-converted-space">      </span>operations, when there are no suitable keys for eviction.</p>
+<p class="p1">#</p>
+<p class="p1"># <span class="Apple-converted-space">      </span>At the date of writing these commands are: set setnx setex append</p>
+<p class="p1"># <span class="Apple-converted-space">      </span>incr decr rpush lpush rpushx lpushx linsert lset rpoplpush sadd</p>
+<p class="p1"># <span class="Apple-converted-space">      </span>sinter sinterstore sunion sunionstore sdiff sdiffstore zadd zincrby</p>
+<p class="p1"># <span class="Apple-converted-space">      </span>zunionstore zinterstore hset hsetnx hmset hincrby incrby decrby</p>
+<p class="p1"># <span class="Apple-converted-space">      </span>getset mset msetnx exec sort</p>
+<p class="p1">#</p>
+<p class="p1"># The default is:</p>
+<p class="p1">#</p>
+<p class="p1"># maxmemory-policy noeviction</p>
+<p class="p2"><br></p>
+<p class="p1"># LRU, LFU and minimal TTL algorithms are not precise algorithms but approximated</p>
+<p class="p1"># algorithms (in order to save memory), so you can tune it for speed or</p>
+<p class="p1"># accuracy. For default Redis will check five keys and pick the one that was</p>
+<p class="p1"># used less recently, you can change the sample size using the following</p>
+<p class="p1"># configuration directive.</p>
+<p class="p1">#</p>
+<p class="p1"># The default of 5 produces good enough results. 10 Approximates very closely</p>
+<p class="p1"># true LRU but costs more CPU. 3 is faster but not very accurate.</p>
+<p class="p1">#</p>
+<p class="p1"># maxmemory-samples 5</p>
+<p class="p2"><br></p>
+<p class="p1">############################# LAZY FREEING ####################################</p>
+<p class="p2"><br></p>
+<p class="p1"># Redis has two primitives to delete keys. One is called DEL and is a blocking</p>
+<p class="p1"># deletion of the object. It means that the server stops processing new commands</p>
+<p class="p1"># in order to reclaim all the memory associated with an object in a synchronous</p>
+<p class="p1"># way. If the key deleted is associated with a small object, the time needed</p>
+<p class="p1"># in order to execute the DEL command is very small and comparable to most other</p>
+<p class="p1"># O(1) or O(log_N) commands in Redis. However if the key is associated with an</p>
+<p class="p1"># aggregated value containing millions of elements, the server can block for</p>
+<p class="p1"># a long time (even seconds) in order to complete the operation.</p>
+<p class="p1">#</p>
+<p class="p1"># For the above reasons Redis also offers non blocking deletion primitives</p>
+<p class="p1"># such as UNLINK (non blocking DEL) and the ASYNC option of FLUSHALL and</p>
+<p class="p1"># FLUSHDB commands, in order to reclaim memory in background. Those commands</p>
+<p class="p1"># are executed in constant time. Another thread will incrementally free the</p>
+<p class="p1"># object in the background as fast as possible.</p>
+<p class="p1">#</p>
+<p class="p1"># DEL, UNLINK and ASYNC option of FLUSHALL and FLUSHDB are user-controlled.</p>
+<p class="p1"># It's up to the design of the application to understand when it is a good</p>
+<p class="p1"># idea to use one or the other. However the Redis server sometimes has to</p>
+<p class="p1"># delete keys or flush the whole database as a side effect of other operations.</p>
+<p class="p1"># Specifically Redis deletes objects independently of a user call in the</p>
+<p class="p1"># following scenarios:</p>
+<p class="p1">#</p>
+<p class="p1"># 1) On eviction, because of the maxmemory and maxmemory policy configurations,</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>in order to make room for new data, without going over the specified</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>memory limit.</p>
+<p class="p1"># 2) Because of expire: when a key with an associated time to live (see the</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>EXPIRE command) must be deleted from memory.</p>
+<p class="p1"># 3) Because of a side effect of a command that stores data on a key that may</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>already exist. For example the RENAME command may delete the old key</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>content when it is replaced with another one. Similarly SUNIONSTORE</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>or SORT with STORE option may delete existing keys. The SET command</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>itself removes any old content of the specified key in order to replace</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>it with the specified string.</p>
+<p class="p1"># 4) During replication, when a slave performs a full resynchronization with</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>its master, the content of the whole database is removed in order to</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>load the RDB file just transfered.</p>
+<p class="p1">#</p>
+<p class="p1"># In all the above cases the default is to delete objects in a blocking way,</p>
+<p class="p1"># like if DEL was called. However you can configure each case specifically</p>
+<p class="p1"># in order to instead release memory in a non-blocking way like if UNLINK</p>
+<p class="p1"># was called, using the following configuration directives:</p>
+<p class="p2"><br></p>
+<p class="p1">lazyfree-lazy-eviction no</p>
+<p class="p1">lazyfree-lazy-expire no</p>
+<p class="p1">lazyfree-lazy-server-del no</p>
+<p class="p1">slave-lazy-flush no</p>
+<p class="p2"><br></p>
+<p class="p1">############################## APPEND ONLY MODE ###############################</p>
+<p class="p2"><br></p>
+<p class="p1"># By default Redis asynchronously dumps the dataset on disk. This mode is</p>
+<p class="p1"># good enough in many applications, but an issue with the Redis process or</p>
+<p class="p1"># a power outage may result into a few minutes of writes lost (depending on</p>
+<p class="p1"># the configured save points).</p>
+<p class="p1">#</p>
+<p class="p1"># The Append Only File is an alternative persistence mode that provides</p>
+<p class="p1"># much better durability. For instance using the default data fsync policy</p>
+<p class="p1"># (see later in the config file) Redis can lose just one second of writes in a</p>
+<p class="p1"># dramatic event like a server power outage, or a single write if something</p>
+<p class="p1"># wrong with the Redis process itself happens, but the operating system is</p>
+<p class="p1"># still running correctly.</p>
+<p class="p1">#</p>
+<p class="p1"># AOF and RDB persistence can be enabled at the same time without problems.</p>
+<p class="p1"># If the AOF is enabled on startup Redis will load the AOF, that is the file</p>
+<p class="p1"># with the better durability guarantees.</p>
+<p class="p1">#</p>
+<p class="p1"># Please check http://redis.io/topics/persistence for more information.</p>
+<p class="p2"><br></p>
+<p class="p1">appendonly no</p>
+<p class="p2"><br></p>
+<p class="p1"># The name of the append only file (default: "appendonly.aof")</p>
+<p class="p2"><br></p>
+<p class="p1">appendfilename "appendonly6381.aof"</p>
+<p class="p2"><br></p>
+<p class="p1"># The fsync() call tells the Operating System to actually write data on disk</p>
+<p class="p1"># instead of waiting for more data in the output buffer. Some OS will really flush</p>
+<p class="p1"># data on disk, some other OS will just try to do it ASAP.</p>
+<p class="p1">#</p>
+<p class="p1"># Redis supports three different modes:</p>
+<p class="p1">#</p>
+<p class="p1"># no: don't fsync, just let the OS flush the data when it wants. Faster.</p>
+<p class="p1"># always: fsync after every write to the append only log. Slow, Safest.</p>
+<p class="p1"># everysec: fsync only one time every second. Compromise.</p>
+<p class="p1">#</p>
+<p class="p1"># The default is "everysec", as that's usually the right compromise between</p>
+<p class="p1"># speed and data safety. It's up to you to understand if you can relax this to</p>
+<p class="p1"># "no" that will let the operating system flush the output buffer when</p>
+<p class="p1"># it wants, for better performances (but if you can live with the idea of</p>
+<p class="p1"># some data loss consider the default persistence mode that's snapshotting),</p>
+<p class="p1"># or on the contrary, use "always" that's very slow but a bit safer than</p>
+<p class="p1"># everysec.</p>
+<p class="p1">#</p>
+<p class="p1"># More details please check the following article:</p>
+<p class="p1"># http://antirez.com/post/redis-persistence-demystified.html</p>
+<p class="p1">#</p>
+<p class="p1"># If unsure, use "everysec".</p>
+<p class="p2"><br></p>
+<p class="p1"># appendfsync always</p>
+<p class="p1">appendfsync everysec</p>
+<p class="p1"># appendfsync no</p>
+<p class="p2"><br></p>
+<p class="p1"># When the AOF fsync policy is set to always or everysec, and a background</p>
+<p class="p1"># saving process (a background save or AOF log background rewriting) is</p>
+<p class="p1"># performing a lot of I/O against the disk, in some Linux configurations</p>
+<p class="p1"># Redis may block too long on the fsync() call. Note that there is no fix for</p>
+<p class="p1"># this currently, as even performing fsync in a different thread will block</p>
+<p class="p1"># our synchronous write(2) call.</p>
+<p class="p1">#</p>
+<p class="p1"># In order to mitigate this problem it's possible to use the following option</p>
+<p class="p1"># that will prevent fsync() from being called in the main process while a</p>
+<p class="p1"># BGSAVE or BGREWRITEAOF is in progress.</p>
+<p class="p1">#</p>
+<p class="p1"># This means that while another child is saving, the durability of Redis is</p>
+<p class="p1"># the same as "appendfsync none". In practical terms, this means that it is</p>
+<p class="p1"># possible to lose up to 30 seconds of log in the worst scenario (with the</p>
+<p class="p1"># default Linux settings).</p>
+<p class="p1">#</p>
+<p class="p1"># If you have latency problems turn this to "yes". Otherwise leave it as</p>
+<p class="p1"># "no" that is the safest pick from the point of view of durability.</p>
+<p class="p2"><br></p>
+<p class="p1">no-appendfsync-on-rewrite no</p>
+<p class="p2"><br></p>
+<p class="p1"># Automatic rewrite of the append only file.</p>
+<p class="p1"># Redis is able to automatically rewrite the log file implicitly calling</p>
+<p class="p1"># BGREWRITEAOF when the AOF log size grows by the specified percentage.</p>
+<p class="p1">#</p>
+<p class="p1"># This is how it works: Redis remembers the size of the AOF file after the</p>
+<p class="p1"># latest rewrite (if no rewrite has happened since the restart, the size of</p>
+<p class="p1"># the AOF at startup is used).</p>
+<p class="p1">#</p>
+<p class="p1"># This base size is compared to the current size. If the current size is</p>
+<p class="p1"># bigger than the specified percentage, the rewrite is triggered. Also</p>
+<p class="p1"># you need to specify a minimal size for the AOF file to be rewritten, this</p>
+<p class="p1"># is useful to avoid rewriting the AOF file even if the percentage increase</p>
+<p class="p1"># is reached but it is still pretty small.</p>
+<p class="p1">#</p>
+<p class="p1"># Specify a percentage of zero in order to disable the automatic AOF</p>
+<p class="p1"># rewrite feature.</p>
+<p class="p2"><br></p>
+<p class="p1">auto-aof-rewrite-percentage 100</p>
+<p class="p1">auto-aof-rewrite-min-size 64mb</p>
+<p class="p2"><br></p>
+<p class="p1"># An AOF file may be found to be truncated at the end during the Redis</p>
+<p class="p1"># startup process, when the AOF data gets loaded back into memory.</p>
+<p class="p1"># This may happen when the system where Redis is running</p>
+<p class="p1"># crashes, especially when an ext4 filesystem is mounted without the</p>
+<p class="p1"># data=ordered option (however this can't happen when Redis itself</p>
+<p class="p1"># crashes or aborts but the operating system still works correctly).</p>
+<p class="p1">#</p>
+<p class="p1"># Redis can either exit with an error when this happens, or load as much</p>
+<p class="p1"># data as possible (the default now) and start if the AOF file is found</p>
+<p class="p1"># to be truncated at the end. The following option controls this behavior.</p>
+<p class="p1">#</p>
+<p class="p1"># If aof-load-truncated is set to yes, a truncated AOF file is loaded and</p>
+<p class="p1"># the Redis server starts emitting a log to inform the user of the event.</p>
+<p class="p1"># Otherwise if the option is set to no, the server aborts with an error</p>
+<p class="p1"># and refuses to start. When the option is set to no, the user requires</p>
+<p class="p1"># to fix the AOF file using the "redis-check-aof" utility before to restart</p>
+<p class="p1"># the server.</p>
+<p class="p1">#</p>
+<p class="p1"># Note that if the AOF file will be found to be corrupted in the middle</p>
+<p class="p1"># the server will still exit with an error. This option only applies when</p>
+<p class="p1"># Redis will try to read more data from the AOF file but not enough bytes</p>
+<p class="p1"># will be found.</p>
+<p class="p1">aof-load-truncated yes</p>
+<p class="p2"><br></p>
+<p class="p1"># When rewriting the AOF file, Redis is able to use an RDB preamble in the</p>
+<p class="p1"># AOF file for faster rewrites and recoveries. When this option is turned</p>
+<p class="p1"># on the rewritten AOF file is composed of two different stanzas:</p>
+<p class="p1">#</p>
+<p class="p1"># <span class="Apple-converted-space">  </span>[RDB file][AOF tail]</p>
+<p class="p1">#</p>
+<p class="p1"># When loading Redis recognizes that the AOF file starts with the "REDIS"</p>
+<p class="p1"># string and loads the prefixed RDB file, and continues loading the AOF</p>
+<p class="p1"># tail.</p>
+<p class="p1">#</p>
+<p class="p1"># This is currently turned off by default in order to avoid the surprise</p>
+<p class="p1"># of a format change, but will at some point be used as the default.</p>
+<p class="p1">aof-use-rdb-preamble no</p>
+<p class="p2"><br></p>
+<p class="p1">################################ LUA SCRIPTING<span class="Apple-converted-space">  </span>###############################</p>
+<p class="p2"><br></p>
+<p class="p1"># Max execution time of a Lua script in milliseconds.</p>
+<p class="p1">#</p>
+<p class="p1"># If the maximum execution time is reached Redis will log that a script is</p>
+<p class="p1"># still in execution after the maximum allowed time and will start to</p>
+<p class="p1"># reply to queries with an error.</p>
+<p class="p1">#</p>
+<p class="p1"># When a long running script exceeds the maximum execution time only the</p>
+<p class="p1"># SCRIPT KILL and SHUTDOWN NOSAVE commands are available. The first can be</p>
+<p class="p1"># used to stop a script that did not yet called write commands. The second</p>
+<p class="p1"># is the only way to shut down the server in the case a write command was</p>
+<p class="p1"># already issued by the script but the user doesn't want to wait for the natural</p>
+<p class="p1"># termination of the script.</p>
+<p class="p1">#</p>
+<p class="p1"># Set it to 0 or a negative value for unlimited execution without warnings.</p>
+<p class="p1">lua-time-limit 5000</p>
+<p class="p2"><br></p>
+<p class="p1">################################ REDIS CLUSTER<span class="Apple-converted-space">  </span>###############################</p>
+<p class="p1">#</p>
+<p class="p1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</p>
+<p class="p1"># WARNING EXPERIMENTAL: Redis Cluster is considered to be stable code, however</p>
+<p class="p1"># in order to mark it as "mature" we need to wait for a non trivial percentage</p>
+<p class="p1"># of users to deploy it in production.</p>
+<p class="p1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</p>
+<p class="p1">#</p>
+<p class="p1"># Normal Redis instances can't be part of a Redis Cluster; only nodes that are</p>
+<p class="p1"># started as cluster nodes can. In order to start a Redis instance as a</p>
+<p class="p1"># cluster node enable the cluster support uncommenting the following:</p>
+<p class="p1">#</p>
+<p class="p1">cluster-enabled yes</p>
+<p class="p2"><br></p>
+<p class="p1"># Every cluster node has a cluster configuration file. This file is not</p>
+<p class="p1"># intended to be edited by hand. It is created and updated by Redis nodes.</p>
+<p class="p1"># Every Redis Cluster node requires a different cluster configuration file.</p>
+<p class="p1"># Make sure that instances running in the same system do not have</p>
+<p class="p1"># overlapping cluster configuration file names.</p>
+<p class="p1">#</p>
+<p class="p1">cluster-config-file nodes-6381.conf</p>
+<p class="p2"><br></p>
+<p class="p1"># Cluster node timeout is the amount of milliseconds a node must be unreachable</p>
+<p class="p1"># for it to be considered in failure state.</p>
+<p class="p1"># Most other internal time limits are multiple of the node timeout.</p>
+<p class="p1">#</p>
+<p class="p1"># cluster-node-timeout 15000</p>
+<p class="p2"><br></p>
+<p class="p1"># A slave of a failing master will avoid to start a failover if its data</p>
+<p class="p1"># looks too old.</p>
+<p class="p1">#</p>
+<p class="p1"># There is no simple way for a slave to actually have an exact measure of</p>
+<p class="p1"># its "data age", so the following two checks are performed:</p>
+<p class="p1">#</p>
+<p class="p1"># 1) If there are multiple slaves able to failover, they exchange messages</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>in order to try to give an advantage to the slave with the best</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>replication offset (more data from the master processed).</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>Slaves will try to get their rank by offset, and apply to the start</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>of the failover a delay proportional to their rank.</p>
+<p class="p1">#</p>
+<p class="p1"># 2) Every single slave computes the time of the last interaction with</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>its master. This can be the last ping or command received (if the master</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>is still in the "connected" state), or the time that elapsed since the</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>disconnection with the master (if the replication link is currently down).</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>If the last interaction is too old, the slave will not try to failover</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>at all.</p>
+<p class="p1">#</p>
+<p class="p1"># The point "2" can be tuned by user. Specifically a slave will not perform</p>
+<p class="p1"># the failover if, since the last interaction with the master, the time</p>
+<p class="p1"># elapsed is greater than:</p>
+<p class="p1">#</p>
+<p class="p1"># <span class="Apple-converted-space">  </span>(node-timeout * slave-validity-factor) + repl-ping-slave-period</p>
+<p class="p1">#</p>
+<p class="p1"># So for example if node-timeout is 30 seconds, and the slave-validity-factor</p>
+<p class="p1"># is 10, and assuming a default repl-ping-slave-period of 10 seconds, the</p>
+<p class="p1"># slave will not try to failover if it was not able to talk with the master</p>
+<p class="p1"># for longer than 310 seconds.</p>
+<p class="p1">#</p>
+<p class="p1"># A large slave-validity-factor may allow slaves with too old data to failover</p>
+<p class="p1"># a master, while a too small value may prevent the cluster from being able to</p>
+<p class="p1"># elect a slave at all.</p>
+<p class="p1">#</p>
+<p class="p1"># For maximum availability, it is possible to set the slave-validity-factor</p>
+<p class="p1"># to a value of 0, which means, that slaves will always try to failover the</p>
+<p class="p1"># master regardless of the last time they interacted with the master.</p>
+<p class="p1"># (However they'll always try to apply a delay proportional to their</p>
+<p class="p1"># offset rank).</p>
+<p class="p1">#</p>
+<p class="p1"># Zero is the only value able to guarantee that when all the partitions heal</p>
+<p class="p1"># the cluster will always be able to continue.</p>
+<p class="p1">#</p>
+<p class="p1"># cluster-slave-validity-factor 10</p>
+<p class="p2"><br></p>
+<p class="p1"># Cluster slaves are able to migrate to orphaned masters, that are masters</p>
+<p class="p1"># that are left without working slaves. This improves the cluster ability</p>
+<p class="p1"># to resist to failures as otherwise an orphaned master can't be failed over</p>
+<p class="p1"># in case of failure if it has no working slaves.</p>
+<p class="p1">#</p>
+<p class="p1"># Slaves migrate to orphaned masters only if there are still at least a</p>
+<p class="p1"># given number of other working slaves for their old master. This number</p>
+<p class="p1"># is the "migration barrier". A migration barrier of 1 means that a slave</p>
+<p class="p1"># will migrate only if there is at least 1 other working slave for its master</p>
+<p class="p1"># and so forth. It usually reflects the number of slaves you want for every</p>
+<p class="p1"># master in your cluster.</p>
+<p class="p1">#</p>
+<p class="p1"># Default is 1 (slaves migrate only if their masters remain with at least</p>
+<p class="p1"># one slave). To disable migration just set it to a very large value.</p>
+<p class="p1"># A value of 0 can be set but is useful only for debugging and dangerous</p>
+<p class="p1"># in production.</p>
+<p class="p1">#</p>
+<p class="p1"># cluster-migration-barrier 1</p>
+<p class="p2"><br></p>
+<p class="p1"># By default Redis Cluster nodes stop accepting queries if they detect there</p>
+<p class="p1"># is at least an hash slot uncovered (no available node is serving it).</p>
+<p class="p1"># This way if the cluster is partially down (for example a range of hash slots</p>
+<p class="p1"># are no longer covered) all the cluster becomes, eventually, unavailable.</p>
+<p class="p1"># It automatically returns available as soon as all the slots are covered again.</p>
+<p class="p1">#</p>
+<p class="p1"># However sometimes you want the subset of the cluster which is working,</p>
+<p class="p1"># to continue to accept queries for the part of the key space that is still</p>
+<p class="p1"># covered. In order to do so, just set the cluster-require-full-coverage</p>
+<p class="p1"># option to no.</p>
+<p class="p1">#</p>
+<p class="p1"># cluster-require-full-coverage yes</p>
+<p class="p2"><br></p>
+<p class="p1"># In order to setup your cluster make sure to read the documentation</p>
+<p class="p1"># available at http://redis.io web site.</p>
+<p class="p2"><br></p>
+<p class="p1">########################## CLUSTER DOCKER/NAT support<span class="Apple-converted-space">  </span>########################</p>
+<p class="p2"><br></p>
+<p class="p1"># In certain deployments, Redis Cluster nodes address discovery fails, because</p>
+<p class="p1"># addresses are NAT-ted or because ports are forwarded (the typical case is</p>
+<p class="p1"># Docker and other containers).</p>
+<p class="p1">#</p>
+<p class="p1"># In order to make Redis Cluster working in such environments, a static</p>
+<p class="p1"># configuration where each node knows its public address is needed. The</p>
+<p class="p1"># following two options are used for this scope, and are:</p>
+<p class="p1">#</p>
+<p class="p1"># * cluster-announce-ip</p>
+<p class="p1"># * cluster-announce-port</p>
+<p class="p1"># * cluster-announce-bus-port</p>
+<p class="p1">#</p>
+<p class="p1"># Each instruct the node about its address, client port, and cluster message</p>
+<p class="p1"># bus port. The information is then published in the header of the bus packets</p>
+<p class="p1"># so that other nodes will be able to correctly map the address of the node</p>
+<p class="p1"># publishing the information.</p>
+<p class="p1">#</p>
+<p class="p1"># If the above options are not used, the normal Redis Cluster auto-detection</p>
+<p class="p1"># will be used instead.</p>
+<p class="p1">#</p>
+<p class="p1"># Note that when remapped, the bus port may not be at the fixed offset of</p>
+<p class="p1"># clients port + 10000, so you can specify any port and bus-port depending</p>
+<p class="p1"># on how they get remapped. If the bus-port is not set, a fixed offset of</p>
+<p class="p1"># 10000 will be used as usually.</p>
+<p class="p1">#</p>
+<p class="p1"># Example:</p>
+<p class="p1">#</p>
+<p class="p1"># cluster-announce-ip 10.1.1.5</p>
+<p class="p1"># cluster-announce-port 6379</p>
+<p class="p1"># cluster-announce-bus-port 6380</p>
+<p class="p2"><br></p>
+<p class="p1">################################## SLOW LOG ###################################</p>
+<p class="p2"><br></p>
+<p class="p1"># The Redis Slow Log is a system to log queries that exceeded a specified</p>
+<p class="p1"># execution time. The execution time does not include the I/O operations</p>
+<p class="p1"># like talking with the client, sending the reply and so forth,</p>
+<p class="p1"># but just the time needed to actually execute the command (this is the only</p>
+<p class="p1"># stage of command execution where the thread is blocked and can not serve</p>
+<p class="p1"># other requests in the meantime).</p>
+<p class="p1">#</p>
+<p class="p1"># You can configure the slow log with two parameters: one tells Redis</p>
+<p class="p1"># what is the execution time, in microseconds, to exceed in order for the</p>
+<p class="p1"># command to get logged, and the other parameter is the length of the</p>
+<p class="p1"># slow log. When a new command is logged the oldest one is removed from the</p>
+<p class="p1"># queue of logged commands.</p>
+<p class="p2"><br></p>
+<p class="p1"># The following time is expressed in microseconds, so 1000000 is equivalent</p>
+<p class="p1"># to one second. Note that a negative number disables the slow log, while</p>
+<p class="p1"># a value of zero forces the logging of every command.</p>
+<p class="p1">slowlog-log-slower-than 10000</p>
+<p class="p2"><br></p>
+<p class="p1"># There is no limit to this length. Just be aware that it will consume memory.</p>
+<p class="p1"># You can reclaim memory used by the slow log with SLOWLOG RESET.</p>
+<p class="p1">slowlog-max-len 128</p>
+<p class="p2"><br></p>
+<p class="p1">################################ LATENCY MONITOR ##############################</p>
+<p class="p2"><br></p>
+<p class="p1"># The Redis latency monitoring subsystem samples different operations</p>
+<p class="p1"># at runtime in order to collect data related to possible sources of</p>
+<p class="p1"># latency of a Redis instance.</p>
+<p class="p1">#</p>
+<p class="p1"># Via the LATENCY command this information is available to the user that can</p>
+<p class="p1"># print graphs and obtain reports.</p>
+<p class="p1">#</p>
+<p class="p1"># The system only logs operations that were performed in a time equal or</p>
+<p class="p1"># greater than the amount of milliseconds specified via the</p>
+<p class="p1"># latency-monitor-threshold configuration directive. When its value is set</p>
+<p class="p1"># to zero, the latency monitor is turned off.</p>
+<p class="p1">#</p>
+<p class="p1"># By default latency monitoring is disabled since it is mostly not needed</p>
+<p class="p1"># if you don't have latency issues, and collecting data has a performance</p>
+<p class="p1"># impact, that while very small, can be measured under big load. Latency</p>
+<p class="p1"># monitoring can easily be enabled at runtime using the command</p>
+<p class="p1"># "CONFIG SET latency-monitor-threshold &lt;milliseconds&gt;" if needed.</p>
+<p class="p1">latency-monitor-threshold 0</p>
+<p class="p2"><br></p>
+<p class="p1">############################# EVENT NOTIFICATION ##############################</p>
+<p class="p2"><br></p>
+<p class="p1"># Redis can notify Pub/Sub clients about events happening in the key space.</p>
+<p class="p1"># This feature is documented at http://redis.io/topics/notifications</p>
+<p class="p1">#</p>
+<p class="p1"># For instance if keyspace events notification is enabled, and a client</p>
+<p class="p1"># performs a DEL operation on key "foo" stored in the Database 0, two</p>
+<p class="p1"># messages will be published via Pub/Sub:</p>
+<p class="p1">#</p>
+<p class="p1"># PUBLISH __keyspace@0__:foo del</p>
+<p class="p1"># PUBLISH __keyevent@0__:del foo</p>
+<p class="p1">#</p>
+<p class="p1"># It is possible to select the events that Redis will notify among a set</p>
+<p class="p1"># of classes. Every class is identified by a single character:</p>
+<p class="p1">#</p>
+<p class="p1">#<span class="Apple-converted-space">  </span>K <span class="Apple-converted-space">    </span>Keyspace events, published with __keyspace@&lt;db&gt;__ prefix.</p>
+<p class="p1">#<span class="Apple-converted-space">  </span>E <span class="Apple-converted-space">    </span>Keyevent events, published with __keyevent@&lt;db&gt;__ prefix.</p>
+<p class="p1">#<span class="Apple-converted-space">  </span>g <span class="Apple-converted-space">    </span>Generic commands (non-type specific) like DEL, EXPIRE, RENAME, ...</p>
+<p class="p1">#<span class="Apple-converted-space">  </span>$ <span class="Apple-converted-space">    </span>String commands</p>
+<p class="p1">#<span class="Apple-converted-space">  </span>l <span class="Apple-converted-space">    </span>List commands</p>
+<p class="p1">#<span class="Apple-converted-space">  </span>s <span class="Apple-converted-space">    </span>Set commands</p>
+<p class="p1">#<span class="Apple-converted-space">  </span>h <span class="Apple-converted-space">    </span>Hash commands</p>
+<p class="p1">#<span class="Apple-converted-space">  </span>z <span class="Apple-converted-space">    </span>Sorted set commands</p>
+<p class="p1">#<span class="Apple-converted-space">  </span>x <span class="Apple-converted-space">    </span>Expired events (events generated every time a key expires)</p>
+<p class="p1">#<span class="Apple-converted-space">  </span>e <span class="Apple-converted-space">    </span>Evicted events (events generated when a key is evicted for maxmemory)</p>
+<p class="p1">#<span class="Apple-converted-space">  </span>A <span class="Apple-converted-space">    </span>Alias for g$lshzxe, so that the "AKE" string means all the events.</p>
+<p class="p1">#</p>
+<p class="p1">#<span class="Apple-converted-space">  </span>The "notify-keyspace-events" takes as argument a string that is composed</p>
+<p class="p1">#<span class="Apple-converted-space">  </span>of zero or multiple characters. The empty string means that notifications</p>
+<p class="p1">#<span class="Apple-converted-space">  </span>are disabled.</p>
+<p class="p1">#</p>
+<p class="p1">#<span class="Apple-converted-space">  </span>Example: to enable list and generic events, from the point of view of the</p>
+<p class="p1"># <span class="Apple-converted-space">          </span>event name, use:</p>
+<p class="p1">#</p>
+<p class="p1">#<span class="Apple-converted-space">  </span>notify-keyspace-events Elg</p>
+<p class="p1">#</p>
+<p class="p1">#<span class="Apple-converted-space">  </span>Example 2: to get the stream of the expired keys subscribing to channel</p>
+<p class="p1"># <span class="Apple-converted-space">            </span>name __keyevent@0__:expired use:</p>
+<p class="p1">#</p>
+<p class="p1">#<span class="Apple-converted-space">  </span>notify-keyspace-events Ex</p>
+<p class="p1">#</p>
+<p class="p1">#<span class="Apple-converted-space">  </span>By default all notifications are disabled because most users don't need</p>
+<p class="p1">#<span class="Apple-converted-space">  </span>this feature and the feature has some overhead. Note that if you don't</p>
+<p class="p1">#<span class="Apple-converted-space">  </span>specify at least one of K or E, no events will be delivered.</p>
+<p class="p1">notify-keyspace-events ""</p>
+<p class="p2"><br></p>
+<p class="p1">############################### ADVANCED CONFIG ###############################</p>
+<p class="p2"><br></p>
+<p class="p1"># Hashes are encoded using a memory efficient data structure when they have a</p>
+<p class="p1"># small number of entries, and the biggest entry does not exceed a given</p>
+<p class="p1"># threshold. These thresholds can be configured using the following directives.</p>
+<p class="p1">hash-max-ziplist-entries 512</p>
+<p class="p1">hash-max-ziplist-value 64</p>
+<p class="p2"><br></p>
+<p class="p1"># Lists are also encoded in a special way to save a lot of space.</p>
+<p class="p1"># The number of entries allowed per internal list node can be specified</p>
+<p class="p1"># as a fixed maximum size or a maximum number of elements.</p>
+<p class="p1"># For a fixed maximum size, use -5 through -1, meaning:</p>
+<p class="p1"># -5: max size: 64 Kb<span class="Apple-converted-space">  </span>&lt;-- not recommended for normal workloads</p>
+<p class="p1"># -4: max size: 32 Kb<span class="Apple-converted-space">  </span>&lt;-- not recommended</p>
+<p class="p1"># -3: max size: 16 Kb<span class="Apple-converted-space">  </span>&lt;-- probably not recommended</p>
+<p class="p1"># -2: max size: 8 Kb <span class="Apple-converted-space">  </span>&lt;-- good</p>
+<p class="p1"># -1: max size: 4 Kb <span class="Apple-converted-space">  </span>&lt;-- good</p>
+<p class="p1"># Positive numbers mean store up to _exactly_ that number of elements</p>
+<p class="p1"># per list node.</p>
+<p class="p1"># The highest performing option is usually -2 (8 Kb size) or -1 (4 Kb size),</p>
+<p class="p1"># but if your use case is unique, adjust the settings as necessary.</p>
+<p class="p1">list-max-ziplist-size -2</p>
+<p class="p2"><br></p>
+<p class="p1"># Lists may also be compressed.</p>
+<p class="p1"># Compress depth is the number of quicklist ziplist nodes from *each* side of</p>
+<p class="p1"># the list to *exclude* from compression.<span class="Apple-converted-space">  </span>The head and tail of the list</p>
+<p class="p1"># are always uncompressed for fast push/pop operations.<span class="Apple-converted-space">  </span>Settings are:</p>
+<p class="p1"># 0: disable all list compression</p>
+<p class="p1"># 1: depth 1 means "don't start compressing until after 1 node into the list,</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>going from either the head or tail"</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>So: [head]-&gt;node-&gt;node-&gt;...-&gt;node-&gt;[tail]</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>[head], [tail] will always be uncompressed; inner nodes will compress.</p>
+<p class="p1"># 2: [head]-&gt;[next]-&gt;node-&gt;node-&gt;...-&gt;node-&gt;[prev]-&gt;[tail]</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>2 here means: don't compress head or head-&gt;next or tail-&gt;prev or tail,</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>but compress all nodes between them.</p>
+<p class="p1"># 3: [head]-&gt;[next]-&gt;[next]-&gt;node-&gt;node-&gt;...-&gt;node-&gt;[prev]-&gt;[prev]-&gt;[tail]</p>
+<p class="p1"># etc.</p>
+<p class="p1">list-compress-depth 0</p>
+<p class="p2"><br></p>
+<p class="p1"># Sets have a special encoding in just one case: when a set is composed</p>
+<p class="p1"># of just strings that happen to be integers in radix 10 in the range</p>
+<p class="p1"># of 64 bit signed integers.</p>
+<p class="p1"># The following configuration setting sets the limit in the size of the</p>
+<p class="p1"># set in order to use this special memory saving encoding.</p>
+<p class="p1">set-max-intset-entries 512</p>
+<p class="p2"><br></p>
+<p class="p1"># Similarly to hashes and lists, sorted sets are also specially encoded in</p>
+<p class="p1"># order to save a lot of space. This encoding is only used when the length and</p>
+<p class="p1"># elements of a sorted set are below the following limits:</p>
+<p class="p1">zset-max-ziplist-entries 128</p>
+<p class="p1">zset-max-ziplist-value 64</p>
+<p class="p2"><br></p>
+<p class="p1"># HyperLogLog sparse representation bytes limit. The limit includes the</p>
+<p class="p1"># 16 bytes header. When an HyperLogLog using the sparse representation crosses</p>
+<p class="p1"># this limit, it is converted into the dense representation.</p>
+<p class="p1">#</p>
+<p class="p1"># A value greater than 16000 is totally useless, since at that point the</p>
+<p class="p1"># dense representation is more memory efficient.</p>
+<p class="p1">#</p>
+<p class="p1"># The suggested value is ~ 3000 in order to have the benefits of</p>
+<p class="p1"># the space efficient encoding without slowing down too much PFADD,</p>
+<p class="p1"># which is O(N) with the sparse encoding. The value can be raised to</p>
+<p class="p1"># ~ 10000 when CPU is not a concern, but space is, and the data set is</p>
+<p class="p1"># composed of many HyperLogLogs with cardinality in the 0 - 15000 range.</p>
+<p class="p1">hll-sparse-max-bytes 3000</p>
+<p class="p2"><br></p>
+<p class="p1"># Active rehashing uses 1 millisecond every 100 milliseconds of CPU time in</p>
+<p class="p1"># order to help rehashing the main Redis hash table (the one mapping top-level</p>
+<p class="p1"># keys to values). The hash table implementation Redis uses (see dict.c)</p>
+<p class="p1"># performs a lazy rehashing: the more operation you run into a hash table</p>
+<p class="p1"># that is rehashing, the more rehashing "steps" are performed, so if the</p>
+<p class="p1"># server is idle the rehashing is never complete and some more memory is used</p>
+<p class="p1"># by the hash table.</p>
+<p class="p1">#</p>
+<p class="p1"># The default is to use this millisecond 10 times every second in order to</p>
+<p class="p1"># actively rehash the main dictionaries, freeing memory when possible.</p>
+<p class="p1">#</p>
+<p class="p1"># If unsure:</p>
+<p class="p1"># use "activerehashing no" if you have hard latency requirements and it is</p>
+<p class="p1"># not a good thing in your environment that Redis can reply from time to time</p>
+<p class="p1"># to queries with 2 milliseconds delay.</p>
+<p class="p1">#</p>
+<p class="p1"># use "activerehashing yes" if you don't have such hard requirements but</p>
+<p class="p1"># want to free memory asap when possible.</p>
+<p class="p1">activerehashing yes</p>
+<p class="p2"><br></p>
+<p class="p1"># The client output buffer limits can be used to force disconnection of clients</p>
+<p class="p1"># that are not reading data from the server fast enough for some reason (a</p>
+<p class="p1"># common reason is that a Pub/Sub client can't consume messages as fast as the</p>
+<p class="p1"># publisher can produce them).</p>
+<p class="p1">#</p>
+<p class="p1"># The limit can be set differently for the three different classes of clients:</p>
+<p class="p1">#</p>
+<p class="p1"># normal -&gt; normal clients including MONITOR clients</p>
+<p class="p1"># slave<span class="Apple-converted-space">  </span>-&gt; slave clients</p>
+<p class="p1"># pubsub -&gt; clients subscribed to at least one pubsub channel or pattern</p>
+<p class="p1">#</p>
+<p class="p1"># The syntax of every client-output-buffer-limit directive is the following:</p>
+<p class="p1">#</p>
+<p class="p1"># client-output-buffer-limit &lt;class&gt; &lt;hard limit&gt; &lt;soft limit&gt; &lt;soft seconds&gt;</p>
+<p class="p1">#</p>
+<p class="p1"># A client is immediately disconnected once the hard limit is reached, or if</p>
+<p class="p1"># the soft limit is reached and remains reached for the specified number of</p>
+<p class="p1"># seconds (continuously).</p>
+<p class="p1"># So for instance if the hard limit is 32 megabytes and the soft limit is</p>
+<p class="p1"># 16 megabytes / 10 seconds, the client will get disconnected immediately</p>
+<p class="p1"># if the size of the output buffers reach 32 megabytes, but will also get</p>
+<p class="p1"># disconnected if the client reaches 16 megabytes and continuously overcomes</p>
+<p class="p1"># the limit for 10 seconds.</p>
+<p class="p1">#</p>
+<p class="p1"># By default normal clients are not limited because they don't receive data</p>
+<p class="p1"># without asking (in a push way), but just after a request, so only</p>
+<p class="p1"># asynchronous clients may create a scenario where data is requested faster</p>
+<p class="p1"># than it can read.</p>
+<p class="p1">#</p>
+<p class="p1"># Instead there is a default limit for pubsub and slave clients, since</p>
+<p class="p1"># subscribers and slaves receive data in a push fashion.</p>
+<p class="p1">#</p>
+<p class="p1"># Both the hard or the soft limit can be disabled by setting them to zero.</p>
+<p class="p1">client-output-buffer-limit normal 0 0 0</p>
+<p class="p1">client-output-buffer-limit slave 256mb 64mb 60</p>
+<p class="p1">client-output-buffer-limit pubsub 32mb 8mb 60</p>
+<p class="p2"><br></p>
+<p class="p1"># Client query buffers accumulate new commands. They are limited to a fixed</p>
+<p class="p1"># amount by default in order to avoid that a protocol desynchronization (for</p>
+<p class="p1"># instance due to a bug in the client) will lead to unbound memory usage in</p>
+<p class="p1"># the query buffer. However you can configure it here if you have very special</p>
+<p class="p1"># needs, such us huge multi/exec requests or alike.</p>
+<p class="p1">#</p>
+<p class="p1"># client-query-buffer-limit 1gb</p>
+<p class="p2"><br></p>
+<p class="p1"># In the Redis protocol, bulk requests, that are, elements representing single</p>
+<p class="p1"># strings, are normally limited ot 512 mb. However you can change this limit</p>
+<p class="p1"># here.</p>
+<p class="p1">#</p>
+<p class="p1"># proto-max-bulk-len 512mb</p>
+<p class="p2"><br></p>
+<p class="p1"># Redis calls an internal function to perform many background tasks, like</p>
+<p class="p1"># closing connections of clients in timeout, purging expired keys that are</p>
+<p class="p1"># never requested, and so forth.</p>
+<p class="p1">#</p>
+<p class="p1"># Not all tasks are performed with the same frequency, but Redis checks for</p>
+<p class="p1"># tasks to perform according to the specified "hz" value.</p>
+<p class="p1">#</p>
+<p class="p1"># By default "hz" is set to 10. Raising the value will use more CPU when</p>
+<p class="p1"># Redis is idle, but at the same time will make Redis more responsive when</p>
+<p class="p1"># there are many keys expiring at the same time, and timeouts may be</p>
+<p class="p1"># handled with more precision.</p>
+<p class="p1">#</p>
+<p class="p1"># The range is between 1 and 500, however a value over 100 is usually not</p>
+<p class="p1"># a good idea. Most users should use the default of 10 and raise this up to</p>
+<p class="p1"># 100 only in environments where very low latency is required.</p>
+<p class="p1">hz 10</p>
+<p class="p2"><br></p>
+<p class="p1"># When a child rewrites the AOF file, if the following option is enabled</p>
+<p class="p1"># the file will be fsync-ed every 32 MB of data generated. This is useful</p>
+<p class="p1"># in order to commit the file to the disk more incrementally and avoid</p>
+<p class="p1"># big latency spikes.</p>
+<p class="p1">aof-rewrite-incremental-fsync yes</p>
+<p class="p2"><br></p>
+<p class="p1"># Redis LFU eviction (see maxmemory setting) can be tuned. However it is a good</p>
+<p class="p1"># idea to start with the default settings and only change them after investigating</p>
+<p class="p1"># how to improve the performances and how the keys LFU change over time, which</p>
+<p class="p1"># is possible to inspect via the OBJECT FREQ command.</p>
+<p class="p1">#</p>
+<p class="p1"># There are two tunable parameters in the Redis LFU implementation: the</p>
+<p class="p1"># counter logarithm factor and the counter decay time. It is important to</p>
+<p class="p1"># understand what the two parameters mean before changing them.</p>
+<p class="p1">#</p>
+<p class="p1"># The LFU counter is just 8 bits per key, it's maximum value is 255, so Redis</p>
+<p class="p1"># uses a probabilistic increment with logarithmic behavior. Given the value</p>
+<p class="p1"># of the old counter, when a key is accessed, the counter is incremented in</p>
+<p class="p1"># this way:</p>
+<p class="p1">#</p>
+<p class="p1"># 1. A random number R between 0 and 1 is extracted.</p>
+<p class="p1"># 2. A probability P is calculated as 1/(old_value*lfu_log_factor+1).</p>
+<p class="p1"># 3. The counter is incremented only if R &lt; P.</p>
+<p class="p1">#</p>
+<p class="p1"># The default lfu-log-factor is 10. This is a table of how the frequency</p>
+<p class="p1"># counter changes with a different number of accesses with different</p>
+<p class="p1"># logarithmic factors:</p>
+<p class="p1">#</p>
+<p class="p1"># +--------+------------+------------+------------+------------+------------+</p>
+<p class="p1"># | factor | 100 hits <span class="Apple-converted-space">  </span>| 1000 hits<span class="Apple-converted-space">  </span>| 100K hits<span class="Apple-converted-space">  </span>| 1M hits<span class="Apple-converted-space">    </span>| 10M hits <span class="Apple-converted-space">  </span>|</p>
+<p class="p1"># +--------+------------+------------+------------+------------+------------+</p>
+<p class="p1"># | 0<span class="Apple-converted-space">      </span>| 104<span class="Apple-converted-space">        </span>| 255<span class="Apple-converted-space">        </span>| 255<span class="Apple-converted-space">        </span>| 255<span class="Apple-converted-space">        </span>| 255<span class="Apple-converted-space">        </span>|</p>
+<p class="p1"># +--------+------------+------------+------------+------------+------------+</p>
+<p class="p1"># | 1<span class="Apple-converted-space">      </span>| 18 <span class="Apple-converted-space">        </span>| 49 <span class="Apple-converted-space">        </span>| 255<span class="Apple-converted-space">        </span>| 255<span class="Apple-converted-space">        </span>| 255<span class="Apple-converted-space">        </span>|</p>
+<p class="p1"># +--------+------------+------------+------------+------------+------------+</p>
+<p class="p1"># | 10 <span class="Apple-converted-space">    </span>| 10 <span class="Apple-converted-space">        </span>| 18 <span class="Apple-converted-space">        </span>| 142<span class="Apple-converted-space">        </span>| 255<span class="Apple-converted-space">        </span>| 255<span class="Apple-converted-space">        </span>|</p>
+<p class="p1"># +--------+------------+------------+------------+------------+------------+</p>
+<p class="p1"># | 100<span class="Apple-converted-space">    </span>| 8<span class="Apple-converted-space">          </span>| 11 <span class="Apple-converted-space">        </span>| 49 <span class="Apple-converted-space">        </span>| 143<span class="Apple-converted-space">        </span>| 255<span class="Apple-converted-space">        </span>|</p>
+<p class="p1"># +--------+------------+------------+------------+------------+------------+</p>
+<p class="p1">#</p>
+<p class="p1"># NOTE: The above table was obtained by running the following commands:</p>
+<p class="p1">#</p>
+<p class="p1"># <span class="Apple-converted-space">  </span>redis-benchmark -n 1000000 incr foo</p>
+<p class="p1"># <span class="Apple-converted-space">  </span>redis-cli object freq foo</p>
+<p class="p1">#</p>
+<p class="p1"># NOTE 2: The counter initial value is 5 in order to give new objects a chance</p>
+<p class="p1"># to accumulate hits.</p>
+<p class="p1">#</p>
+<p class="p1"># The counter decay time is the time, in minutes, that must elapse in order</p>
+<p class="p1"># for the key counter to be divided by two (or decremented if it has a value</p>
+<p class="p1"># less &lt;= 10).</p>
+<p class="p1">#</p>
+<p class="p1"># The default value for the lfu-decay-time is 1. A Special value of 0 means to</p>
+<p class="p1"># decay the counter every time it happens to be scanned.</p>
+<p class="p1">#</p>
+<p class="p1"># lfu-log-factor 10</p>
+<p class="p1"># lfu-decay-time 1</p>
+<p class="p2"><br></p>
+<p class="p1">########################### ACTIVE DEFRAGMENTATION #######################</p>
+<p class="p1">#</p>
+<p class="p1"># WARNING THIS FEATURE IS EXPERIMENTAL. However it was stress tested</p>
+<p class="p1"># even in production and manually tested by multiple engineers for some</p>
+<p class="p1"># time.</p>
+<p class="p1">#</p>
+<p class="p1"># What is active defragmentation?</p>
+<p class="p1"># -------------------------------</p>
+<p class="p1">#</p>
+<p class="p1"># Active (online) defragmentation allows a Redis server to compact the</p>
+<p class="p1"># spaces left between small allocations and deallocations of data in memory,</p>
+<p class="p1"># thus allowing to reclaim back memory.</p>
+<p class="p1">#</p>
+<p class="p1"># Fragmentation is a natural process that happens with every allocator (but</p>
+<p class="p1"># less so with Jemalloc, fortunately) and certain workloads. Normally a server</p>
+<p class="p1"># restart is needed in order to lower the fragmentation, or at least to flush</p>
+<p class="p1"># away all the data and create it again. However thanks to this feature</p>
+<p class="p1"># implemented by Oran Agra for Redis 4.0 this process can happen at runtime</p>
+<p class="p1"># in an "hot" way, while the server is running.</p>
+<p class="p1">#</p>
+<p class="p1"># Basically when the fragmentation is over a certain level (see the</p>
+<p class="p1"># configuration options below) Redis will start to create new copies of the</p>
+<p class="p1"># values in contiguous memory regions by exploiting certain specific Jemalloc</p>
+<p class="p1"># features (in order to understand if an allocation is causing fragmentation</p>
+<p class="p1"># and to allocate it in a better place), and at the same time, will release the</p>
+<p class="p1"># old copies of the data. This process, repeated incrementally for all the keys</p>
+<p class="p1"># will cause the fragmentation to drop back to normal values.</p>
+<p class="p1">#</p>
+<p class="p1"># Important things to understand:</p>
+<p class="p1">#</p>
+<p class="p1"># 1. This feature is disabled by default, and only works if you compiled Redis</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>to use the copy of Jemalloc we ship with the source code of Redis.</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>This is the default with Linux builds.</p>
+<p class="p1">#</p>
+<p class="p1"># 2. You never need to enable this feature if you don't have fragmentation</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>issues.</p>
+<p class="p1">#</p>
+<p class="p1"># 3. Once you experience fragmentation, you can enable this feature when</p>
+<p class="p1">#<span class="Apple-converted-space">    </span>needed with the command "CONFIG SET activedefrag yes".</p>
+<p class="p1">#</p>
+<p class="p1"># The configuration parameters are able to fine tune the behavior of the</p>
+<p class="p1"># defragmentation process. If you are not sure about what they mean it is</p>
+<p class="p1"># a good idea to leave the defaults untouched.</p>
+<p class="p2"><br></p>
+<p class="p1"># Enabled active defragmentation</p>
+<p class="p1"># activedefrag yes</p>
+<p class="p2"><br></p>
+<p class="p1"># Minimum amount of fragmentation waste to start active defrag</p>
+<p class="p1"># active-defrag-ignore-bytes 100mb</p>
+<p class="p2"><br></p>
+<p class="p1"># Minimum percentage of fragmentation to start active defrag</p>
+<p class="p1"># active-defrag-threshold-lower 10</p>
+<p class="p2"><br></p>
+<p class="p1"># Maximum percentage of fragmentation at which we use maximum effort</p>
+<p class="p1"># active-defrag-threshold-upper 100</p>
+<p class="p2"><br></p>
+<p class="p1"># Minimal effort for defrag in CPU percentage</p>
+<p class="p1"># active-defrag-cycle-min 25</p>
+<p class="p2"><br></p>
+<p class="p1"># Maximal effort for defrag in CPU percentage</p>
+<p class="p1"># active-defrag-cycle-max 75</p>
+</body>
+</html>
