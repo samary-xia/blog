@@ -19,6 +19,8 @@ function breadcrumb_settings_tabs_content_options(){
     $breadcrumb_home_text = get_option( 'breadcrumb_home_text' );
     $breadcrumb_url_hash = get_option( 'breadcrumb_url_hash' );
     $breadcrumb_hide_wc_breadcrumb = get_option( 'breadcrumb_hide_wc_breadcrumb' );
+//    $breadcrumb_display_auto_post_types = get_option( 'breadcrumb_display_auto_post_types' );
+//    $breadcrumb_display_auto_post_title_positions = get_option( 'breadcrumb_display_auto_post_title_positions' );
 
     ?>
 
@@ -191,6 +193,49 @@ function breadcrumb_settings_tabs_content_options(){
         $settings_tabs_field->generate_field($args);
 
 
+//
+//        $post_types_list = get_post_types( '', 'names' );
+//        $post_types_array = array();
+//
+//        foreach ( $post_types_list as $post_type ) {
+//
+//            $obj = get_post_type_object($post_type);
+//            $singular_name = $obj->labels->singular_name;
+//            $post_types_array[$post_type] = $singular_name;
+//        }
+//
+//        //echo '<pre>'.var_export($post_types_array, true).'</pre>';
+//
+//        $args = array(
+//            'id'		=> 'breadcrumb_display_auto_post_types',
+//            //'parent'		=> 'related_post_settings',
+//            'title'		=> __('Choose post types','related-post'),
+//            'details'	=> __('Display related post automatically under selected post types.','related-post'),
+//            'type'		=> 'checkbox',
+//            'value'		=> $breadcrumb_display_auto_post_types,
+//            'default'		=> array(),
+//            'style'		=> array('inline' => false),
+//            'args'		=> $post_types_array,
+//        );
+//
+//        $settings_tabs_field->generate_field($args);
+//
+//        $args = array(
+//            'id'		=> 'breadcrumb_display_auto_post_title_positions',
+//            //'parent'		=> 'related_post_settings',
+//            'title'		=> __('Title positions','related-post'),
+//            'details'	=> __('Display before or after post title on single post types.','related-post'),
+//            'type'		=> 'checkbox',
+//            'value'		=> $breadcrumb_display_auto_post_title_positions,
+//            'default'		=> array(),
+//            'style'		=> array('inline' => false),
+//            'args'		=> array('before' => 'Before', 'after'=> 'After'),
+//
+//        );
+//
+//        $settings_tabs_field->generate_field($args);
+
+
         ?>
 
 
@@ -211,8 +256,11 @@ function breadcrumb_settings_tabs_content_builder(){
 
 
     $posttypes_array = breadcrumb_posttypes_array();
+    $breadcrumb_pages_objects = breadcrumb_pages_objects();
 
-    //echo '<pre>'.var_export($posttypes_array, ture).'</pre>';
+
+
+    //echo '<pre>'.var_export($breadcrumb_pages_objects, ture).'</pre>';
 
     $breadcrumb_tags = breadcrumb_tags();
     $breadcrumb_tag_options = array();
@@ -267,12 +315,17 @@ function breadcrumb_settings_tabs_content_builder(){
 
             <?php
 
-            foreach ($posttypes_array as $postType => $postTypename):
+            foreach ($breadcrumb_pages_objects as $postType => $postTypeData):
+
+                $post_type_name = isset($postTypeData['name'])? $postTypeData['name'] : '';
+
+                //echo '<pre>'.var_export($postType, ture).'</pre>';
+
+                if(empty($post_type_name)) continue;
+
                 ?>
-
-
                 <div class="item">
-                    <p style="font-weight: bold;"><?php echo $postTypename; ?></p>
+                    <p style="font-weight: bold;"><?php echo $post_type_name; ?></p>
                     <div class="breadcrumb-tags">
                         <?php
 
@@ -353,7 +406,7 @@ function breadcrumb_settings_tabs_content_builder(){
         $args = array(
             'id'		=> 'output_posttypes_args',
 //            'parent'		=> 'related_post_settings',
-            'title'		=> __('Post types','breadcrumb'),
+            'title'		=> __('Page objects','breadcrumb'),
             'details'	=> '',
             'type'		=> 'custom_html',
             'html'		=> $html,
@@ -794,7 +847,17 @@ if(!function_exists('breadcrumb_settings_tabs_content_buy_pro')) {
                     <td><i class="fas fa-times"></i></td>
                     <td><i class="fas fa-check"></i></td>
                 </tr>
+                <tr>
+                    <td class="col-features"><?php echo __('Breadcrumb builder for archives','breadcrumb'); ?></td>
+                    <td><i class="fas fa-times"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                </tr>
 
+                <tr>
+                    <td class="col-features"><?php echo __('Breadcrumb builder for posttypes','breadcrumb'); ?></td>
+                    <td><i class="fas fa-check"></i></td>
+                    <td><i class="fas fa-check"></i></td>
+                </tr>
 
                 <tr>
                     <td class="col-features"><?php echo __('Breadcrumb front text','breadcrumb'); ?></td>
@@ -1060,6 +1123,14 @@ if(!function_exists('breadcrumb_settings_save')) {
 
         $breadcrumb_hide_wc_breadcrumb = sanitize_text_field($_POST['breadcrumb_hide_wc_breadcrumb']);
         update_option('breadcrumb_hide_wc_breadcrumb', $breadcrumb_hide_wc_breadcrumb);
+
+//        $breadcrumb_display_auto_post_types = stripslashes_deep($_POST['breadcrumb_display_auto_post_types']);
+//        update_option('breadcrumb_display_auto_post_types', $breadcrumb_display_auto_post_types);
+//
+//        $breadcrumb_display_auto_post_title_positions = stripslashes_deep($_POST['breadcrumb_display_auto_post_title_positions']);
+//        update_option('breadcrumb_display_auto_post_title_positions', $breadcrumb_display_auto_post_title_positions);
+
+
 
         $breadcrumb_custom_css = stripslashes_deep($_POST['breadcrumb_custom_css']);
         update_option('breadcrumb_custom_css', $breadcrumb_custom_css);

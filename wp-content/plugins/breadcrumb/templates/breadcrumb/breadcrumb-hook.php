@@ -11,6 +11,7 @@ function breadcrumb_main_items(){
 
     //echo '<pre>'.var_export($breadcrumb_items, true).'</pre>';
 
+
     if(!empty($breadcrumb_items)):
         ?>
         <ul>
@@ -71,9 +72,6 @@ function breadcrumb_main_schema(){
     //echo '<pre>'.var_export($breadcrumb_items_count, true).'</pre>';
 
     ?>
-
-
-
     <script type="application/ld+json">
         {
             "@context": "http://schema.org",
@@ -108,14 +106,6 @@ function breadcrumb_main_schema(){
             ]
         }
     </script>
-
-
-
-
-
-
-
-
     <?php
 }
 
@@ -190,8 +180,6 @@ function breadcrumb_main_style_css(){
     }
      ?>
     </style>
-
-
     <?php
 
     $themes_css = breadcrumb_themes_css($breadcrumb_themes);
@@ -216,7 +204,6 @@ function breadcrumb_main_custom_scripts(){
         echo $breadcrumb_custom_css;
         ?>
     </style>
-
     <script>
         <?php
         echo $breadcrumb_custom_js;

@@ -3,8 +3,8 @@
 	Donate link: https://www.pickplugins.com/item/breadcrumb-awesome-breadcrumbs-style-navigation-for-wordpress/?ref=wordpress.org
 	Tags: breadcrumb, breadcrumbs, breadcrumb nav, trail, woocommerce breadcrumb
 	Requires at least: 3.8
-	Tested up to: 5.3
-	Stable tag: 1.5.14
+	Tested up to: 5.6
+	Stable tag: 1.5.17
 	License: GPLv2 or later
 	License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -121,6 +121,19 @@ use this short-code any where to display breadcrumb
 
 
 == Changelog ==
+
+	= 1.5.17 =
+    * 2020-06-11- add - display first post category if category slug missed on url
+
+
+	= 1.5.16 =
+    * 2020-06-10 - add - Post ancestors item for page.
+
+	= 1.5.15 =
+    * 2020-02-06 - add - "Tag title" for woocommerce product tags under breadcrumb builder
+    * 2020-02-06 - add - "Shop" for woocommerce product caetgories under breadcrumb builder
+    * 2020-02-06 - update - optimize "settings-tabs" framework css & js loading.
+
 
 	= 1.5.14 =
     * 2020-02-06 - fix - "No title" issue fixed.

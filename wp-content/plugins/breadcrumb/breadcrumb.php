@@ -3,7 +3,7 @@
 Plugin Name: Breadcrumb
 Plugin URI: https://www.pickplugins.com/item/breadcrumb-awesome-breadcrumbs-style-navigation-for-wordpress/
 Description: Awesome Breadcrumb for wordpress.
-Version: 1.5.14
+Version: 1.5.17
 WC requires at least: 3.0.0
 WC tested up to: 3.6
 Author: PickPlugins
@@ -23,7 +23,7 @@ class BreadcrumbMain{
 		define('breadcrumb_plugin_url', plugins_url('/', __FILE__)  );
 		define('breadcrumb_plugin_dir', plugin_dir_path( __FILE__ ) );
 		define('breadcrumb_plugin_name', 'Breadcrumb' );
-		define('breadcrumb_plugin_version', '1.5.14' );
+		define('breadcrumb_plugin_version', '1.5.17' );
 
 
         require_once( breadcrumb_plugin_dir . 'includes/class-settings-tabs.php');
@@ -66,23 +66,26 @@ class BreadcrumbMain{
 	
 	public function _admin_scripts(){
 
+        $screen = get_current_screen();
+
         wp_register_script('settings-tabs', plugins_url( 'assets/admin/js/settings-tabs.js' , __FILE__ ) , array( 'jquery' ));
         wp_register_style('settings-tabs', breadcrumb_plugin_url.'assets/admin/css/settings-tabs.css');
         wp_register_style('font-awesome-5', breadcrumb_plugin_url.'assets/admin/css/fontawesome.css');
 
-        $cm_settings['codeEditor'] = wp_enqueue_code_editor(array('type' => 'text/css'));
+        if($screen->id =='toplevel_page_breadcrumb_settings'){
+            $settings_tabs_field = new settings_tabs_field();
+            $settings_tabs_field->admin_scripts();
+        }
 
-        wp_localize_script('jquery', 'cm_settings', $cm_settings);
 
-        wp_enqueue_script('wp-theme-plugin-editor');
-        wp_enqueue_style('wp-codemirror');
 
 
 	}
 	
 	
 	
-	}
+
+}
 
 new BreadcrumbMain();
 
