@@ -7,7 +7,7 @@
 		<div class="wpallimport-collapsed-content" style="padding: 0;">
 			<div class="wpallimport-collapsed-content-inner">
 				<div class="wpallimport-free-edition-notice" style="text-align:center; margin-top:0; margin-bottom: 40px;">
-					<a href="https://www.wpallimport.com/checkout/?edd_action=add_to_cart&download_id=1748&edd_options%5Bprice_id%5D=0&utm_source=import-plugin-free&utm_medium=upgrade-notice&utm_campaign=custom-fields" target="_blank" class="upgrade_link"><?php _e('Upgrade to the Pro edition of WP All Import to Import Custom Fields', 'pmxi_plugin');?></a>
+					<a href="https://www.wpallimport.com/checkout/?edd_action=add_to_cart&download_id=2707176&edd_options%5Bprice_id%5D=1&utm_source=import-plugin-free&utm_medium=upgrade-notice&utm_campaign=custom-fields" target="_blank" class="upgrade_link"><?php _e('Upgrade to the Pro edition of WP All Import to Import Custom Fields', 'pmxi_plugin');?></a>
 					<p><?php _e('If you already own it, remove the free edition and install the Pro edition.', 'wp_all_import_plugin'); ?></p>
 				</div>
 				<script type="text/javascript">
@@ -50,7 +50,7 @@
 											<?php $custom_mapping_rules = (!empty($post['custom_mapping_rules'][$i])) ? json_decode($post['custom_mapping_rules'][$i], true) : false; ?>
 											<tr class="form-field">
 												<td style="width: 45%;">
-													<input type="text" name="custom_name[]"  value="<?php echo esc_attr($name) ?>" class="widefat autocomplete" style="margin-bottom:10px;"/>
+													<input type="text" name="custom_name[]"  value="<?php echo esc_attr($name) ?>" class="widefat wp_all_import_autocomplete" style="margin-bottom:10px;"/>
 													<input type="hidden" name="custom_format[]" value="<?php echo ( ! empty($post['custom_format'][$i]) ) ? '1' : '0'; ?>"/>												
 												</td>
 												<td class="action">
@@ -259,7 +259,7 @@
 									<?php else: ?>
 										<tr class="form-field">
 											<td style="width: 45%;">
-												<input type="text" name="custom_name[]"  value="" class="widefat autocomplete" style="margin-bottom:10px;"/>
+												<input type="text" name="custom_name[]"  value="" class="widefat wp_all_import_autocomplete" style="margin-bottom:10px;"/>
 												<input type="hidden" name="custom_format[]" value="0"/>											
 											</td>
 											<td class="action">
@@ -393,7 +393,7 @@
 									<?php endif;?>
 									<tr class="form-field template">
 										<td style="width: 45%;">
-											<input type="text" name="custom_name[]" value="" class="widefat autocomplete" style="margin-bottom:10px;"/>
+											<input type="text" name="custom_name[]" value="" class="widefat wp_all_import_autocomplete" style="margin-bottom:10px;"/>
 											<input type="hidden" name="custom_format[]" value="0"/>										
 										</td>
 										<td class="action">

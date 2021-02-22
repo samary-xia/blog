@@ -30,17 +30,17 @@ abstract class PMXI_Controller_Admin extends PMXI_Controller {
 
 		$url = $p_url['scheme'] . '://' . $p_url['host'];
 
-		if (!empty($_POST['is_settings_submitted'])) { // save settings form	
+		if (!empty($_POST['is_settings_submitted'])) { // save settings form
 			$input = new PMXI_Input();
 			$post = $input->post(array(
 				'port' => ''
-			));					
+			));
 			PMXI_Plugin::getInstance()->updateOption($post);
 		}
 		
 		$port = PMXI_Plugin::getInstance()->getOption('port');
 
-        if ( ! empty($port) and is_numeric($port) ){
+		if ( ! empty($port) and is_numeric($port) ){
             $url .= ':' . $port;
         }
         else{
@@ -72,9 +72,12 @@ abstract class PMXI_Controller_Admin extends PMXI_Controller {
 		wp_enqueue_style('pmxi-admin-style-ie', WP_ALL_IMPORT_ROOT_URL . '/static/css/admin-ie.css');		
 		wp_enqueue_style('jquery-select2', WP_ALL_IMPORT_ROOT_URL . '/static/js/jquery/css/select2/select2.css');
 		wp_enqueue_style('jquery-select2', WP_ALL_IMPORT_ROOT_URL . '/static/js/jquery/css/select2/select2-bootstrap.css');
-		wp_enqueue_style('jquery-chosen', WP_ALL_IMPORT_ROOT_URL . '/static/js/jquery/css/chosen/chosen.css');
+        wp_enqueue_style('jquery-chosen', WP_ALL_IMPORT_ROOT_URL . '/static/js/jquery/css/chosen/chosen.css');
 		add_editor_style( WP_ALL_IMPORT_ROOT_URL . '/static/css/custom-editor-style.css' );
-		wp_enqueue_style('jquery-codemirror', WP_ALL_IMPORT_ROOT_URL . '/static/codemirror/codemirror.css', array(), PMXI_VERSION);
+        //wp_deregister_style('wp-codemirror');
+		wp_enqueue_style('jquery-codemirror', WP_ALL_IMPORT_ROOT_URL . '/static/css/codemirror.css', array(), PMXI_VERSION);
+
+        wp_enqueue_style('jquery-timepicker', WP_ALL_IMPORT_ROOT_URL . '/static/js/jquery/css/timepicker/jquery.timepicker.css', array(), PMXI_VERSION);
 
 		$wp_styles->add_data('pmxi-admin-style-ie', 'conditional', 'lte IE 7');
 		wp_enqueue_style('wp-pointer');			
@@ -100,16 +103,14 @@ abstract class PMXI_Controller_Admin extends PMXI_Controller {
 		wp_enqueue_script('jquery-nestable', WP_ALL_IMPORT_ROOT_URL . '/static/js/jquery/jquery.mjs.nestedSortable.js', array('jquery', 'jquery-ui-dialog', 'jquery-ui-sortable', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-tabs', 'jquery-ui-progressbar'));
 		wp_enqueue_script('jquery-moment', WP_ALL_IMPORT_ROOT_URL . '/static/js/jquery/moment.js', 'jquery', PMXI_VERSION);		
 		wp_enqueue_script('jquery-select2', WP_ALL_IMPORT_ROOT_URL . '/static/js/jquery/select2.min.js', 'jquery');
-		wp_enqueue_script('jquery-chosen', WP_ALL_IMPORT_ROOT_URL . '/static/js/jquery/chosen.jquery.min.js', 'jquery');
+        wp_enqueue_script('jquery-chosen', WP_ALL_IMPORT_ROOT_URL . '/static/js/jquery/chosen.jquery.min.js', 'jquery');
 		wp_enqueue_script('jquery-ddslick', WP_ALL_IMPORT_ROOT_URL . '/static/js/jquery/jquery.ddslick.min.js', 'jquery');
 		wp_enqueue_script('jquery-contextmenu', WP_ALL_IMPORT_ROOT_URL . '/static/js/jquery/jquery.ui-contextmenu.min.js', array('jquery', 'jquery-ui-menu'));
-		wp_enqueue_script('jquery-codemirror', WP_ALL_IMPORT_ROOT_URL . '/static/codemirror/codemirror.js', array(), PMXI_VERSION);
-		wp_enqueue_script('jquery-codemirror-matchbrackets', WP_ALL_IMPORT_ROOT_URL . '/static/codemirror/matchbrackets.js', array('jquery-codemirror'), PMXI_VERSION);
-		wp_enqueue_script('jquery-codemirror-htmlmixed', WP_ALL_IMPORT_ROOT_URL . '/static/codemirror/htmlmixed.js', array('jquery-codemirror-matchbrackets'), PMXI_VERSION);
-		wp_enqueue_script('jquery-codemirror-xml', WP_ALL_IMPORT_ROOT_URL . '/static/codemirror/xml.js', array('jquery-codemirror-htmlmixed'), PMXI_VERSION);
-		wp_enqueue_script('jquery-codemirror-javascript', WP_ALL_IMPORT_ROOT_URL . '/static/codemirror/javascript.js', array('jquery-codemirror-xml'), PMXI_VERSION);
-		wp_enqueue_script('jquery-codemirror-clike', WP_ALL_IMPORT_ROOT_URL . '/static/codemirror/clike.js', array('jquery-codemirror-javascript'), PMXI_VERSION);
-		wp_enqueue_script('jquery-codemirror-php', WP_ALL_IMPORT_ROOT_URL . '/static/codemirror/php.js', array('jquery-codemirror-clike'), PMXI_VERSION);
+
+        add_action("admin_enqueue_scripts", [$this, 'add_admin_scripts']);
+
+        wp_enqueue_script('jquery-timepicker', WP_ALL_IMPORT_ROOT_URL . '/static/js/jquery/jquery.timepicker.js', array('jquery'), PMXI_VERSION);
+
 		wp_enqueue_script('wp-pointer');
 
 		/* load plupload scripts */
@@ -119,9 +120,19 @@ abstract class PMXI_Controller_Admin extends PMXI_Controller {
 
 		wp_enqueue_script('jquery-plupload', WP_ALL_IMPORT_ROOT_URL . '/static/js/plupload/wplupload.js', array('plupload', 'jquery'));
 
-		wp_enqueue_script('pmxi-admin-script', WP_ALL_IMPORT_ROOT_URL . '/static/js/admin.js', array('jquery', 'jquery-ui-dialog', 'jquery-ui-datepicker', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-core', 'jquery-ui-widget', 'jquery-ui-position', 'jquery-ui-autocomplete'), PMXI_VERSION);
+		wp_enqueue_script('pmxi-admin-script', WP_ALL_IMPORT_ROOT_URL . '/static/js/admin.js', array('jquery', 'jquery-ui-dialog', 'jquery-ui-datepicker', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-core', 'jquery-ui-widget', 'jquery-ui-position', 'jquery-ui-autocomplete', 'wp-theme-plugin-editor'), PMXI_VERSION);
 							
-	}	
+	}
+
+	public function add_admin_scripts() {
+        $cm_settings['codeEditor'] = wp_enqueue_code_editor(['type' => 'php']);
+
+        // Use our modified function if user has disabled the syntax editor.
+        if(false === $cm_settings['codeEditor']){
+        	$cm_settings['codeEditor'] = wpai_wp_enqueue_code_editor(['type' => 'php']);
+        }
+        wp_localize_script('pmxi-admin-script', 'wpai_cm_settings', $cm_settings);
+    }
 	
 	/**
 	 * @see Controller::render()

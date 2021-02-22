@@ -1,4 +1,7 @@
-<?php $custom_type = get_post_type_object( $post_type ); ?>
+<?php
+$custom_type = get_post_type_object( $post_type );
+?>
+
 <div class="wpallimport-collapsed closed wpallimport-section ">
 	<div class="wpallimport-content-section ">
 		<div class="wpallimport-collapsed-header">
@@ -61,29 +64,29 @@
 							</div>											
 						</td>
 					</tr>
-					<tr>
-						<td>
-							<h4><?php _e('Comments', 'wp_all_import_plugin'); ?></h4>
-							<div class="input">
-								<input type="radio" id="comment_status_open" name="comment_status" value="open" <?php echo 'open' == $post['comment_status'] ? 'checked="checked"' : '' ?> class="switcher"/>
-								<label for="comment_status_open"><?php _e('Open', 'wp_all_import_plugin') ?></label>
-							</div>
-							<div class="input">
-								<input type="radio" id="comment_status_closed" name="comment_status" value="closed" <?php echo 'closed' == $post['comment_status'] ? 'checked="checked"' : '' ?> class="switcher"/>
-								<label for="comment_status_closed"><?php _e('Closed', 'wp_all_import_plugin') ?></label>
-							</div>
-							<div class="input fleft" style="position:relative;width:220px;">
-								<input type="radio" id="comment_status_xpath" class="switcher" name="comment_status" value="xpath" <?php echo 'xpath' == $post['comment_status'] ? 'checked="checked"': '' ?>/>
-								<label for="comment_status_xpath"><?php _e('Set with XPath', 'wp_all_import_plugin' )?></label> <br>
-								<div class="switcher-target-comment_status_xpath">
-									<div class="input">
-										&nbsp;<input type="text" class="smaller-text" name="comment_status_xpath" style="width:190px;" value="<?php echo esc_attr($post['comment_status_xpath']) ?>"/>
-										<a href="#help" class="wpallimport-help" title="<?php _e('The value of presented XPath should be one of the following: (\'open\', \'closed\').', 'wp_all_import_plugin') ?>" style="position:relative; top:13px; float: right;">?</a>
-									</div>
-								</div>
-							</div>		
-						</td>
-					</tr>
+                    <tr>
+                        <td>
+                            <h4><?php _e('Comments', 'wp_all_import_plugin'); ?></h4>
+                            <div class="input">
+                                <input type="radio" id="comment_status_open" name="comment_status" value="open" <?php echo 'open' == $post['comment_status'] ? 'checked="checked"' : '' ?> class="switcher"/>
+                                <label for="comment_status_open"><?php _e('Open', 'wp_all_import_plugin') ?></label>
+                            </div>
+                            <div class="input">
+                                <input type="radio" id="comment_status_closed" name="comment_status" value="closed" <?php echo 'closed' == $post['comment_status'] ? 'checked="checked"' : '' ?> class="switcher"/>
+                                <label for="comment_status_closed"><?php _e('Closed', 'wp_all_import_plugin') ?></label>
+                            </div>
+                            <div class="input fleft" style="position:relative;width:220px;">
+                                <input type="radio" id="comment_status_xpath" class="switcher" name="comment_status" value="xpath" <?php echo 'xpath' == $post['comment_status'] ? 'checked="checked"': '' ?>/>
+                                <label for="comment_status_xpath"><?php _e('Set with XPath', 'wp_all_import_plugin' )?></label> <br>
+                                <div class="switcher-target-comment_status_xpath">
+                                    <div class="input">
+                                        &nbsp;<input type="text" class="smaller-text" name="comment_status_xpath" style="width:190px;" value="<?php echo esc_attr($post['comment_status_xpath']) ?>"/>
+                                        <a href="#help" class="wpallimport-help" title="<?php _e('The value of presented XPath should be one of the following: (\'open\', \'closed\').', 'wp_all_import_plugin') ?>" style="position:relative; top:13px; float: right;">?</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
 					<tr>
 						<td>	
 							<h4><?php _e('Trackbacks and Pingbacks', 'wp_all_import_plugin'); ?></h4>
@@ -126,9 +129,8 @@
 					<tr>
 						<td>
 							<h4 style="float:left;"><?php _e('Download & Import Attachments', 'wp_all_import_plugin') ?></h4>
-							<span class="separated_by" style="position:relative; top:15px; margin-right:0px;"><?php _e('Separated by','wp_all_import_plugin');?></span>
-							<div>
-								<input type="text" name="attachments" style="width:93%;" value="<?php echo esc_attr($post['attachments']) ?>" />
+							<div style="clear:both;">
+								<input type="text" name="attachments" style="width:87%;" value="<?php echo esc_attr($post['attachments']) ?>" />
 								<input type="text" class="small" name="atch_delim" value="<?php echo esc_attr($post['atch_delim']) ?>" style="width:5%; text-align:center; float:right;"/>
 							</div>			
 							<div class="input" style="margin:3px;">
@@ -210,7 +212,7 @@
 						<td>
 							<?php if ( 'page' == $post_type ):?>	
 
-								<h4><?php _e('Page Parent', 'wp_all_import_plugin') ?><a href="#help" class="wpallimport-help" title="<?php _e('Enter the slug of the desired page parent. If adding the child and parent pages in the same import, set \'Records per Iteration\' to 1, run the import twice, or run separate imports for child and parent pages.', 'wp_all_import_plugin') ?>" style="position:relative; top:-1px;">?</a></h4>
+								<h4><?php _e('Page Parent', 'wp_all_import_plugin') ?><a href="#help" class="wpallimport-help" title="<?php _e('Enter the ID, title, or slug of the desired page parent. If adding the child and parent pages in the same import, set \'Records per Iteration\' to 1, run the import twice, or run separate imports for child and parent pages.', 'wp_all_import_plugin') ?>" style="position:relative; top:-1px;">?</a></h4>
 
 								<div class="input">
 									<input type="radio" id="is_multiple_page_parent_yes" name="is_multiple_page_parent" value="yes" <?php echo 'yes' == $post['is_multiple_page_parent'] ? 'checked="checked"' : '' ?> class="switcher" style="margin-left:0;"/>
@@ -236,7 +238,7 @@
 
 							<?php if ( 'page' != $post_type && $custom_type->hierarchical ): ?>
 
-								<h4><?php _e('Post Parent', 'wp_all_import_plugin') ?><a href="#help" class="wpallimport-help" title="<?php _e('Enter the slug of the desired post parent. If adding the child and parent posts in the same import, set \'Records per Iteration\' to 1, run the import twice, or run separate imports for child and parent posts.', 'wp_all_import_plugin') ?>" style="position:relative; top:-1px;">?</a></h4>
+								<h4><?php _e('Post Parent', 'wp_all_import_plugin') ?><a href="#help" class="wpallimport-help" title="<?php _e('Enter the ID, title, or slug of the desired post parent. If adding the child and parent posts in the same import, set \'Records per Iteration\' to 1, run the import twice, or run separate imports for child and parent posts.', 'wp_all_import_plugin') ?>" style="position:relative; top:-1px;">?</a></h4>
 								
 								<div class="input">
 									<input type="radio" id="is_multiple_page_parent_yes" name="is_multiple_page_parent" value="yes" <?php echo 'yes' == $post['is_multiple_page_parent'] ? 'checked="checked"' : '' ?> class="switcher" style="margin-left:0;"/>

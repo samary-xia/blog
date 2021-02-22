@@ -47,9 +47,9 @@
 								<span class="wpallimport-icon"></span>
 								<span class="wpallimport-icon-label"><?php _e('Upload a file', 'wp_all_import_plugin'); ?></span>
 							</a>
-							<a class="wpallimport-import-from wpallimport-url-type <?php echo 'url' == $import->type ? 'selected' : '' ?>" rel="url_type" href="javascript:void(0);">
+							<a class="wpallimport-import-from wpallimport-url-type <?php echo ('url' == $import->type || 'ftp' == $import->type) ? 'selected' : '' ?>" rel="url_type" href="javascript:void(0);">
 								<span class="wpallimport-icon"></span>
-								<span class="wpallimport-icon-label"><?php _e('Download from URL', 'wp_all_import_plugin'); ?></span>
+								<span class="wpallimport-icon-label"><?php _e('Download a file', 'wp_all_import_plugin'); ?></span>
 							</a>
 							<a class="wpallimport-import-from wpallimport-file-type <?php echo 'file' == $import->type ? 'selected' : '' ?>" rel="file_type" href="javascript:void(0);">
 								<span class="wpallimport-icon"></span>
@@ -73,17 +73,18 @@
 					            </div>
 					        </div>
 						</div>
-						<div class="wpallimport-upload-type-container" rel="url_type">							
-							<div class="wpallimport-file-type-options">
-								<span class="wpallimport-url-icon"></span>
-								<input type="text" class="regular-text" name="url" value="<?php echo ('url' == $import->type) ? esc_attr($import->path) : 'Enter a web address to download the file from...'; ?>"/> 								
-								<div class="wpallimport-free-edition-notice">									
-									<a href="https://www.wpallimport.com/checkout/?edd_action=add_to_cart&download_id=1748&edd_options%5Bprice_id%5D=0&utm_source=import-plugin-free&utm_medium=upgrade-notice&utm_campaign=download-from-url" target="_blank" class="upgrade_link"><?php _e('Upgrade to the Pro edition of WP All Import to Download from URL', 'wp_all_import_plugin');?></a>
-									<p style="margin-top:16px;"><?php _e('If you already own it, remove the free edition and install the Pro edition.', 'wp_all_import_plugin'); ?></p>
-								</div>
-							</div>
-							<input type="hidden" name="downloaded"/>
-						</div>
+                        <div class="wpallimport-upload-type-container" rel="url_type">
+                            <div class="wpallimport-choose-data-type">
+                                <a class="wpallimport-download-from rad4 wpallimport-download-file-from-url <?php if ($import->type == 'url') echo 'wpallimport-download-from-checked'; ?>" rel="url" href="javascript:void(0);">
+                                    <span class="wpallimport-download-from-title"><?php _e('From URL', 'wp_all_import_plugin'); ?></span>
+                                    <span class="wpallimport-download-from-arrow"></span>
+                                </a>
+                                <a class="wpallimport-download-from rad4 wpallimport-download-file-from-ftp <?php if ($import->type == 'ftp') echo 'wpallimport-download-from-checked'; ?>" rel="ftp" href="javascript:void(0);">
+                                    <span class="wpallimport-download-from-title"><?php _e('From FTP/SFTP', 'wp_all_import_plugin'); ?></span>
+                                    <span class="wpallimport-download-from-arrow"></span>
+                                </a>
+                            </div>
+                        </div>
 						<div class="wpallimport-upload-type-container" rel="file_type">		
 							<?php $upload_dir = wp_upload_dir(); ?>					
 							<div class="wpallimport-file-type-options">								
@@ -104,11 +105,96 @@
 									<?php printf(__('Files uploaded to <strong>%s</strong> will appear in this list.', 'wp_all_import_plugin'), $upload_dir['basedir'] . '/wpallimport/files'); ?>									
 								</div>
 								<div class="wpallimport-free-edition-notice">									
-									<a href="https://www.wpallimport.com/checkout/?edd_action=add_to_cart&download_id=1748&edd_options%5Bprice_id%5D=0&utm_source=import-plugin-free&utm_medium=error&utm_campaign=use-existing-file" target="_blank" class="upgrade_link"><?php _e('Upgrade to the Pro edition of WP All Import to Use Existing Files', 'wp_all_import_plugin');?></a>
+									<a href="https://www.wpallimport.com/checkout/?edd_action=add_to_cart&download_id=2707176&edd_options%5Bprice_id%5D=1&utm_source=import-plugin-free&utm_medium=error&utm_campaign=use-existing-file" target="_blank" class="upgrade_link"><?php _e('Upgrade to the Pro edition of WP All Import to Use Existing Files', 'wp_all_import_plugin');?></a>
 									<p style="margin-top:16px;"><?php _e('If you already own it, remove the free edition and install the Pro edition.', 'wp_all_import_plugin'); ?></p>
 								</div>
 							</div>
-						</div>						
+						</div>
+                        <div class="wpallimport-download-resource-step-two">
+                            <div class="wpallimport-download-resource wpallimport-download-resource-step-two-url">
+                                <div class="wpallimport-file-type-options">
+                                    <span class="wpallimport-input-icon wpallimport-url-icon"></span>
+                                    <input type="text" class="regular-text" name="url" value="<?php echo ('url' == $import->type) ? esc_attr($import->path) : 'Enter a web address to download the file from...'; ?>"/>
+                                    <!--a href="javascript:void(0);" class="wpallimport-download-from-url"><?php _e('Upload', 'wp_all_import_plugin'); ?></a-->
+                                </div>
+                                <div class="wpallimport-free-edition-notice">
+                                    <a href="https://www.wpallimport.com/checkout/?edd_action=add_to_cart&download_id=2707176&edd_options%5Bprice_id%5D=1&utm_source=import-plugin-free&utm_medium=upgrade-notice&utm_campaign=download-from-url" target="_blank" class="upgrade_link"><?php _e('Upgrade to the Pro edition of WP All Import to Download from URL', 'wp_all_import_plugin');?></a>
+                                    <p style="margin-top:16px;"><?php _e('If you already own it, remove the free edition and install the Pro edition.', 'wp_all_import_plugin'); ?></p>
+                                </div>
+                                <input type="hidden" name="downloaded"/>
+                            </div>
+                            <div class="wpallimport-download-resource wpallimport-download-resource-step-two-ftp">
+                                <div class="wpallimport-file-type-options">
+                                    <span class="wpallimport-input-icon wpallimport-ftp-host-icon"></span>
+                                    <input type="text" class="regular-text" name="ftp_host" value="<?php echo ( ! empty($import->options['ftp_host'])) ? esc_attr($import->options['ftp_host']) : ''; ?>" placeholder="Enter FTP server address"/>
+                                    <a class="wpallimport-help" href="#help" style="position: relative; top: -2px;" title="<?php _e('The server address of your FTP/SFTP server. This can be an IP address or domain name. You do not need to include the connection protocol. For example, files.example.com or 127.0.0.1', PMXI_Plugin::LANGUAGE_DOMAIN); ?>">?</a>
+                                </div>
+                                <div class="wpallimport-file-type-options">
+                                    <span class="wpallimport-input-icon wpallimport-ftp-port-icon"></span>
+                                    <input type="text" class="regular-text" name="ftp_port" value="<?php echo ( ! empty($import->options['ftp_port'])) ? esc_attr($import->options['ftp_port']) : ''; ?>" placeholder="Enter FTP port"/>
+                                    <a class="wpallimport-help" href="#help" style="position: relative; top: -2px;" title="<?php _e('The port that your server uses. FTP usually uses port 21, SFTP usually uses port 22', PMXI_Plugin::LANGUAGE_DOMAIN); ?>">?</a>
+                                </div>
+                                <div class="wpallimport-file-type-options">
+                                    <span class="wpallimport-input-icon wpallimport-ftp-username-icon"></span>
+                                    <input type="text" class="regular-text" name="ftp_username" value="<?php echo ( ! empty($import->options['ftp_username'])) ? esc_attr($import->options['ftp_username']) : ''; ?>" placeholder="Enter FTP username"/>
+                                    <a class="wpallimport-help" href="#help" style="position: relative; top: -2px;" title="<?php _e('If you don\'t know your FTP/SFTP username, contact the host of the server.', PMXI_Plugin::LANGUAGE_DOMAIN); ?>">?</a>
+                                </div>
+                                <div class="wpallimport-file-type-options">
+                                    <span class="wpallimport-input-icon wpallimport-ftp-password-icon"></span>
+                                    <input type="text" class="regular-text" name="ftp_password" value="<?php echo ( ! empty($import->options['ftp_password'])) ? esc_attr($import->options['ftp_password']) : ''; ?>" placeholder="Enter FTP password"/>
+                                    <a class="wpallimport-help" href="#help" style="position: relative; top: -2px;" title="<?php _e('These passwords are stored in plaintext in your WordPress database. Ideally, the user account should only have read access to the files that you are importing.
+<br/><br/>Even if the password is correct, sometimes your host will require SFTP connections to use an SSH key and will deny connection attempts using passwords. If you\'re unable to login, you don\'t have a SSH/SFTP Private Key, and you are sure the password is correct, contact the host of the server.', PMXI_Plugin::LANGUAGE_DOMAIN); ?>">?</a>
+                                </div>
+                                <div class="wpallimport-file-type-options">
+                                    <span class="wpallimport-input-icon wpallimport-ftp-private-key-icon"></span>
+                                    <textarea class="wpai-ftp-text-area" name="ftp_private_key" placeholder="SFTP Private Key"><?php echo ( ! empty($import->options['ftp_private_key'])) ? esc_attr($import->options['ftp_private_key']) : ''; ?></textarea>
+                                    <a class="wpallimport-help" id="wpai-ftp-text-area-help" href="#help" style="position: relative; top: -2px;" title="<?php _e('If you don\'t know if you need an SFTP Private Key, contact the host of the server.', PMXI_Plugin::LANGUAGE_DOMAIN); ?>">?</a>
+                                </div>
+                                <div class="wpallimport-file-type-options ftp_path">
+
+                                    <input type="text" class="regular-text" name="ftp_path"
+                                           value="<?php echo ( ! empty($import->options['ftp_path'])) ? esc_attr($import->options['ftp_path']) : ''; ?>"
+                                           placeholder="FTP file path"/>
+
+                                    <a class="wpallimport-ftp-builder rad4 button button-primary button-hero wpallimport-large-button wpai-ftp-select-file-button"
+                                       href="javascript:void(0);">
+                                        <div class="easing-spinner"
+                                             style="display: none; left: 36px !important; top: 2px;">
+                                            <div class="double-bounce1"></div>
+                                            <div class="double-bounce2"></div>
+                                        </div>
+										<?php _e( 'Select File', 'wp_all_import_plugin' ); ?>
+                                    </a>
+
+                                </div>
+                                <div style="display:block;position:relative;width:75%;margin:auto;">
+                                    <span class="wpallimport-input-icon wpallimport-ftp-path-icon"></span>
+                                    <a class="wpallimport-help" href="#help"
+                                       style="position: absolute;top: -32px;right: -30px;"
+                                       title="<?php _e( 'The path to the file you want to import. In case multiple files are found, only the first will be downloaded. Examples: /home/ftpuser/import.csv or import-files/*.csv', PMXI_Plugin::LANGUAGE_DOMAIN ); ?>">?</a>
+                                </div>
+
+                                <span class="wpallimport-ftp-builder-wrap">
+                                    <div class="wpallimport-ftp-connection-builder" id="wpallimport-ftp-connection-builder"></div>
+                                    <input type="hidden" id="wpai-ftp-browser-nonce" value="<?php echo wp_create_nonce( 'wpai-ftp-browser' ); ?>"/>
+                                </span>
+
+                                <div class="rad4 first-step-errors wpai-ftp-connection-error">
+                                    <div class="wpallimport-notify-wrapper">
+                                        <div class="error-headers exclamation">
+                                            <h3><?php _e('Unable to Connect', 'wp_all_import_plugin');?></h3>
+                                            <br/>
+                                            <span id="wpai-ftp-connection-error-message"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="wpallimport-free-edition-notice">
+                                    <a href="https://www.wpallimport.com/checkout/?edd_action=add_to_cart&download_id=2707176&edd_options%5Bprice_id%5D=1&utm_source=import-plugin-free&utm_medium=upgrade-notice&utm_campaign=download-from-url" target="_blank" class="upgrade_link"><?php _e('Upgrade to the Pro edition of WP All Import to Download from FTP/SFTP', 'wp_all_import_plugin');?></a>
+                                    <p style="margin-top:16px;"><?php _e('If you already own it, remove the free edition and install the Pro edition.', 'wp_all_import_plugin'); ?></p>
+                                </div>
+                            </div>
+                        </div>
 					</td>
 				</tr>
 			</table>

@@ -8,7 +8,7 @@
 				<?php if ($section_is_show_warning and ( $post_type != "product" or ! class_exists('PMWI_Plugin'))):?>
 					
 					<div class="wpallimport-free-edition-notice" style="text-align:center; margin-top:-15px; margin-bottom: 40px;">
-						<a href="https://www.wpallimport.com/checkout/?edd_action=add_to_cart&download_id=1748&edd_options%5Bprice_id%5D=0&utm_source=import-plugin-free&utm_medium=upgrade-notice&utm_campaign=images" target="_blank" class="upgrade_link"><?php _e('Upgrade to the Pro edition of WP All Import to Import Images', 'pmxi_plugin');?></a>
+						<a href="https://www.wpallimport.com/checkout/?edd_action=add_to_cart&download_id=2707176&edd_options%5Bprice_id%5D=1&utm_source=import-plugin-free&utm_medium=upgrade-notice&utm_campaign=images" target="_blank" class="upgrade_link"><?php _e('Upgrade to the Pro edition of WP All Import to Import Images', 'pmxi_plugin');?></a>
 						<p><?php _e('If you already own it, remove the free edition and install the Pro edition.', 'wp_all_import_plugin'); ?></p>
 					</div>
 					
@@ -58,11 +58,11 @@
 									<div class="switcher-target-<?php echo $section_slug; ?>search_existing_images" style="padding-left:23px;">
                                         <div class="search_through_the_media_library_logic">
                                             <div class="input">
-                                                <input type="radio" id="<?php echo $section_slug; ?>search_existing_images_logic_url" name="<?php echo $section_slug; ?>search_existing_images_logic" value="by_url" <?php echo ( "by_url" == $post['search_existing_images_logic'] ) ? 'checked="checked"': '' ?>/>
+                                                <input type="radio" id="<?php echo $section_slug; ?>search_existing_images_logic_url" name="<?php echo $section_slug; ?>search_existing_images_logic" value="by_url" <?php echo ( "by_url" == $post[$section_slug . 'search_existing_images_logic'] ) ? 'checked="checked"': '' ?>/>
                                                 <label for="<?php echo $section_slug; ?>search_existing_images_logic_url"><?php _e('Match image by URL', 'wp_all_import_plugin') ?></label>
                                             </div>
                                             <div class="input">
-                                                <input type="radio" id="<?php echo $section_slug; ?>search_existing_images_logic_filename" name="<?php echo $section_slug; ?>search_existing_images_logic" value="by_filename" <?php echo ( "by_filename" == $post['search_existing_images_logic'] ) ? 'checked="checked"': '' ?>/>
+                                                <input type="radio" id="<?php echo $section_slug; ?>search_existing_images_logic_filename" name="<?php echo $section_slug; ?>search_existing_images_logic" value="by_filename" <?php echo ( "by_filename" == $post[$section_slug . 'search_existing_images_logic'] ) ? 'checked="checked"': '' ?>/>
                                                 <label for="<?php echo $section_slug; ?>search_existing_images_logic_filename"><?php _e('Match image by filename', 'wp_all_import_plugin') ?></label>
                                             </div>
                                         </div>
@@ -77,7 +77,7 @@
 								<?php if ($section_type == 'images'): ?>
 								<div class="input" style="margin: 3px;">
 									<input type="hidden" name="<?php echo $section_slug; ?>import_img_tags" value="0" />
-									<input type="checkbox" id="<?php echo $section_slug; ?>import_img_tags" name="<?php echo $section_slug; ?>import_img_tags" value="1" <?php echo ($post[$section_slug . 'import_img_tags']) ? 'checked="checked"': '' ?> />
+									<input type="checkbox" id="<?php echo $section_slug; ?>import_img_tags" name="<?php echo $section_slug; ?>import_img_tags" value="1" <?php echo (isset($post[$section_slug . 'import_img_tags']) && $post[$section_slug . 'import_img_tags']) ? 'checked="checked"': '' ?> />
 									<label for="<?php echo $section_slug; ?>import_img_tags"><?php _e('Scan through post content and import images wrapped in &lt;img&gt; tags', 'wp_all_import_plugin') ?></label>
 									<a href="#help" class="wpallimport-help" title="<?php _e('Only images hosted on other sites will be imported. Images will be imported to WordPress and the <img> tag updated with the new image URL.', 'wp_all_import_plugin') ?>" style="position:relative; top: -2px;">?</a>
 								</div>
@@ -197,4 +197,12 @@
 			</div>
 		</div>
 	</div>
+</div>
+<div id="images_hints" style="display:none;">
+	<ul>
+		<li><?php _e('WP All Import will automatically ignore elements with blank image URLs/filenames.', 'wp_all_import_plugin'); ?></li>
+		<li><?php _e('WP All Import must download the images to your server. You can\'t have images in a Gallery that are referenced by external URL. That\'s just how WordPress works.', 'wp_all_import_plugin'); ?></li>
+		<li><?php printf(__('Importing a variable number of images can be done using a <a href="%s" target="_blank">FOREACH LOOP</a>', 'wp_all_import_plugin'), 'https://www.wpallimport.com/documentation/developers/custom-code/foreach-loops/'); ?></li>
+		<li><?php printf(__('For more information check out our <a href="%s" target="_blank">comprehensive documentation</a>', 'wp_all_import_plugin'), 'http://www.wpallimport.com/documentation/'); ?></li>
+	</ul>
 </div>
