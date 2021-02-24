@@ -5,7 +5,7 @@
   position: relative;
   padding: 30px;
 
-  + .csf-field:not(.hidden){
+  + .csf-field{
     border-top: 1px solid #eee;
   }
 
@@ -43,7 +43,8 @@
   }
 
   .csf-fieldset{
-    margin-left: 25%;
+    float: right;
+    width: calc(80% - 20px);
   }
 }
 
@@ -69,6 +70,10 @@
     position: relative;
     margin-bottom: 5px;
 
+    &:last-child{
+      margin-bottom: 0;
+    }
+
     h4{
       font-size: 1em;
     }
@@ -85,7 +90,7 @@
     user-select: none;
     border: 1px solid #ccd0d4;
     background-color: #fafafa;
-    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+    box-shadow: 0 1px 1px rgba(0,0,0,0.04);
     transition: border-color .15s;
 
     &:active,
@@ -94,15 +99,16 @@
       outline: none;
       border-color: #999;
     }
+
+    .csf--icon{
+      width: 20px;
+      text-align: center;
+      margin-right: 2px;
+    }
   }
 
   .csf-accordion-icon{
-    width: 14px;
-    text-align: center;
-  }
-
-  .csf--icon{
-    width: 20px;
+    width: 16px;
     text-align: center;
   }
 
@@ -112,7 +118,7 @@
     border: 1px solid #ccd0d4;
     border-top: none;
     background-color: #fff;
-    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+    box-shadow: 0 1px 1px rgba(0,0,0,0.04);
 
     > .csf-field{
       padding: 15px;
@@ -143,6 +149,7 @@
 
   .csf--background-colors{
     display: flex;
+    flex-wrap: wrap;
   }
 
   .csf--background-attributes{
@@ -161,10 +168,6 @@
 
   .csf--attributes-hidden{
     display: none;
-  }
-
-  .wp-color-result.button{
-    margin-bottom: 0;
   }
 }
 
@@ -279,13 +282,12 @@
     float: left;
     cursor: pointer;
     padding: 7px 14px;
-    min-width: 40px;
+    min-width: 16px;
     text-align: center;
     color: #555;
     border: 1px solid #cccccc;
     background-color: #f7f7f7;
     user-select: none;
-    -webkit-user-select: none;
     box-shadow: 0 1px 0 rgba(0,0,0,0.1);
 
     &:first-child{
@@ -326,14 +328,30 @@
 
   ul{
     margin: 0;
-    padding: 0 1px;
+    padding: 0;
     list-style-type: none;
     overflow-y: auto;
     max-height: 305px;
 
+    li{
+      margin-bottom: 6px;
+    }
+
     ul{
       max-height: none;
+
+      li{
+        margin-left: 8px;
+
+        &:first-child{
+          margin-left: 0;
+        }
+      }
     }
+  }
+
+  input{
+    margin: 0 1px;
   }
 
   .csf--inline-list li{
@@ -341,8 +359,9 @@
     margin-right: 15px;
   }
 
-  input[type="radio"]:checked:before{
-    line-height: 10px;
+  .csf--text{
+    margin-left: 5px;
+    vertical-align: middle;
   }
 
   .csf-checker{
@@ -382,8 +401,10 @@
   }
 
   .button.wp-picker-clear{
+    padding: 0 8px;
     margin-left: 6px;
-    padding: 2px 8px;
+    line-height: 2.54545455;
+    min-height: 30px;
   }
 }
 
@@ -412,7 +433,7 @@
   .csf-fieldset-content{
     border: 1px solid #ccd0d4;
     background-color: #fff;
-    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+    box-shadow: 0 1px 1px rgba(0,0,0,0.04);
 
     > .csf-field{
       padding: 15px;
@@ -443,7 +464,7 @@
   width: auto;
   background-color: #fff;
   z-index: 9999999 !important;
-  @include box-shadow(0 0 30px rgba(black, 0.15));
+  box-shadow: 0 0 30px rgba(0,0,0,0.15);
 
   *{
     float: none;
@@ -480,7 +501,8 @@
     top: auto;
     left: auto;
     right: auto;
-    font-family: "FontAwesome";
+    font-family: "Font Awesome 5 Pro", "Font Awesome 5 Free", "FontAwesome";
+    font-weight: 900;
     font-size: 12px;
     text-align: center;
     width: 41px;
@@ -610,8 +632,8 @@
       margin: 0 5px 10px 0;
       border: 1px solid #ccc;
       background-color: #f9f9f9;
-      @include border-radius(2px);
-      @include box-shadow(0 1px 0 rgba(black, 0.08));
+      border-radius: 2px;
+      box-shadow: 0 1px 0 rgba(0,0,0,0.08);
 
       img{
         max-height: 60px;
@@ -657,7 +679,7 @@
   .csf-cloneable-content{
     border: 1px solid #ccd0d4;
     background-color: #fff;
-    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+    box-shadow: 0 1px 1px rgba(0,0,0,0.04);
 
     > .csf-field{
       padding: 15px;
@@ -766,21 +788,23 @@
     margin-right: 5px;
   }
 
-  .csf-icon-preview i{
-    display: inline-block;
-    font-size: 14px;
-    width: 30px;
-    height: 26px;
-    line-height: 26px;
-    margin-right: 5px;
-    text-align: center;
-    vertical-align: top;
-    color: #555;
-    border: 1px solid #ccc;
-    background-color: #f7f7f7;
-    @include border-radius(3px);
-    @include box-shadow(0 1px 0 rgba(black, 0.08));
-    @include box-sizing(content-box);
+  .csf-icon-preview{
+
+    i{
+      display: inline-block;
+      font-size: 16px;
+      width: 30px;
+      height: 28px;
+      line-height: 28px;
+      margin-right: 5px;
+      text-align: center;
+      vertical-align: top;
+      color: #555;
+      border: 1px solid #ccc;
+      background-color: #f7f7f7;
+      border-radius: 3px;
+      box-shadow: 0 1px 0 rgba(0,0,0,0.08);
+    }
   }
 }
 
@@ -790,29 +814,38 @@
 .csf-field-image_select{
 
   .csf--image{
+    display: inline-block;
+    margin: 0 5px 5px 0;
+  }
+
+  .csf--inline-list .csf--image{
+    display: block;
+  }
+
+  figure{
     cursor: pointer;
     position: relative;
     display: inline-block;
     max-width: 100%;
-    margin: 0 5px 5px 0;
+    margin: 0;
     vertical-align: bottom;
     border: 2px solid transparent;
     background-color: #fff;
     user-select: none;
-    -webkit-user-select: none;
-    @include transition(all 0.2s);
+    transition: all .2s;
 
     &:before{
       position: absolute;
       top: 0;
       left: 0;
       text-align: center;
-      font-size: 11px;
-      font-family: FontAwesome;
+      font-size: 10px;
+      font-family: "Font Awesome 5 Pro", "Font Awesome 5 Free", "FontAwesome";
+      font-weight: 900;
       content: "\f00c";
-      width: 15px;
-      height: 15px;
-      line-height: 15px;
+      width: 16px;
+      height: 16px;
+      line-height: 14px;
       opacity: 0;
       color: #fff;
       background-color: #222;
@@ -820,7 +853,7 @@
     }
   }
 
-  .csf--active{
+  .csf--active figure{
     border-color: #222;
     box-shadow: 0 0 20px rgba(0,0,0,0.2);
 
@@ -830,6 +863,8 @@
   }
 
   img{
+    max-width: 100%;
+    height: auto;
     vertical-align: top;
   }
 
@@ -922,6 +957,7 @@
 
   .csf--placeholder{
     display: flex;
+    align-items: flex-start;
 
     input{
       width: 100%;
@@ -998,12 +1034,13 @@
       top: 0;
       left: 0;
       text-align: center;
-      font-size: 11px;
-      font-family: FontAwesome;
+      font-size: 10px;
+      font-family: "Font Awesome 5 Pro", "Font Awesome 5 Free", "FontAwesome";
+      font-weight: 900;
       content: "\f00c";
-      width: 15px;
-      height: 15px;
-      line-height: 15px;
+      width: 16px;
+      height: 16px;
+      line-height: 14px;
       opacity: 0;
       color: #fff;
       background-color: #222;
@@ -1110,7 +1147,7 @@
     overflow: hidden !important;
     border-color: #ccc !important;
     background-color: #eee !important;
-    @include opacity(0.5);
+    opacity: 0.5;
 
     .csf-repeater-helper,
     .csf-repeater-content{
@@ -1167,11 +1204,15 @@
     background-color: #f5f5f5;
   }
 
+  .csf-slider-ui{
+    margin-right: 15px;
+  }
+
   input[type=number]{
     position: relative;
     z-index: 1;
+    margin: 0;
     width: 50px;
-    margin: 0 0 0 15px;
     text-align: center;
   }
 
@@ -1227,9 +1268,9 @@
     }
   }
 
-  .csf--sortable{
+  .csf-sortable{
 
-    .csf--sortable-item{
+    .csf-sortable-item{
       display: table;
       width: 100%;
       margin-bottom: 5px;
@@ -1241,7 +1282,7 @@
     }
   }
 
-  .csf--sortable-content{
+  .csf-sortable-content{
     width: 100%;
     display: table-cell;
     vertical-align: middle;
@@ -1252,7 +1293,7 @@
     }
   }
 
-  .csf--sortable-helper{
+  .csf-sortable-helper{
     width: 100%;
     display: table-cell;
     vertical-align: middle;
@@ -1262,14 +1303,14 @@
     border-left: 1px solid #eee;
     background-color: #f7f7f7;
 
-    .fa{
+    i{
       display: inline-block;
       cursor: pointer;
       width: 50px;
       color: #555;
 
       &:hover{
-        @include opacity(0.5);
+        opacity: 0.5;
       }
     }
   }
@@ -1286,10 +1327,10 @@
     overflow: hidden !important;
     border-color: #ccc !important;
     background-color: #eee !important;
-    @include opacity(0.5);
+    opacity: 0.5;
 
-    .csf--sortable-helper,
-    .csf--sortable-content{
+    .csf-sortable-helper,
+    .csf-sortable-content{
       display: none;
     }
   }
@@ -1329,12 +1370,12 @@
 
   .csf-disabled{
     li{
-      @include transition(opacity 0.15s);
-      @include opacity(0.5);
+      opacity: 0.5;
+      transition: opacity .15s;
     }
 
     .ui-sortable-helper{
-      @include opacity(1);
+      opacity: 1;
     }
   }
 
@@ -1363,7 +1404,7 @@
       text-align: center;
       border: 1px solid #e5e5e5;
       background-color: #fafafa;
-      @include transition(border-color 0.15s);
+      transition: border-color .15s;
 
       &:hover{
         border-color: #bbb;
@@ -1385,7 +1426,7 @@
     display: flex;
   }
 
-  .ui-button-text-only{
+  .ui-button{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -1397,7 +1438,7 @@
     background-color: #f5f5f5;
   }
 
-  .ui-button{
+  .ui-spinner-button{
     cursor: pointer;
 
     &:hover{
@@ -1409,8 +1450,10 @@
     }
 
     &:before{
-      font-family: FontAwesome;
+      font-family: "Font Awesome 5 Pro", "Font Awesome 5 Free", "FontAwesome";
+      font-weight: 900;
       font-size: 14px;
+      line-height: 14px;
     }
   }
 
@@ -1454,7 +1497,9 @@
     border-radius: 0;
   }
 
-  .ui-button-text{
+  .ui-button-text,
+  .ui-button-icon,
+  .ui-button-icon-space{
     display: none;
   }
 }
@@ -1550,7 +1595,7 @@
  */
 .csf-field-tabbed{
 
-  .csf-tabbed-section{
+  .csf-tabbed-content{
     border: 1px solid #ccd0d4;
     background-color: #fff;
     box-shadow: 0 1px 1px rgba(0,0,0,.04);
@@ -1591,7 +1636,7 @@
 
       &:focus{
         outline: none;
-        @include box-shadow(none);
+        box-shadow: none;
       }
     }
   }
@@ -1735,6 +1780,7 @@
 
   .csf--wrap{
     display: flex;
+    align-items: flex-start;
   }
 
   .button{
@@ -1941,7 +1987,54 @@
 }
 
 /**
- * 03. 39. others
+ * 03. 39. Field: link
+ */
+.csf-field-link{
+
+  input{
+    display: none;
+  }
+
+  .csf--result{
+    display: inline-block;
+    font-size: 12px;
+    line-height: 16px;
+    padding: 7px 10px;
+    margin-bottom: 7px;
+    color: #777;
+    border: 1px solid #e5e5e5;
+    background-color: #f5f5f5;
+    border-radius: 2px;
+    world-break: break-word;
+  }
+
+  .csf--wrap{
+    position: relative;
+    float: left;
+    width: 100px;
+  }
+
+  .csf--unit{
+    position: absolute;
+    z-index: 1;
+    right: 4px;
+    top: 4px;
+    bottom: 4px;
+    padding: 2px 6px;
+    color: #666;
+    font-size: 11px;
+    line-height: 1;
+    border-radius: 2px;
+    background: #eee;
+    user-select: none;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+}
+
+/**
+ * 03. 40. others
  */
 .csf-help{
   cursor: help;
@@ -1949,7 +2042,7 @@
   top: 0;
   right: 0;
   padding: 5px;
-  font-size: 14px;
+  font-size: 13px;
   color: #aaa;
 
   .csf-help-text{
@@ -1966,7 +2059,7 @@
   margin-bottom: 10px;
   border: 1px solid #ccc;
   background-color: #f9f9f9;
-  @include box-shadow(0 1px 0 rgba(black, 0.08));
+  box-shadow: 0 1px 0 rgba(0,0,0,0.08);
 
   img{
     max-height: 90px;
@@ -1992,7 +2085,8 @@
   .chosen-container-single .chosen-single abbr{
     top: 0;
     right: 20px;
-    font-family: FontAwesome;
+    font-family: "Font Awesome 5 Pro", "Font Awesome 5 Free", "FontAwesome";
+    font-weight: 900;
     font-size: 12px;
     height: 100%;
     width: 18px;
@@ -2010,7 +2104,8 @@
   }
 
   .chosen-container-multi .chosen-choices li.search-choice .search-choice-close{
-    font-family: FontAwesome;
+    font-family: "Font Awesome 5 Pro", "Font Awesome 5 Free", "FontAwesome";
+    font-weight: 900;
     font-size: 12px;
     height: 100%;
     width: 18px;
@@ -2030,7 +2125,8 @@
   }
 
   .chosen-container-single .chosen-single div b{
-    font-family: FontAwesome;
+    font-family: "Font Awesome 5 Pro", "Font Awesome 5 Free", "FontAwesome";
+    font-weight: 900;
     font-size: 14px;
     color: #aaa;
     background: none;
@@ -2071,18 +2167,23 @@
   .chosen-container-single .chosen-search{
 
     &:before{
-      font-family: FontAwesome;
-      position: absolute;
-      content: "\f002";
+      font-family: "Font Awesome 5 Pro", "Font Awesome 5 Free", "FontAwesome";
+      font-weight: 900;
       font-size: 11px;
-      right: 10px;
-      top: 7px;
+      content: "\f002";
+      position: absolute;
+      right: 12px;
+      top: 10px;
       color: #aaa;
     }
   }
 
   .wp-picker-container{
     display: inline-block;
+
+    .wp-color-result.button{
+      margin-bottom: 0;
+    }
   }
 
   .csf--transparent-wrap{
@@ -2119,9 +2220,9 @@
       margin: 0 -5px;
       background: none;
       cursor: ew-resize;
-      @include opacity(0.9);
-      @include border-radius(4px);
-      @include box-shadow(0 1px 2px rgba(black, 0.2));
+      opacity: 0.9;
+      border-radius: 4px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.2);
 
       &:before{
         content: " ";
@@ -2131,7 +2232,7 @@
         top: -3px;
         bottom: -3px;
         border: 2px solid #fff;
-        @include border-radius(3px);
+        border-radius: 3px;
       }
     }
   }
@@ -2140,8 +2241,8 @@
     height: 18px;
     width: 200px;
     background: url(../images/checkerboard.png) repeat-y center left scroll #fff;
-    @include box-shadow(0 0 5px rgba(black, 0.4) inset);
-    @include border-radius(2px);
+    border-radius: 2px;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.4);
   }
 
   .csf--transparent-text{

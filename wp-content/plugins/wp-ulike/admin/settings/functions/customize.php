@@ -7,9 +7,9 @@
  * @version 1.0.0
  *
  */
-if( ! class_exists( 'WP_Customize_Panel_CSF' ) && class_exists( 'WP_Customize_Panel' ) ) {
-  class WP_Customize_Panel_CSF extends WP_Customize_Panel {
-    public $type = 'csf';
+if ( ! class_exists( 'WP_Customize_Panel_ULF' ) && class_exists( 'WP_Customize_Panel' ) ) {
+  class WP_Customize_Panel_ULF extends WP_Customize_Panel {
+    public $type = 'ulf';
   }
 }
 
@@ -21,9 +21,9 @@ if( ! class_exists( 'WP_Customize_Panel_CSF' ) && class_exists( 'WP_Customize_Pa
  * @version 1.0.0
  *
  */
-if( ! class_exists( 'WP_Customize_Section_CSF' ) && class_exists( 'WP_Customize_Section' ) ) {
-  class WP_Customize_Section_CSF extends WP_Customize_Section {
-    public $type = 'csf';
+if ( ! class_exists( 'WP_Customize_Section_ULF' ) && class_exists( 'WP_Customize_Section' ) ) {
+  class WP_Customize_Section_ULF extends WP_Customize_Section {
+    public $type = 'ulf';
   }
 }
 
@@ -35,40 +35,72 @@ if( ! class_exists( 'WP_Customize_Section_CSF' ) && class_exists( 'WP_Customize_
  * @version 1.0.0
  *
  */
-if( ! class_exists( 'WP_Customize_Control_CSF' ) && class_exists( 'WP_Customize_Control' ) ) {
-  class WP_Customize_Control_CSF extends WP_Customize_Control {
+if ( ! class_exists( 'WP_Customize_Control_ULF' ) && class_exists( 'WP_Customize_Control' ) ) {
+  class WP_Customize_Control_ULF extends WP_Customize_Control {
 
-    public $type   = 'csf';
+    public $type   = 'ulf';
     public $field  = '';
     public $unique = '';
 
-    protected function render() {
+    public function enqueue() {
 
-      $depend = '';
-      $hidden = '';
+      // parent::enqueue();
+      // echo 'xxx';
+
+    }
+
+    public function render() {
+
+      $depend  = '';
+      $visible = '';
 
       if ( ! empty( $this->field['dependency'] ) ) {
-        $hidden  = ' csf-dependency-control hidden';
-        $depend .= ' data-controller="'. $this->field['dependency'][0] .'"';
-        $depend .= ' data-condition="'. $this->field['dependency'][1] .'"';
-        $depend .= ' data-value="'. $this->field['dependency'][2] .'"';
+
+        $dependency      = $this->field['dependency'];
+        $depend_visible  = '';
+        $data_controller = '';
+        $data_condition  = '';
+        $data_value      = '';
+        $data_global     = '';
+
+        if ( is_array( $dependency[0] ) ) {
+          $data_controller = implode( '|', array_column( $dependency, 0 ) );
+          $data_condition  = implode( '|', array_column( $dependency, 1 ) );
+          $data_value      = implode( '|', array_column( $dependency, 2 ) );
+          $data_global     = implode( '|', array_column( $dependency, 3 ) );
+          $depend_visible  = implode( '|', array_column( $dependency, 4 ) );
+        } else {
+          $data_controller = ( ! empty( $dependency[0] ) ) ? $dependency[0] : '';
+          $data_condition  = ( ! empty( $dependency[1] ) ) ? $dependency[1] : '';
+          $data_value      = ( ! empty( $dependency[2] ) ) ? $dependency[2] : '';
+          $data_global     = ( ! empty( $dependency[3] ) ) ? $dependency[3] : '';
+          $depend_visible  = ( ! empty( $dependency[4] ) ) ? $dependency[4] : '';
+        }
+
+        $depend .= ' data-controller="'. esc_attr( $data_controller ) .'"';
+        $depend .= ' data-condition="'. esc_attr( $data_condition ) .'"';
+        $depend .= ' data-value="'. esc_attr( $data_value ) .'"';
+        $depend .= ( ! empty( $data_global ) ) ? ' data-depend-global="true"' : '';
+
+        $visible  = ' ulf-dependency-control';
+        $visible .= ( ! empty( $depend_visible ) ) ? ' ulf-depend-visible' : ' ulf-depend-hidden';
+
       }
 
       $id    = 'customize-control-' . str_replace( array( '[', ']' ), array( '-', '' ), $this->id );
-      $class = 'customize-control customize-control-' . $this->type . $hidden;
+      $class = 'customize-control customize-control-'. $this->type . $visible;
 
-      echo '<li id="'. $id .'" class="'. $class .'"'. $depend .'>';
-      $this->render_content();
+      echo '<li id="'. esc_attr( $id ) .'" class="'. esc_attr( $class ) .'"'. $depend .'>';
+      $this->render_field_content();
       echo '</li>';
 
     }
 
-    public function render_content() {
+    public function render_field_content() {
 
-      $complex = array(
+      $complex = apply_filters( 'ulf_customize_complex_fields', array(
         'accordion',
         'background',
-        'backup',
         'border',
         'button_set',
         'checkbox',
@@ -88,15 +120,15 @@ if( ! class_exists( 'WP_Customize_Control_CSF' ) && class_exists( 'WP_Customize_
         'switcher',
         'tabbed',
         'typography'
-      );
+      ) );
 
       $field_id   = ( ! empty( $this->field['id'] ) ) ? $this->field['id'] : '';
       $custom     = ( ! empty( $this->field['customizer'] ) ) ? true : false;
       $is_complex = ( in_array( $this->field['type'], $complex ) ) ? true : false;
-      $class      = ( $is_complex || $custom ) ? ' csf-customize-complex' : '';
-      $atts       = ( $is_complex || $custom ) ? ' data-unique-id="'. $this->unique .'" data-option-id="'. $field_id .'"' : '';
+      $class      = ( $is_complex || $custom ) ? ' ulf-customize-complex' : '';
+      $atts       = ( $is_complex || $custom ) ? ' data-unique-id="'. esc_attr( $this->unique ) .'" data-option-id="'. esc_attr( $field_id ) .'"' : '';
 
-      if( ! $is_complex && ! $custom ) {
+      if ( ! $is_complex && ! $custom ) {
         $this->field['attributes']['data-customize-setting-link'] = $this->settings['default']->id;
       }
 
@@ -104,9 +136,9 @@ if( ! class_exists( 'WP_Customize_Control_CSF' ) && class_exists( 'WP_Customize_
 
       $this->field['dependency'] = array();
 
-      echo '<div class="csf-customize-field'. $class .'"'. $atts .'>';
+      echo '<div class="ulf-customize-field'. esc_attr( $class ) .'"'. $atts .'>';
 
-      CSF::field( $this->field, $this->value(), $this->unique, 'customize' );
+      ULF::field( $this->field, $this->value(), $this->unique, 'customize' );
 
       echo '</div>';
 

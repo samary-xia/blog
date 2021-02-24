@@ -33,6 +33,7 @@
 
 .csf-header-inner{
   padding: 25px;
+  transition: box-shadow .3s ease;
 
   h1{
     float: left;
@@ -55,9 +56,9 @@
 
   .csf-header-inner{
     position: fixed;
-    z-index: 99999;
+    z-index: 99;
     top: 32px;
-    @include box-shadow(0 5px 25px rgba(black, 0.125));
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
   }
 }
 
@@ -66,7 +67,6 @@
  */
 .csf-buttons{
   float: right;
-  @include transition(opacity 0.2s);
 
   .button{
     margin: 0 2px;
@@ -99,7 +99,6 @@
   position: relative;
   z-index: 10;
   float: left;
-  width: 225px;
 
   ul{
     clear: left;
@@ -115,48 +114,33 @@
         display: block;
         padding: 14px 12px;
         text-decoration: none;
-        @include transition(all 0.3s ease);
+        transition-property: color, background;
+        transition-duration: 0.2s;
+        transition-timing-function: ease;
 
         &:focus{
           outline: none;
-          @include box-shadow(none);
-        }
-      }
-
-      .csf-section-active{
-
-        &:after{
-          content: " ";
-          position: absolute;
-          right: 0;
-          top: 50%;
-          height: 0;
-          width: 0;
-          pointer-events: none;
-          border: solid transparent;
-          border-right-color: #fff;
-          border-width: 4px;
-          margin-top: -4px;
+          box-shadow: none;
         }
       }
 
       .csf-arrow:after{
         content: "\f054";
         display: inline-block;
-        font-family: "FontAwesome";
+        font-family: "Font Awesome 5 Pro", "Font Awesome 5 Free", "FontAwesome";
+        font-weight: 900;
         font-size: 9px;
         line-height: 1;
         position: absolute;
         right: 10px;
         top: 50%;
         margin-top: -4px;
-        @include transform(rotate(0));
       }
 
-      &.csf-tab-active{
+      &.csf-tab-expanded{
 
         .csf-arrow:after{
-          @include transform( rotate(90deg) );
+          transform: rotate(90deg);
         }
 
         ul{
@@ -179,16 +163,36 @@
     }
   }
 
-  .fa{
+  .csf-tab-icon{
     width: 20px;
     margin-right: 5px;
-    font-size: 14px;
+    font-size: 13px;
     text-align: center;
   }
 
   .csf-label-error{
     margin-left: 4px;
     vertical-align: top;
+  }
+}
+
+.csf-nav-normal{
+  width: 225px;
+
+  + .csf-content{
+    margin-left: 225px;
+  }
+}
+
+.csf-nav-inline{
+  width: 100%;
+
+  ul{
+
+    li{
+      display: inline-block;
+      vertical-align: top;
+    }
   }
 }
 
@@ -213,9 +217,7 @@
  */
 .csf-content{
   position: relative;
-  margin-left: 225px;
   background-color: #fff;
-  @include transition(opacity 0.2s);
 }
 
 /**
@@ -224,10 +226,6 @@
 .csf-sections{
   float: left;
   width: 100%;
-}
-
-.csf-section{
-  display: none;
 }
 
 .csf-section-title{
@@ -245,7 +243,7 @@
     text-transform: uppercase;
   }
 
-  .fa{
+  .csf-section-icon{
     margin-right: 5px;
   }
 }
@@ -267,7 +265,7 @@
 }
 
 /**
- * 01. 10. Show All Options
+ * 01. 10. Show All Settings
  */
 .csf-search-all,
 .csf-show-all{
@@ -300,12 +298,12 @@
   padding: 0 8px;
   margin-right: 4px;
   z-index: 1;
-  font-size: 14px;
-  line-height: 28px;
+  font-size: 13px;
+  line-height: 30px;
   cursor: pointer;
   user-select: none;
-  @include border-radius(2px);
-  @include transition(all 0.2s);
+  border-radius: 2px;
+  transition: all .2s;
 
   span{
     font-size: 11px;
@@ -323,15 +321,15 @@
     margin: 0 2px 0 0;
     border: none;
     font-size: 12px;
-    line-height: 28px;
-    min-height: 28px;
+    line-height: 30px;
+    min-height: 30px;
     text-align: inherit;
     padding: 0 10px;
-    @include border-radius(2px);
-    @include box-shadow(none);
+    border-radius: 2px;
+    box-shadow: none;
 
     &:focus{
-      @include box-shadow(none);
+      box-shadow: none;
     }
   }
 }
@@ -342,7 +340,7 @@
   .csf-content{
     cursor: default;
     pointer-events: none;
-    @include opacity(0.5);
+    opacity: 0.5;
   }
 }
 
@@ -352,6 +350,10 @@
 .csf-metabox{
   margin: -6px -12px -12px -12px;
 
+  .csf-field{
+    padding: 20px;
+  }
+
   .csf-section-title{
     padding: 20px;
   }
@@ -360,18 +362,31 @@
 .block-editor-page{
 
   .csf-metabox{
-    margin: -6px -14px -12px -14px;
+    margin: -6px -14px -14px -14px;
   }
 }
 
-.csf-restore-wrapper{
+.block-editor-editor-skeleton__content{
+
+  .csf-metabox{
+    border-left: 1px solid #e2e4e7;
+    border-right: 1px solid #e2e4e7;
+  }
+}
+
+.csf-sections-reset{
+  float: left;
+  width: 100%;
   text-align: right;
-  padding: 10px;
   border-top: 1px solid #eee;
 
   .csf-button-cancel,
   input{
     display: none;
+  }
+
+  label{
+    padding: 10px;
   }
 
   span{
@@ -380,7 +395,7 @@
   }
 
 
-  input:checked ~ .csf-button-restore{
+  input:checked ~ .csf-button-reset{
     display: none;
   }
 
@@ -397,21 +412,26 @@
   }
 
   .csf-field{
-    padding: 12px;
+    padding: 10px 15px;
 
     .csf-title{
       float: none;
       width: 100%;
-      margin-bottom: 10px;
+      margin-bottom: 6px;
     }
 
     .csf-fieldset{
-      margin-left: 0;
+      float: none;
+      width: 100%;
     }
   }
 
+  .csf-field-text input{
+    width: 100%;
+  }
+
   .csf-notice{
-    padding: 12px;
+    padding: 10px 15px;
   }
 }
 
@@ -420,6 +440,10 @@
  */
 .csf-comment-metabox{
   margin: -6px -12px -12px -12px;
+
+  .csf-field{
+    padding: 20px;
+  }
 
   .csf-section-title{
     padding: 20px;
@@ -442,5 +466,5 @@
   color: #fff;
   background-color: #000;
   background-color: rgba(black, 0.85);
-  @include border-radius(4px);
+  border-radius: 4px;
 }
