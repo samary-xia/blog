@@ -1,0 +1,244 @@
+/*
+Theme Name: New Blog Jr
+Theme URI: https://www.postmagthemes.com/downloads/new-blog-jr-free-wordpress-theme/
+Author: www.postmagthemes.com
+Author URI: https://www.postmagthemes.com/
+Description: New Blog Jr is a light theme with many places to show your articles. A clean and simple look is the main showcases of this theme. New Blog Jr theme is a free child WordPress theme of parent theme New Blog. You can view demo here: https://www.postmagthemes.com/demonewblogjr
+Version: 1.0.4
+Requires at least: 4.7
+Tested up to: 5.4.1
+Requires PHP: 5.6
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: new-blog-jr
+Template: new-blog
+Tags: two-columns, grid-layout, footer-widgets, translation-ready, blog, news, right-sidebar, left-sidebar, custom-header, custom-background, custom-logo, custom-menu, custom-colors, threaded-comments, featured-images, theme-options, full-width-template
+
+New Blog Jr, Copyright 2018 Postmagthemes https://www.postmagthemes.com
+New Blog Jr is distributed under the terms of GNU GPL v2 or later.
+
+New Blog Jr is derived from Underscores https://underscores.me/, (C) 2013 Automattic, Inc.
+Underscores is distributed under the terms of the GNU GPL v2 or later.
+
+Normalizing styles have been helped along thanks to the fine work of
+Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
+*/
+
+.related-posts-front .card h3.related-posts-front-title{
+	font-size: 14px;
+}
+.inner-content .related-posts-front h2 {
+	font-size: 18px;
+}
+.related-posts-front .title-holder h2 {
+	display: inline-block;
+	vertical-align: top;
+	position: relative;
+	margin: 0;
+}
+.related-posts-front .title-holder h2:before {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: -15px;
+	transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+	width: 4px;
+	height: 4px;
+	background: #000;
+	border-radius: 1000px;
+}
+.related-posts-front .title-holder h2:after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	right: -15px;
+	transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+	width: 4px;
+	height: 4px;
+	background: #000;
+	border-radius: 1000px;
+}
+.inner-content .related-posts-front{
+	padding: 70px 0 20px;
+}
+.inner-content .related-posts-front .title-holder{
+	margin: 0 0 50px;
+}
+
+.inner-content .related-posts-front .row div[class*=col-]{
+	max-width: 100%;
+}
+
+.inner-content .related-posts-front .slick-dots{
+	bottom: -50px;
+}
+
+.inner-content .related-posts-front .slick-dots li button {
+	border-color: #777;
+}
+
+.inner-content .related-posts-front .slick-dots li.slick-active button{
+	background: #777;
+}
+.related-posts-front .title-holder h2 {
+    font-size: 18px;
+    font-style: normal;
+    font-weight: normal;
+}
+.site-title,
+.related-posts-front .title-holder h2,
+.sidebar .media h5,
+h1, h2, h3, h4, h5, h6,
+.site-description {
+	font-family: 'Courgette', cursive;
+}
+
+.nav > li > ul.dropdown-menu {
+	margin: 0 0 0 !important;
+	}
+.thumb-body footer {
+	margin-top: 10px;
+}
+.thumb .thumb-body p {
+	line-height: 1.6;
+}
+.banner .item .caption p {
+	font-size: 14px;
+}
+.blog-post-title {
+	font-size: 24px;
+}
+
+.sidebar .side-title h4:before, .other-title h4:before, .author .title-holder h2:before, .related-posts .title-holder h2:before, .comments .title-holder h2:before,
+.related-posts-front .title-holder h2:before,
+.inner-content .comment-respond h3:before
+	{
+    content: '';
+    width: 100%;
+    height: 1px;
+    position: absolute;
+    top: 110%;
+    left: 0;
+    right: 0;
+    background: #bdc3c7;
+    z-index: 1;
+}
+.sidebar .side-title h4:after, .other-title h4:after, .author .title-holder h2:after, .related-posts .title-holder h2:after, .comments .title-holder h2:after,
+.related-posts-front .title-holder h2:after,
+.inner-content .comment-respond h3:after
+	{
+	content: none;
+}
+.card .btn,
+.media .btn,
+.thumb .btn {
+	position: relative;
+}
+.card .btn:after,
+.media .btn:after,
+.thumb .btn:after {
+	content: "\f178";
+	font-family: FontAwesome;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+	right: -15px;
+}
+.middle-content .card a.btn, .middle-content .media a.btn, .middle-content .thumb a.btn {
+	border: none;
+}
+
+.sidebar > div,
+.sidebar > section,
+.sidebar > blockquote {
+border: 1px solid #f0f0f0;
+}
+
+#social-icon-top-new .fa {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    line-height: 27px;
+    border-radius: 100%;
+    font-size: 18px;
+    margin: 15px 5px 15px 5px;
+    border: 1px solid;
+}
+
+.logo span {
+	color: rgb(106, 105, 105);
+}
+
+/*--------------------------------------------------------------
+# new banner setting
+--------------------------------------------------------------*/
+
+.multiple-items-js .item .caption {
+width: 400px;
+padding: 15px 20px;
+}
+
+.banner-post-title {
+	font-size: 20px;
+}
+.banner.multiple-items-js .slick-slide {
+	padding-left: 5px;
+	padding-right: 5px;
+	
+}
+@media (max-width: 767px){
+	.banner.multiple-items-js .tag {
+		display: none;
+	}
+	header #social-icon-top-new .social-icon li {
+		margin: 0px 0px 0px 0px;
+	}
+	#social-icon-top-new .fa {
+		font-size: 10px;
+		margin: 5px 5px 5px 5px;
+	}
+}
+
+/*--------------------------------------------------------------
+# End
+--------------------------------------------------------------*/
+
+.btn.search-submit:focus,
+.form-control:focus,
+.navbar-toggler:focus  {
+	outline: 2px dotted; 
+	color: rgb(2, 81, 165) !important;
+}
+
+
+.slick-arrow:focus,
+.btn:focus   {
+	border: 2px solid rgb(3, 114, 233) !important;
+}
+.main-navigations ul li ul li{
+	display: contents ;
+}
+
+#site-navigation{
+	background-color: #FFFFFF;
+}
+
+.dropdown-menu {
+	font-size: inherit !important;
+}
+
+.navbar-nav li ul li ul {
+    margin-left: 195px;
+    margin-top: -9px;
+}
+
+@media (max-width: 991px){
+
+	.navbar-nav li ul li ul {
+	    margin-left: 0px;
+	    margin-top: 20px;
+	}
+}
