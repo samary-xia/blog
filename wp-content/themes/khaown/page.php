@@ -12,7 +12,7 @@
 get_header();
 ?>
 <main id="main-container " >
-    <div class="container">
+    <div class="khaown-main-container px16 container">
 		<div class="row mt80">
 			<div class="col-md-8 col-md-offset-2">
                 <?php

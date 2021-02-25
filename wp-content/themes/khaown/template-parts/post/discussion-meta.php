@@ -15,7 +15,7 @@ if ( $has_responses ) {
 	/* translators: %1(X comments)$s */
 	$meta_label = sprintf( _n( '%d Comment', '%d Comments', $discussion->responses, 'khaown' ), $discussion->responses );
 } else {
-	$meta_label = __( '当前还没有评论', 'khaown' );
+	$meta_label = __( 'No comments', 'khaown' );
 }
 ?>
 

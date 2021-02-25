@@ -1,18 +1,17 @@
 === khaown ===
 Contributors: motahar1
-Tags: accessibility-ready, blog, news, custom-logo, custom-colors, custom-menu, Custom Background, Custom Header, Flexible Header, editor-style, featured-images, one-column, two-columns, left-sidebar, right-sidebar, Full Width Template, theme-options, threaded-comments, translation-ready
+Tags: accessibility-ready, blog, news, e-commerce, custom-logo, custom-colors, custom-menu, custom-background, custom-header, editor-style, featured-images, grid-layout, one-column, two-columns, three-columns, four-columns, left-sidebar, right-sidebar, full-width-template, theme-options, threaded-comments, translation-ready
 Requires at least: 4.9.6
 Requires PHP: 5.2.4
 Tested up to: WordPress 5.3.2
-Stable tag: 3.1
+Stable tag: 3.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Khaown theme is designed to show off the power of the WordPress Customizer.
 
 == Description ==
- Khaown theme is a fully customizable, fast loading, responsive, seo optimised and stunning default designed for blog, portfolio, e-commerce, non-profit, restaurant and a wide range of websites. Everything is customizable. You can change the font-family, font-size, color, background-color and everything. It has the default stunnig design and you can customize everything. It's responsive for mobile and other devices. And the code seo friendly and brwoser compatible.
-
+Khaown is the suitable and perfect theme for your project. Cross Browser compatible and SEO friendly. Responsive and lightweight. Compatible and suitable with WooCommerce. Best friend of Elementor. Made resposive and mobile friendly with Bootstrap framework.
 == Installation ==
 
 = From within WordPress =

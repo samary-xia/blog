@@ -67,11 +67,12 @@ function khaown_customizer_css() {
 	$lightness_selection = apply_filters( "khaown_custom_colors_lightness_selection", 90 );
 	$lightness_selection = absint( $lightness_selection ) . "%";
 
+
 	$font_Choice = get_theme_mod("default_or_customfont", "default_font");
 
-	$flat_or_deep_design = get_theme_mod("flat_or_deep_design", "deep_design");
+	$flat_or_deep_design = get_theme_mod("flat_or_deep_design", "flat_design");
 
-	$border_design = get_theme_mod("border_design", "border_none");
+	$border_design = get_theme_mod("border_design", "has_border");
 
 	$theme_css = '';
 
@@ -91,18 +92,18 @@ function khaown_customizer_css() {
 		
 		$theme_css .= " 
 	
-		.blog-posts .row .bg-color-blog-posts {
+		.blog-posts .row .bg-color-blog-posts, .pagination .nav-links .page-numbers {
 			background: #ffffff;
 			border-radius: 5px;
 			transition: all .4s;
-			box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+			box-shadow: 0 3px 14.25px 0.75px rgba(19, 31, 21, .11);
 		}
-		.blog-posts .row .bg-color-blog-posts:hover {
+		.blog-posts .row .bg-color-blog-posts:hover, .pagination .nav-links .page-numbers:hover {
 			box-shadow: 0 3px 3px 1px rgba(0,0,0,.2), 0 3px 4px 0 rgba(0,0,0,.14), 0 1px 8px 0 rgba(0,0,0,.12);
 			transition: all .4s;
 		}
 		header nav, header .menu > li ul {
-			box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+			box-shadow: 0 3px 14.25px 0.75px rgba(19, 31, 21, .11);
 		}
 	";
 	endif;
@@ -128,10 +129,66 @@ function khaown_customizer_css() {
 
 	$theme_css .= "
 
+		.khaown-clouds {
+			position: relative;
+    		width: 100%;
+		}
+		img.bg-image {
+			position: absolute;
+		}
+		img.bg-image.bg-image-1 {
+			width: 140px;
+			top: 30px;
+			left: 50px;
+			animation-name: roll;
+			animation-duration: 55s;
+			animation-timing-function: linear;
+			animation-iteration-count: infinite;
+		}
+		img.bg-image.bg-image-2 {
+			width: 200px;
+			top: 50px;
+			left: 40%;
+			animation-name: roll;
+			animation-duration: 40s;
+			animation-timing-function: linear;
+			animation-iteration-count: infinite;
+		}
+
+		img.bg-image.bg-image-3 {
+			width: 200px;
+			top: 30px;
+			left: 60%;
+			animation-name: roll;
+			animation-duration: 30s;
+			animation-timing-function: linear;
+			animation-iteration-count: infinite;
+			
+		}
+
+		img.bg-image.bg-image-4 {
+			width: 40%;
+			top: 230px;
+			left: 40%;
+		}
+
+		@keyframes roll {
+			/* Basic move left and right*/
+			  0% {transform: translateX(-1000px);}
+			  100% {transform: translateX(1000px);}
+			  0% {transform: translatex(-1000px);}
+			}
+
+		.page-title-3, .page-title-4 {
+			height: 300px;
+		}
+		
+		
+
 		body {
 			background-color: " .  esc_attr(get_theme_mod("bg_color_scheme_1", "#ffffff")) . ";
 		}
-		p, .row p, span, button, .btn, .blog-posts .row p {
+		p, .row p, span, button, .blog-posts .row p {
 			font-size: " .  esc_attr(get_theme_mod("paragraph_font_size", "16")) . "px;
 			font-weight: " .  esc_attr(get_theme_mod("paragraph_font_weight", "400")) . ";
 			font-style: " .  esc_attr(get_theme_mod("paragraph_font_style", "normal")) . ";
@@ -141,21 +198,9 @@ function khaown_customizer_css() {
 			word-spacing: " .  esc_attr(get_theme_mod("paragraph_word_spacing", "0")) . "px;
 			color: " .  esc_attr(get_theme_mod("text_color", "#545454")) . ";
 		}
-		a, .widget a {
-			font-size: " .  esc_attr(get_theme_mod("paragraph_font_size", "16")) . "px;
-			font-weight: " .  esc_attr(get_theme_mod("paragraph_font_weight", "400")) . ";
-			color: " .  esc_attr(get_theme_mod("link_color", "#545454")) . ";
-			font-style: " .  esc_attr(get_theme_mod("paragraph_font_style", "normal")) . ";
-			line-height: " .  esc_attr(get_theme_mod("paragraph_line_height", "32")) . "px;
-			letter-spacing: " .  esc_attr(get_theme_mod("paragraph_letter_spacing", "0")) . "px;
-			word-spacing: " .  esc_attr(get_theme_mod("paragraph_word_spacing", "0")) . "px;
-		}
+		
 		svg.svg-icon {
 			fill: " .  esc_attr(get_theme_mod("hover_link_color", "#a0a0a0")) . ";
-		}
-
-		a:hover, a:visited, a:active, .widget a:hover, .post-navigation .nav-links a:hover, .entry .entry-meta a:hover, .entry .entry-footer a:hover {
-			color: " .  esc_attr(get_theme_mod("hover_link_color", "#a0a0a0")) . ";
 		}
 
 		h1, h2, h3, h4, h5, h6, p, ul, ol, pre, table, blockquote, input, button, select, textarea, .blog-posts .row p, span, button, .btn {
@@ -178,6 +223,13 @@ function khaown_customizer_css() {
 			line-height: " .  esc_attr(get_theme_mod("heading_h2_line_height", "32")) . "px;
 		}
 
+		a, .widget a {
+			color: " .  esc_attr(get_theme_mod("link_color", "#8224e3")) . ";
+		}
+		a:hover, a:visited, a:active, .widget a:hover, .post-navigation .nav-links a:hover, .entry .entry-meta a:hover, .entry .entry-footer a:hover {
+			color: " .  esc_attr(get_theme_mod("hover_link_color", "#bc95e2")) . ";
+		}
+
 		.blog-posts .row .bg-color-blog-posts {
 			border-radius: " .  esc_attr(get_theme_mod("border_radius", "5")) . "px;
 			background: " .  esc_attr(get_theme_mod("sidebar_background_color", "#fff")) . ";
@@ -186,10 +238,10 @@ function khaown_customizer_css() {
 
 
 		.bg-menu-4 {
-			background-color: " .  esc_attr(get_theme_mod("homepage_header_bg_color", "#8224e3")) . ";
+			background-color: " .  esc_attr(get_theme_mod("homepage_header_bg_color", "")) . ";
 		}
 		.page-title h1.khaown-site-title a {
-			color: " .  esc_attr(get_theme_mod("top_header_site_tile_color", "#ffffff")) . ";
+			color: " .  esc_attr(get_theme_mod("top_header_site_tile_color", "#000")) . ";
 			font-size: " .  esc_attr(get_theme_mod("site_title_font_size", "32")) . "px;
 			font-weight: " .  esc_attr(get_theme_mod("site_title_font_weight", "500")) . ";
 		  }
@@ -197,10 +249,10 @@ function khaown_customizer_css() {
 			font-size: " .  esc_attr(get_theme_mod("site_title_font_size", "32")) . "px;
 			font-weight: " .  esc_attr(get_theme_mod("site_title_font_weight", "500")) . ";
 			margin-bottom: " .  esc_attr(get_theme_mod("site_title_margin_bottom", "5")) . "px;
-			color: " .  esc_attr(get_theme_mod("top_header_site_tile_color", "#ffffff")) . ";
+			color: " .  esc_attr(get_theme_mod("top_header_site_tile_color", "#000")) . ";
 		}
 		p.khaown-site-description {
-			color: " .  esc_attr(get_theme_mod("top_header_site_desc_color", "#ffffff")) . ";
+			color: " .  esc_attr(get_theme_mod("top_header_site_desc_color", "#000")) . ";
 			font-size: " .  esc_attr(get_theme_mod("site_desc_font_size", "15")) . "px;
 		}
 
@@ -251,12 +303,15 @@ function khaown_customizer_css() {
 			color: " .  esc_attr(get_theme_mod("schedule_text_color", "#292929")) . ";
 		}
 
-		.btn, .em_comment input#submit, input[type='submit'], button {
+		.btn, .em_comment input#submit, input[type='submit'], button, .button, .woocommerce button.button.alt, .woocommerce a.button.alt,
+		.woocommerce #respond input#submit, .woocommerce a.button, .woocommerce button.button, .woocommerce a.added_to_cart {
 			background-color: " .  esc_attr(get_theme_mod("khaown_btn_bg_color", "#000000")) . ";
 			color: " .  esc_attr(get_theme_mod("khaown_btn_text_color", "#ffffff")) . ";
+			transition: all 0.4s;
 		}
-		.btn:hover, .em_comment input#submit:hover,
-		input[type='submit']:hover, button:hover {
+		.btn:hover, .em_comment input#submit:hover, .woocommerce button.button.alt:hover, .woocommerce #respond input#submit:hover,
+		input[type='submit']:hover, button:hover, .woocommerce a.button:hover, .woocommerce button.button:hover,
+		.woocommerce a.button.alt:hover, .woocommerce a.added_to_cart:hover {
 			background-color: " .  esc_attr(get_theme_mod("khaown_btn_hover_bg_color", "#010101")) . ";
 			color: " .  esc_attr(get_theme_mod("khaown_btn_hover_text_color", "#f9f9f9")) . ";
 		}
@@ -273,6 +328,16 @@ function khaown_customizer_css() {
 			}
 
 		}
+		
+
+
+		@media (min-width: 319px) {
+			.khaown-main-container {
+			  width: " .  esc_attr(get_theme_mod("khaown_main_container_width", "90")) . "vw;
+			  margin: 0 auto;
+			}
+			
+		  }
 
 		
 		";

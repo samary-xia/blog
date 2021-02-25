@@ -235,12 +235,13 @@ function khaown_scripts() {
 	wp_enqueue_style( 'khaown-themify-icons', get_template_directory_uri() . '/themify-icons.css', array(), wp_get_theme()->get( 'Version' ), 'all' );
 	wp_enqueue_style( 'khaown-font', "https://fonts.googleapis.com/css?family=Rajdhani:300,400,500,600,700&display=swap", array(), wp_get_theme()->get( 'Version' ) );
 	wp_enqueue_style( 'khaown-style', get_stylesheet_uri(), array(), wp_get_theme()->get( 'Version' ) );
-	wp_enqueue_style( 'khaown-zhidinyi', get_template_directory_uri() . '/css/style.css', array(), wp_get_theme()->get( 'Version' ), 'all' ); //自己加的
+
 	wp_style_add_data( 'khaown-style', 'rtl', 'replace' );
 
 	wp_enqueue_script("jquery");
 	wp_enqueue_script( 'khaown-bootstrap-js', get_theme_file_uri( '/js/bootstrap.min.js' ), array(), '1.1', true );
 	wp_enqueue_script( 'khaown-scripts', get_theme_file_uri( '/js/scripts.js' ), array(), '1.1', true );
+
 	wp_enqueue_style( 'khaown-print-style', get_template_directory_uri() . '/print.css', array(), wp_get_theme()->get( 'Version' ), 'print' );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
@@ -343,6 +344,46 @@ class khaown_Menu_Maker_Walker extends Walker {
 	}
 }
 
+/**
+ * Filter the excerpt length to 50 words.
+ *
+ * @param int $length Excerpt length.
+ * @return int (Maybe) modified excerpt length.
+ */
+function khaown_theme_slug_excerpt_length( $length ) {
+	if ( is_admin() ) {
+			return $length;
+	}
+	return 50;
+}
+add_filter( 'excerpt_length', 'khaown_theme_slug_excerpt_length', 999 );
+
+// add_filter( 'the_content_more_link', 'my_more_link', 10, 2 );
+
+function khaown_excerpt_more( $more ) {
+    return '';
+}
+add_filter( 'excerpt_more', 'khaown_excerpt_more');
+
+
+// WooCommerce Support 
+
+function khaown_add_woocommerce_support() {
+	add_theme_support( 'woocommerce' );
+
+  add_theme_support( 'wc-product-gallery-zoom' );
+  add_theme_support( 'wc-product-gallery-slider' );
+
+}
+add_action( 'after_setup_theme', 'khaown_add_woocommerce_support' );
+
+remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_price', 10);
+
+add_action('woocommerce_single_product_summary', 'woocommerce_template_single_price', 21);
+
+remove_action('woocommerce_before_single_product_summary', 'woocommerce_show_product_sale_flash', 10);
+
+remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40);
 
 /**
  * SVG Icons class.

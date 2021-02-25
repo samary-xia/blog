@@ -12,26 +12,17 @@
 get_header();
 ?>
 
-<main id="main-container" >
+<main id="main-container " >
 	<?php
 		/* Start the Loop */
 		while ( have_posts() ) : the_post(); ?>
 
-			<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-				<?php if ( has_post_thumbnail() ) : ?>
-					<section class="fullscreen image-bg overlay parallax parallax-background-container">
-						<div class="background-image-holder section-bg parallax-object">
-							<?php the_post_thumbnail(); ?>
-						</div>
-					</section>
-					
-				<?php endif; ?>
+			<article id="post-<?php the_ID(); ?>" <?php post_class('khaown-article-post '); ?>>
 				
-				<div id="single-content">
+				<div id="single-content ">
 					<div class="container">
 						<div class="row">
-							<div class="col-md-8 col-md-offset-2 openst">
-                                <?php //echo do_shortcode("[breadcrumb]"); ?>
+							<div class="col-md-8 col-md-offset-2 mt48">
 								<?php get_template_part( 'template-parts/content/content', 'single' );
 
 								if ( is_singular( 'attachment' ) ) {
@@ -46,17 +37,17 @@ get_header();
 									// Previous/next post navigation.
 									the_post_navigation(
 										array(
-											'next_text' => '<span class="meta-nav" aria-hidden="true">' . __( '下一篇', 'khaown' ) . '</span> ' .
-												'<span class="screen-reader-text">' . __( '下一篇:', 'khaown' ) . '</span> <br/>' .
+											'next_text' => '<span class="meta-nav" aria-hidden="true">' . __( 'Next Post', 'khaown' ) . '</span> ' .
+												'<span class="screen-reader-text">' . __( 'Next post:', 'khaown' ) . '</span> <br/>' .
 												'<span class="khaown-post-title">%title</span>',
-											'prev_text' => '<span class="meta-nav" aria-hidden="true">' . __( '上一篇', 'khaown' ) . '</span> ' .
-												'<span class="screen-reader-text">' . __( '上一篇:', 'khaown' ) . '</span> <br/>' .
+											'prev_text' => '<span class="meta-nav" aria-hidden="true">' . __( 'Previous Post', 'khaown' ) . '</span> ' .
+												'<span class="screen-reader-text">' . __( 'Previous post:', 'khaown' ) . '</span> <br/>' .
 												'<span class="khaown-post-title">%title</span>',
 										)
 									);
 								}
 								?>
-							
+
 								<!-- If comments are open or we have at least one comment, load up the comment template. -->
 								<?php if ( comments_open() || get_comments_number() ) { ?>
 									<div id="comments" class="comm em_comment mb-80">
@@ -85,8 +76,8 @@ get_header();
                         $args=array(
                             'tag__in' => array($first_tag),
                             'post__not_in' => array($post->ID),
-                            'posts_per_page'=>4,
-                            'ignore_sticky_posts'=>1
+                            'posts_per_page'=> 4,
+                            'ignore_sticky_posts'=> 1
                         );
                         $my_query = new WP_Query($args);
                         if( $my_query->have_posts() ) { ?>

@@ -12,8 +12,13 @@
 ?>
 
 <header class="khaown-entry-header">
-	<?php get_template_part( 'template-parts/header/entry', 'header' ); echo wp_ulike('put');?>
+	<?php get_template_part( 'template-parts/header/entry', 'header' ); ?>
 </header>
+<?php if ( has_post_thumbnail() ) : ?>
+	<div class="khaown-single-page-thumbnail mb8">
+		<?php the_post_thumbnail(); ?>
+	</div>
+<?php endif; ?>
 <?php
 	the_content(
 		sprintf(
@@ -30,6 +35,16 @@
 		)
 	);
 
+	$tags = get_tags(); ?>
+
+	<div class="tags">
+		<span>Tags: </span>
+		<?php foreach ( $tags as $tag ) { ?>
+			<a class="khaown-post-tags" href="<?php echo get_tag_link( $tag->term_id ); ?> " rel="tag"><?php echo $tag->name; ?></a>,
+		<?php } ?>
+	</div> 
+
+	<?php 
 	wp_link_pages(
 		array(
 			'before' => '<div class="page-links">' . __( 'Pages:', 'khaown' ),

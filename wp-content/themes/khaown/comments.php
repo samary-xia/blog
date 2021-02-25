@@ -29,7 +29,7 @@ if ( post_password_required() ) {
 	'callback'          => null,
 	'end-callback'      => null,
 	'type'              => 'all',
-	'reply_text'        => '回复',
+	'reply_text'        => 'Reply',
 	'page'              => '',
 	'per_page'          => '',
 	'avatar_size'       => 50,
@@ -57,9 +57,9 @@ if ( post_password_required() ) {
 <?php
 $form_args = array(
         // change the title of send button 
-        'label_submit'=>'提交评论',
+        'label_submit'=>'POST COMMENT',
         // change the title of the reply section
-        'title_reply'=>'添加评论',
+        'title_reply'=>'Write a Reply or Comment',
         // remove "Text or HTML to be displayed after the set of comment fields"
         'comment_notes_after' => '',
         // redefine your own textarea (the comment body)

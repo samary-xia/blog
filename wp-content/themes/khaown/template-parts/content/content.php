@@ -11,7 +11,7 @@
 
 ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+<article id="post-<?php the_ID(); ?>" <?php post_class('khaown-article-container'); ?>>
 	<div  class="row text-left feature bordered bg-color-blog-posts">
 		<a id="post-<?php the_ID(); ?>" <?php post_class(); ?> href="<?php the_permalink(); ?>">
 			<?php if ( has_post_thumbnail() ) { ?>

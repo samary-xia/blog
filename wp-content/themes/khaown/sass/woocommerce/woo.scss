@@ -1,0 +1,127 @@
+#ship-to-different-address input#ship-to-different-address-checkbox {
+    margin-left: 0;
+}
+
+#ship-to-different-address .checkbox {
+    margin-bottom: 0px;
+
+    span {
+        margin-top: -6px;
+        margin-left: 20px;
+    }
+
+}
+
+h3#ship-to-different-address label.checkbox {
+    width: 100%;
+    display: flex !important;
+    flex-direction: row;
+}
+
+.woocommerce #content div.product .khaown-wc-image-edit div.images {
+    float: left;
+    width: 100%;
+}
+
+.woocommerce #content div.product div.summary.khaown-wc-product-summery {
+    float: right;
+    width: 100%;
+    clear: none;
+}
+
+.woocommerce #respond input#submit, .woocommerce a.button, .woocommerce button.button, .woocommerce input.button {
+    font-size: 100%;
+    margin: 0;
+    line-height: 24px;
+    cursor: pointer;
+    position: relative;
+    text-decoration: none;
+    overflow: visible;
+    padding: .618em 1em;
+    font-weight: 700;
+    border-radius: 3px;
+    left: auto;
+    color: #515151;
+    background-color: #ebe9eb;
+    border: 0;
+    display: inline-block;
+    background-image: none;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+.woocommerce #respond input#submit.disabled, .woocommerce #respond input#submit:disabled, .woocommerce #respond input#submit:disabled[disabled], .woocommerce a.button.disabled, .woocommerce a.button:disabled, .woocommerce a.button:disabled[disabled], .woocommerce button.button.disabled, .woocommerce button.button:disabled, .woocommerce button.button:disabled[disabled], .woocommerce input.button.disabled, .woocommerce input.button:disabled, .woocommerce input.button:disabled[disabled] {
+    color: inherit;
+    cursor: not-allowed;
+    opacity: .5;
+    padding: .618em 1em;
+    margin-top: 9px;
+}
+.woocommerce table.cart td.actions .coupon .input-text {
+    margin-top: 7px;
+}
+.woocommerce .cart button[type="submit"] {
+    float: none;
+    margin-top: 7px;
+}
+a.checkout-button.button.alt.wc-forward.aLinkUrl {
+    line-height: 24px;
+    height: 48px;
+    font-size: 100%;
+}
+.woocommerce a.added_to_cart {
+    display: inline-block;
+    margin: 10px 0;
+    padding: 5px 10px;
+}
+
+.khaown-product-thumbnail img {
+    width: 350px;
+    height: 250px;
+    margin: 15px auto;
+}
+
+.woocommerce ul.products li.product, .woocommerce-page ul.products li.product {
+    padding: 25px;
+}
+
+.woocommerce .woocommerce-ordering select {
+    width: 250px;
+    background: #fff;
+    border: 1px solid #f1f1f1;
+}
+
+.woocommerce .woocommerce-result-count {
+    width: 250px;
+    background: #fff;
+    border: 1px solid #f1f1f1;
+    height: 42px;
+    padding-left: 20px;
+    vertical-align: middle;
+    display: flex;
+    align-items: center;
+}
+.woocommerce .related ul.products li.product {
+    float: left;
+    margin: 0 3.8% 2.992em 0;
+    padding: 10px;
+    position: relative;
+    width: 100%;
+    margin-left: 0;
+}
+
+.quantity .input-text {
+    width: 75px;
+    padding: 0px 5px;
+    font-size: 18px;
+    margin-top: 7px;
+  }
+
+@media all and (max-width: 767px) {
+    .khaown-product-thumbnail img {
+      width: 100%;
+      height: 100%;
+      margin: 15px auto;
+  }
+
+}

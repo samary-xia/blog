@@ -228,11 +228,11 @@ if ( ! function_exists( 'khaown_the_posts_navigation' ) ) :
 				'prev_text' => sprintf(
 					'%s <span class="nav-prev-text">%s</span>',
 					khaown_get_icon_svg( 'chevron_left', 22 ),
-					__( '上一页', 'khaown' )
+					__( 'Newer posts', 'khaown' )
 				),
 				'next_text' => sprintf(
 					'<span class="nav-next-text">%s</span> %s',
-					__( '下一页', 'khaown' ),
+					__( 'Older posts', 'khaown' ),
 					khaown_get_icon_svg( 'chevron_right', 22 )
 				),
 			)

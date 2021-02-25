@@ -69,15 +69,18 @@ function khaown_comment_form_default_fields( $fields ) {
 	$aria_req      = ( $req ? " aria-required='true'" : '' );
   
 	$fields = [
+		'comment_field' => '<p class="comment-form-comment"> 
+				<textarea placeholder="'. esc_attr__( '* Your comment...', 'khaown' ) .'" id="comment" name="comment" cols="45" rows="4" maxlength="65525" aria-required="true" required="required"></textarea>
+			  </p>',
 		'author' => '<p class="comment-form-author">' .
-					'<input placeholder="'. esc_attr__( '* 您的名字... ', 'khaown' ) .'"  required="required" id="author" name="author" type="text" value="' . esc_attr( $commenter['comment_author'] ) . '" size="30" maxlength="245"' . ' />
+					'<input placeholder="'. esc_attr__( '* Your Name... ', 'khaown' ) .'"  required="required" id="author" name="author" type="text" value="' . esc_attr( $commenter['comment_author'] ) . '" size="30" maxlength="245"' . ' />
 		  </p>',
 		'email'  => '<p class="comment-form-email">' .
-					'<input placeholder="'. esc_attr__( '* 您的邮箱...', 'khaown' ) .'"  required="required" id="email" name="email" type="email" type="text"'  . ' value="' . esc_attr(  $commenter['comment_author_email'] ) . '" size="30" maxlength="100" aria-describedby="email-notes"'   . ' />
+					'<input placeholder="'. esc_attr__( '* Your Email...', 'khaown' ) .'"  required="required" id="email" name="email" type="email" type="text"'  . ' value="' . esc_attr(  $commenter['comment_author_email'] ) . '" size="30" maxlength="100" aria-describedby="email-notes"'   . ' />
 		  </p>',
-        'comment_field' => '<p class="comment-form-comment"> 
-				<textarea placeholder="'. esc_attr__( '* 您的评论内容...', 'khaown' ) .'" id="comment" name="comment" cols="45" rows="4" maxlength="65525" aria-required="true" required="required"></textarea>
-			  </p>',
+		'url'    => '<p class="comment-form-url">' .
+					'<input placeholder="'. esc_attr__( '( Optional ) Your Url : http://example.com/...', 'khaown' ) .'"  id="url" name="url" type="url" type="text" value="' . esc_attr( $commenter['comment_author_url'] ) . '" size="30" maxlength="200" />
+		  </p>',
   
 	];
   

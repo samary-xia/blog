@@ -2,13 +2,14 @@
 Theme Name: Khaown
 Author: motahar1
 Author URI: http://e-motahar.com
-Description: Khaown theme is a fully customizable, fast loading, responsive, seo optimised and stunning default designed for blog, portfolio, e-commerce, non-profit, restaurant and a wide range of websites. Everything is customizable. You can change the font-family, font-size, color, background-color and everything. It has the default stunnig design and you can customize everything. It's responsive for mobile and other devices. And the code seo friendly and brwoser compatible.
+Description: Khaown is the suitable and perfect theme for your project. Cross Browser compatible and SEO friendly. Responsive and lightweight. Compatible and suitable with WooCommerce. Best friend of Elementor. Made resposive and mobile friendly with Bootstrap framework.
 Requires at least: WordPress 4.9.6
-Version: 3.1
+Requires PHP: 5.2.4
+Version: 3.4
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: khaown
-Tags: accessibility-ready, blog, news, custom-logo, custom-colors, custom-menu, custom-background, custom-Header, flexible-header, editor-style, featured-images, one-column, two-columns, left-sidebar, right-sidebar, full-width-template, theme-options, threaded-comments, translation-ready
+Tags: accessibility-ready, blog, news, e-commerce, custom-logo, custom-colors, custom-menu, custom-background, custom-header, editor-style, featured-images, grid-layout, one-column, two-columns, three-columns, four-columns, left-sidebar, right-sidebar, full-width-template, theme-options, threaded-comments, translation-ready
 
 
 Khaown is based on Underscores https://underscores.me/, (C) 2012-2020 Automattic, Inc.
@@ -1002,8 +1003,8 @@ nav.bg-dark .logo-dark {
   padding: 6px 10px; }
 
 .menu > li.has-sub ul li ul {
-  left: 50%;
-  top: 45px; }
+  left: 100%;
+  top: 0px; }
 
 .menu > li:hover > ul,
 .menu > li:focus > ul,
@@ -1020,7 +1021,7 @@ nav.bg-dark .logo-dark {
 .menu > li > ul > li:focus > ul,
 .has-dropdown:focus .mega-menu ul {
   position: absolute;
-  top: 35px;
+  top: -8px;
   opacity: 1;
   -webkit-transform: translate3d(0, 0px, 0);
           transform: translate3d(0, 0px, 0);
@@ -1709,15 +1710,32 @@ input.form-control:focus {
           box-shadow: none;
   border: none; }
 
-input, input[type="text"], input[type="date"], input[type="password"], input[type="email"], input[type="url"] {
+input, input[type="text"], input[type="date"], input[type="password"], input[type="email"], .woocommerce button.button,
+input[type="url"], input[type="file"], input[type="radio"], input[type="checkbox"], .woocommerce a.button,
+.woocommerce a.button.alt {
   background: #f5f5f5;
   border: none;
-  width: 100%;
-  height: 50px;
   padding-left: 20px;
   font-weight: 500;
   margin-bottom: 24px;
-  border-radius: 0; }
+  border-radius: 0;
+  width: auto; }
+
+input[type="text"], input[type="date"], input[type="number"], input[type="password"], .woocommerce button.button,
+input[type="email"], input[type="url"], input[type="file"], input[type="tel"], .woocommerce a.button,
+.woocommerce a.button.alt {
+  width: 100%;
+  height: 42px; }
+
+input[type="reset"] {
+  width: 200px;
+  background: #f5f5f5;
+  color: black;
+  padding: 0; }
+
+input[type="file"] {
+  padding: 0;
+  background: #fff; }
 
 input[type="date"] {
   background: #fff url(https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png) 5% 50% no-repeat;
@@ -1734,6 +1752,9 @@ input[type="date"] {
 
 .input-group-addon:first-child {
   border-radius: 0; }
+
+.checkbox {
+  width: auto; }
 
 .image-bg input[type="text"],
 .image-bg input[type="date"],
@@ -1807,7 +1828,7 @@ button.transparent:-ms-input-placeholder {
   color: #fff; }
 
 input[type="submit"],
-button[type="submit"] {
+button[type="submit"], .button {
   height: 50px;
   line-height: 48px;
   width: 100%;
@@ -2466,7 +2487,7 @@ button[type="submit"] .form-loading {
     margin-top: 8	px; } }
 /*!---------- 17. PAGINATION ----------*/
 .pagination {
-  margin: 0; }
+  margin: 15px 0; }
 
 .pagination li a {
   width: 32px;
@@ -2500,7 +2521,7 @@ button[type="submit"] .form-loading {
   background: #fff; }
 
 .feature.bordered {
-  padding: 32px;
+  padding: 24px;
   border: 1px solid #ccc; }
 
 .feature {
@@ -4999,6 +5020,99 @@ footer.bg-dark a {
 .pb240 {
   padding-bottom: 240px; }
 
+.px8 {
+  padding-left: 8px;
+  padding-right: 8px; }
+
+.px16 {
+  padding-left: 16px;
+  padding-right: 16px; }
+
+.px24 {
+  padding-left: 24px;
+  padding-right: 24px; }
+
+.px32 {
+  padding-left: 32px;
+  padding-right: 32px; }
+
+.px40 {
+  padding-left: 40px;
+  padding-right: 40px; }
+
+.px48 {
+  padding-left: 48px;
+  padding-right: 48px; }
+
+.py8 {
+  padding-top: 8px;
+  padding-bottom: 8px; }
+
+.py16 {
+  padding-top: 16px;
+  padding-bottom: 16px; }
+
+.py24 {
+  padding-top: 24px;
+  padding-bottom: 24px; }
+
+.py32 {
+  padding-top: 32px;
+  padding-bottom: 32px; }
+
+.py40 {
+  padding-top: 40px;
+  padding-bottom: 40px; }
+
+.py48 {
+  padding-top: 48px;
+  padding-bottom: 48px; }
+
+.pl8 {
+  padding-left: 8px; }
+
+.pl16 {
+  padding-left: 16px; }
+
+.pl24 {
+  padding-left: 24px; }
+
+.pl32 {
+  padding-left: 32px; }
+
+.pl40 {
+  padding-left: 40px; }
+
+.pl48 {
+  padding-left: 48px; }
+
+.pr8 {
+  padding-right: 8px; }
+
+.pr16 {
+  padding-right: 16px; }
+
+.pr24 {
+  padding-right: 24px; }
+
+.pr32 {
+  padding-right: 32px; }
+
+.pr40 {
+  padding-right: 40px; }
+
+.pr48 {
+  padding-right: 48px; }
+
+.pb240 {
+  padding-bottom: 240px; }
+
+.pb240 {
+  padding-bottom: 240px; }
+
+.pb240 {
+  padding-bottom: 240px; }
+
 .ml16 {
   margin-left: 16px; }
 
@@ -5753,6 +5867,128 @@ a img.aligncenter {
   .menu li ul li {
     border-bottom: 0; } }
 /*--------------------------------------------------------------
+## WooCommerce
+--------------------------------------------------------------*/
+#ship-to-different-address input#ship-to-different-address-checkbox {
+  margin-left: 0; }
+
+#ship-to-different-address .checkbox {
+  margin-bottom: 0px; }
+  #ship-to-different-address .checkbox span {
+    margin-top: -6px;
+    margin-left: 20px; }
+
+h3#ship-to-different-address label.checkbox {
+  width: 100%;
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row; }
+
+.woocommerce #content div.product .khaown-wc-image-edit div.images {
+  float: left;
+  width: 100%; }
+
+.woocommerce #content div.product div.summary.khaown-wc-product-summery {
+  float: right;
+  width: 100%;
+  clear: none; }
+
+.woocommerce #respond input#submit, .woocommerce a.button, .woocommerce button.button, .woocommerce input.button {
+  font-size: 100%;
+  margin: 0;
+  line-height: 24px;
+  cursor: pointer;
+  position: relative;
+  text-decoration: none;
+  overflow: visible;
+  padding: .618em 1em;
+  font-weight: 700;
+  border-radius: 3px;
+  left: auto;
+  color: #515151;
+  background-color: #ebe9eb;
+  border: 0;
+  display: inline-block;
+  background-image: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  text-shadow: none; }
+
+.woocommerce #respond input#submit.disabled, .woocommerce #respond input#submit:disabled, .woocommerce #respond input#submit:disabled[disabled], .woocommerce a.button.disabled, .woocommerce a.button:disabled, .woocommerce a.button:disabled[disabled], .woocommerce button.button.disabled, .woocommerce button.button:disabled, .woocommerce button.button:disabled[disabled], .woocommerce input.button.disabled, .woocommerce input.button:disabled, .woocommerce input.button:disabled[disabled] {
+  color: inherit;
+  cursor: not-allowed;
+  opacity: .5;
+  padding: .618em 1em;
+  margin-top: 9px; }
+
+.woocommerce table.cart td.actions .coupon .input-text {
+  margin-top: 7px; }
+
+.woocommerce .cart button[type="submit"] {
+  float: none;
+  margin-top: 7px; }
+
+a.checkout-button.button.alt.wc-forward.aLinkUrl {
+  line-height: 24px;
+  height: 48px;
+  font-size: 100%; }
+
+.woocommerce a.added_to_cart {
+  display: inline-block;
+  margin: 10px 0;
+  padding: 5px 10px; }
+
+.khaown-product-thumbnail img {
+  width: 350px;
+  height: 250px;
+  margin: 15px auto; }
+
+.woocommerce ul.products li.product, .woocommerce-page ul.products li.product {
+  padding: 25px; }
+
+.woocommerce .woocommerce-ordering select {
+  width: 250px;
+  background: #fff;
+  border: 1px solid #f1f1f1; }
+
+.woocommerce .woocommerce-result-count {
+  width: 250px;
+  background: #fff;
+  border: 1px solid #f1f1f1;
+  height: 42px;
+  padding-left: 20px;
+  vertical-align: middle;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center; }
+
+.woocommerce .related ul.products li.product {
+  float: left;
+  margin: 0 3.8% 2.992em 0;
+  padding: 10px;
+  position: relative;
+  width: 100%;
+  margin-left: 0; }
+
+.quantity .input-text {
+  width: 75px;
+  padding: 0px 5px;
+  font-size: 18px;
+  margin-top: 7px; }
+
+@media all and (max-width: 767px) {
+  .khaown-product-thumbnail img {
+    width: 100%;
+    height: 100%;
+    margin: 15px auto; } }
+/*--------------------------------------------------------------
 ## Custom
 --------------------------------------------------------------*/
 /****** CUSTOM STYLES HERE ******/
@@ -5907,17 +6143,16 @@ button.add-to-cart-btn {
   position: absolute;
   z-index: 2;
   bottom: 0;
-  left: 25%; }
-
-button.add-to-cart-btn {
-  position: absolute;
-  z-index: 2;
-  bottom: 0;
   left: 25%;
   border: none;
-  background: rgba(0, 0, 0, 0.38);
-  color: #fff;
+  background: rgba(255, 255, 255, 0.9);
+  color: #000;
   width: 200px; }
+
+button.add-to-cart-btn:hover {
+  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  color: #000; }
 
 p.product.woocommerce.add_to_cart_inline {
   cursor: auto; }
@@ -5961,15 +6196,10 @@ span.woocommerce-Price-amount.amount {
   text-decoration: none;
   padding: 0 10px; }
 
-.quantity .input-text {
-  width: 75px;
-  padding: 0px 5px;
-  font-size: 18px; }
-
 button.single_add_to_cart_button.button.alt {
   width: 135px;
   line-height: 20px;
-  height: 35px; }
+  height: 42px; }
 
 .woocommerce-tabs.wc-tabs-wrapper {
   margin-top: 30px; }
@@ -6228,7 +6458,8 @@ a:visited {
   height: 30px; }
 
 .comment-author.vcard span.says {
-  padding-left: 5px; }
+  padding-left: 5px;
+  margin-top: -6px; }
 
 .comment-author.vcard {
   display: -webkit-box;
@@ -6252,9 +6483,6 @@ nav ul {
 .nav-bar .logo img {
   height: 50px;
   width: 150px; }
-
-.bg-menu-4 {
-  background-color: #be9ae2; }
 
 h1:not(.site-title):before, h2:before {
   background: #767676;
@@ -6317,7 +6545,7 @@ h1.khaown-site-title, .khaown-site-description {
   background: #fff; }
 
 .khaown-entry-title {
-  margin: 45px 0 0; }
+  margin: 16px 0 0; }
 
 .bypostauthor {
   background-color: #fff; }
@@ -6484,9 +6712,7 @@ a:visited, button:visited, input:visited,
           box-shadow: none;
   outline: 0; }
 
-input:focus, input:active, input:visited {
-  height: 50px; }
-
+input[type="submit"], button[type="submit"]
 li.menu-item.active > a span {
   height: 100%;
   border-bottom: 2px solid #545454; }
@@ -6510,7 +6736,7 @@ pre.wp-block-preformatted, pre.wp-block-verse {
 .nav-bar h1.khaown-site-title a {
   font-size: 24px;
   font-weight: 500;
-  margin-top: 15px; }
+  margin-top: 10px; }
 
 #single-content img {
   height: auto; }
@@ -6520,18 +6746,21 @@ body.logged-in.admin-bar header nav {
 
 .widget .search-container input.form-control:focus {
   outline: 2px solid #000;
-  background-color: white; }
+  background-color: white;
+  color: #000; }
 
 input.form-control:focus, input:focus, textarea:focus, .form-control:focus {
   outline: 2px solid #000;
-  background-color: white; }
+  background-color: white;
+  color: #000; }
 
 .btn:focus, button:focus, .em_comment input#submit:focus, input[type='submit']:focus {
   outline: 2px solid #000;
   color: #000;
-  background-color: #fff; }
+  background-color: #fff;
+  color: #000; }
 
-.site-footer a.back-to-top {
+.site-footer .back-to-top {
   opacity: 1;
   background-color: #ffffff;
   color: #000; }
@@ -6545,6 +6774,53 @@ input.form-control:focus, input:focus, textarea:focus, .form-control:focus {
 
 .khaown-entry-header span.posted-on a {
   cursor: text; }
+
+.pagination .nav-links .page-numbers {
+  width: auto;
+  border: 1px solid #f1f1f1;
+  height: 30px;
+  margin: 5px;
+  padding: 0px 10px;
+  -webkit-transition: all .4s;
+  transition: all .4s; }
+
+.pagination .nav-links .page-numbers:hover {
+  -webkit-transition: all .4s;
+  transition: all .4s; }
+
+.pagination .nav-links .page-numbers.dots {
+  border: 0; }
+
+.pagination .nav-links .page-numbers.current {
+  background: #f1f1f1; }
+
+.khaown-single-page-thumbnail img {
+  width: 100%;
+  height: 100%; }
+
+.khaown-article-post ol {
+  display: block;
+  list-style-type: decimal;
+  -webkit-margin-before: 0;
+          margin-block-start: 0;
+  -webkit-margin-after: 0;
+          margin-block-end: 0;
+  -webkit-margin-start: 0px;
+     -moz-margin-start: 0px;
+          margin-inline-start: 0px;
+  -webkit-margin-end: 0px;
+     -moz-margin-end: 0px;
+          margin-inline-end: 0px;
+  -webkit-padding-start: 15px;
+     -moz-padding-start: 15px;
+          padding-inline-start: 15px;
+  display: none; }
+
+.khaown-default-post-view .col-md-5 {
+  padding-left: 0; }
+
+input[type="search"] {
+  border: 1px solid #ccc; }
 
 @media all and (max-width: 991px) {
   .nav-bar h1.khaown-site-title {
@@ -6574,7 +6850,7 @@ input.form-control:focus, input:focus, textarea:focus, .form-control:focus {
   .search-container input.form-control {
     height: 40px; }
 
-  input[type="submit"], button[type="submit"] {
+  input[type="submit"], button[type="submit"], .button {
     height: 40px;
     line-height: 40px;
     width: 129px !important; }
@@ -6633,7 +6909,7 @@ input.form-control:focus, input:focus, textarea:focus, .form-control:focus {
     vertical-align: middle; }
 
   .pagination .nav-links svg.svg-icon {
-    margin-top: 0px; }
+    margin-top: 5px; }
 
   .comment {
     padding-left: 0; }

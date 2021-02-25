@@ -985,8 +985,8 @@ nav.bg-dark .logo-dark {
   padding: 6px 10px;
 }
 .menu > li.has-sub ul li ul {
-  left: 50%;
-  top: 45px;
+  left: 100%;
+  top: 0px;
 }
 
 .menu > li:hover > ul, 
@@ -1003,7 +1003,7 @@ nav.bg-dark .logo-dark {
 .menu > li > ul > li:focus > ul,
 .has-dropdown:focus .mega-menu ul {
   position: absolute;
-  top: 35px;
+  top: -8px;
   opacity: 1;
   transform: translate3d(0, 0px, 0);
   visibility: visible;
@@ -1700,16 +1700,35 @@ input.form-control:focus {
   box-shadow: none;
   border: none;
 }
-input, input[type="text"], input[type="date"], input[type="password"], input[type="email"], input[type="url"] {
+input, input[type="text"], input[type="date"], input[type="password"], input[type="email"], .woocommerce button.button,
+input[type="url"], input[type="file"], input[type="radio"], input[type="checkbox"], .woocommerce a.button,
+.woocommerce a.button.alt {
   background: #f5f5f5;
   border: none;
-  width: 100%;
-  height: 50px;
   padding-left: 20px;
   font-weight: 500;
   margin-bottom: 24px;
   border-radius: 0;
+  width: auto;
 }
+input[type="text"], input[type="date"], input[type="number"], input[type="password"], .woocommerce button.button,
+input[type="email"], input[type="url"], input[type="file"], input[type="tel"], .woocommerce a.button,
+.woocommerce a.button.alt {
+  width: 100%;
+  height: 42px;
+}
+
+input[type="reset"] {
+  width: 200px;
+  background: #f5f5f5;
+  color: black;
+  padding: 0;
+}
+input[type="file"] {
+  padding: 0;
+  background: #fff;
+}
+
 input[type="date"] {
   background: #fff url(https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png) 5% 50% no-repeat;
   padding-left: 45px;
@@ -1725,6 +1744,9 @@ input[type="date"] {
 }
 .input-group-addon:first-child {
   border-radius: 0;
+}
+.checkbox {
+  width: auto;
 }
 
 
@@ -1800,7 +1822,7 @@ button.transparent:-ms-input-placeholder {
   color: #fff;
 }
 input[type="submit"],
-button[type="submit"] {
+button[type="submit"], .button {
   height: 50px;
   line-height: 48px;
   width: 100%;
@@ -2467,7 +2489,7 @@ button[type="submit"] .form-loading {
 }
 /*!---------- 17. PAGINATION ----------*/
 .pagination {
-  margin: 0;
+  margin: 15px 0;
 }
 .pagination li a {
   width: 32px;
@@ -2501,7 +2523,7 @@ button[type="submit"] .form-loading {
   background: #fff;
 }
 .feature.bordered {
-  padding: 32px;
+  padding: 24px;
   border: 1px solid #ccc;
 }
 .feature {
@@ -5124,6 +5146,122 @@ footer.bg-dark a {
 .pb240 {
   padding-bottom: 240px;
 }
+.px8 {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+.px16 {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.px24 {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.px32 {
+  padding-left: 32px;
+  padding-right: 32px;
+}
+.px40 {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.px48 {
+  padding-left: 48px;
+  padding-right: 48px;
+}
+
+.py8 {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+.py16 {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.py24 {
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+
+.py32 {
+  padding-top: 32px;
+  padding-bottom: 32px;
+}
+
+.py40 {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.py48 {
+  padding-top: 48px;
+  padding-bottom: 48px;
+}
+
+.pl8 {
+  padding-left: 8px;
+}
+.pl16 {
+  padding-left: 16px;
+}
+
+.pl24 {
+  padding-left: 24px;
+}
+
+.pl32 {
+  padding-left: 32px;
+}
+
+.pl40 {
+  padding-left: 40px;
+}
+
+.pl48 {
+  padding-left: 48px;
+}
+
+.pr8 {
+  padding-right: 8px;
+}
+.pr16 {
+  padding-right: 16px;
+}
+
+.pr24 {
+  padding-right: 24px;
+}
+
+.pr32 {
+  padding-right: 32px;
+}
+
+.pr40 {
+  padding-right: 40px;
+}
+
+.pr48 {
+  padding-right: 48px;
+}
+
+
+
+.pb240 {
+  padding-bottom: 240px;
+}
+.pb240 {
+  padding-bottom: 240px;
+}
+.pb240 {
+  padding-bottom: 240px;
+}
+
+
 .ml16 {
   margin-left: 16px;
 }
