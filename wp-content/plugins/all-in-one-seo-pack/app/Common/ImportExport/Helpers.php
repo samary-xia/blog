@@ -1,6 +1,11 @@
 <?php
 namespace AIOSEO\Plugin\Common\ImportExport;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Contains helper methods for the import from other plugins.
  *

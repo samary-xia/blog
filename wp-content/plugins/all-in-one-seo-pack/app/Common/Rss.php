@@ -1,6 +1,11 @@
 <?php
 namespace AIOSEO\Plugin\Common;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Adds content before or after posts in the RSS feed.
  *

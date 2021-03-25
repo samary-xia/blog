@@ -1,0 +1,53 @@
+.izo-container {
+	@include container;
+	padding-left: 15px;
+	padding-right: 15px;
+	
+	@include media-min-992 {
+		&.has-sidebar {
+			display: grid;
+			grid-template-columns: auto ($size__site-sidebar);
+			grid-gap: 30px;
+			grid-template-areas:
+				"main sidebar"
+		}
+	}
+	&.has-sidebar {
+		.elementor-page.no-sidebar & {
+			display: block !important;
+		}
+		
+		.layout-wide & {
+			grid-template-areas: "main";
+			grid-template-columns: auto;
+		}
+
+		.layout-wide.single-post & {
+			display: block;
+		}
+	}
+	
+}
+
+.izo-container-fluid {
+	padding-left: 15px;
+	padding-right: 15px;
+	max-width: 100%;
+
+	@include media-min-992 {
+		padding-left: 60px;
+		padding-right: 60px;	
+	}
+}
+
+.site-main {
+	grid-area: main;
+	overflow: hidden; /* Resolves issue with <pre> elements forcing full width. */
+}
+
+.widget-area {
+	grid-area: sidebar;
+}
+
+.site-footer {
+}

@@ -1,6 +1,11 @@
 <?php
 namespace AIOSEO\Plugin\Common\Utils;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Database utility class for AIOSEO.
  *

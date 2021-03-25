@@ -1,6 +1,11 @@
 <?php
 namespace AIOSEO\Plugin\Common\ImportExport\YoastSeo;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 // phpcs:disable WordPress.Arrays.ArrayDeclarationSpacing.AssociativeArrayFound
 
 /**

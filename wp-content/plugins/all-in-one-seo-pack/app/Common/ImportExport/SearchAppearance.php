@@ -1,6 +1,11 @@
 <?php
 namespace AIOSEO\Plugin\Common\ImportExport;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Migrates the Search Appearance settings.
  *

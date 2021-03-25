@@ -1,6 +1,11 @@
 <?php
 namespace AIOSEO\Plugin\Common\Api;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use AIOSEO\Plugin\Common\Models;
 use AIOSEO\Plugin\Common\Tools as CommonTools;
 

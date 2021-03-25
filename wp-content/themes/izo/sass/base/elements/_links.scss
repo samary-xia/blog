@@ -1,0 +1,31 @@
+a {
+	color: $color__link;
+	text-decoration: none;
+	transition: color 0.3s;
+
+	&:hover,
+	&:focus,
+	&:active {
+		color: $color__link-hover;
+		text-decoration: none;
+	}
+
+	&:focus {
+		outline: thin dotted;
+	}
+
+	&:hover,
+	&:active {
+		outline: 0;
+	}
+
+	.entry-content & {
+		text-decoration: underline;
+	}
+
+	.product-name &,
+	&.remove,
+	&.button {
+		text-decoration: none;
+	}
+}

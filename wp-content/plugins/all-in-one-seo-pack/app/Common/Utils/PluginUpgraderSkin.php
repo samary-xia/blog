@@ -1,6 +1,11 @@
 <?php
 namespace AIOSEO\Plugin\Common\Utils;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 require_once ABSPATH . 'wp-admin/includes/plugin.php';
 require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader-skin.php';
 

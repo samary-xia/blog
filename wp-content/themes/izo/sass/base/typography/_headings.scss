@@ -1,0 +1,67 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.site-title {
+	clear: both;
+	line-height: 1.2;
+	font-weight: 600;
+	color: $color__headings;
+	font-family: $font__main;
+
+	a {
+		color: $color__headings;
+		text-decoration: none;
+	}
+}
+
+.site-title,
+h1 {
+	@include font-size(40);
+	margin: 20px 0;
+}
+h2 {
+	@include font-size(32);
+	margin: 16px 0;	
+}
+h3 {
+	@include font-size(28);
+}
+h4 {
+	@include font-size(24);
+}
+h5 {
+	@include font-size(20);
+}
+h6 {
+	@include font-size(16);
+}
+h3,h4,h5,h6 {
+	margin: 14px 0;
+}
+
+body:not(.elementor-page) .entry-content {
+	h1 {
+		margin-top: 46px;
+		margin-bottom: 32px;
+	}
+	h2 {
+		margin-top: 38px;
+		margin-bottom: 24px;
+	}
+	h3 {
+		margin-top: 34px;
+		margin-bottom: 20px;
+	}
+	h4 {
+		margin-top: 30px;
+	}
+	h5 {
+		margin-top: 24px;
+	}
+	h6 {
+		margin-top: 18px;
+	}
+}

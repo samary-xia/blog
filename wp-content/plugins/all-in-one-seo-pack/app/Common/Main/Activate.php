@@ -1,6 +1,11 @@
 <?php
 namespace AIOSEO\Plugin\Common\Main;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Abstract class that Pro and Lite both extend.
  *
@@ -23,6 +28,31 @@ class Activate {
 			aioseo()->transients->delete( 'pro_just_deactivated_lite', true );
 			$this->activate( false );
 		}
+	}
+
+	/**
+	 * Runs on activation.
+	 *
+	 * @since 4.0.17
+	 *
+	 * @param  bool $networkWide Whether or not this is a network wide activation.
+	 * @return void
+	 */
+	public function activate( $networkWide ) {
+		aioseo()->access->addCapabilities();
+
+		// Make sure our tables exist.
+		aioseo()->updates->addInitialCustomTablesForV4();
+
+		// Set the activation timestamps.
+		$time = time();
+		aioseo()->internalOptions->internal->activated = $time;
+
+		if ( ! aioseo()->internalOptions->internal->firstActivated ) {
+			aioseo()->internalOptions->internal->firstActivated = $time;
+		}
+
+		aioseo()->transients->clearCache();
 	}
 
 	/**

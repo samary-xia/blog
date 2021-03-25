@@ -1,6 +1,11 @@
 <?php
 namespace AIOSEO\Plugin\Common\Schema;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Determines the context.
  *
@@ -116,7 +121,7 @@ class Context {
 			'description' => $description,
 			'url'         => $url,
 			'breadcrumb'  => $this->breadcrumb->setPositions( [
-				'name'        => trim( sprintf( '%1$s %2$s', get_the_author_meta( 'first_name', $author->ID ), get_the_author_meta( 'last_name', $author->ID ) ) ),
+				'name'        => get_the_author_meta( 'display_name', $author->ID ),
 				'description' => $description,
 				'url'         => $url,
 				'type'        => 'CollectionPage'

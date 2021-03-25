@@ -1,0 +1,60 @@
+// Center block
+@mixin center-block {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+@mixin container {
+	max-width: 1170px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+// Column width with margin
+@mixin column-width($numberColumns: 3) {
+	width: map-get($columns, $numberColumns) - ( ( $columns__margin * ( $numberColumns - 1 ) ) / $numberColumns );
+}
+
+// Rem output with px fallback
+@mixin font-size($sizeValue: 1) {
+	font-size: ($sizeValue) * 1px;
+	font-size: ($sizeValue / 16) * 1rem;	
+}
+
+// Vertical align
+@mixin v-align {
+	display: flex;
+	align-items: center;
+	flex-basis: 100%;
+}
+
+//Media queries
+@mixin media-min-576 {
+	@media (min-width: 576px ) {
+	  @content;
+	}
+}
+@mixin media-min-768 {
+	@media (min-width: 768px ) {
+	  @content;
+	}
+}
+
+@mixin media-max-767 {
+	@media (max-width: 767px ) {
+	  @content;
+	}
+}
+
+@mixin media-min-992 {
+	@media (min-width: 992px ) {
+	  @content;
+	}
+}
+
+@mixin media-max-991 {
+	@media (max-width: 991px ) {
+	  @content;
+	}
+}

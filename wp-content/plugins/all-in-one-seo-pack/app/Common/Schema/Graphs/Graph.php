@@ -1,6 +1,11 @@
 <?php
 namespace AIOSEO\Plugin\Common\Schema\Graphs;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * The base graph class.
  *
@@ -25,25 +30,30 @@ abstract class Graph {
 	 * @return array $data    The image graph data.
 	 */
 	protected function image( $imageId, $graphId ) {
-		$imageId = is_string( $imageId ) && ! is_numeric( $imageId ) ? aioseo()->helpers->attachmentUrlToPostId( $imageId ) : $imageId;
+		$attachmentId = is_string( $imageId ) && ! is_numeric( $imageId ) ? aioseo()->helpers->attachmentUrlToPostId( $imageId ) : $imageId;
+		$imageUrl     = wp_get_attachment_image_url( $attachmentId, 'full' );
 
 		$data = [
 			'@type' => 'ImageObject',
 			'@id'   => trailingslashit( home_url() ) . '#' . $graphId,
-			'url'   => wp_get_attachment_image_url( $imageId, 'full' ),
+			'url'   => $imageUrl ? $imageUrl : $imageId,
 		];
 
-		$metaData = wp_get_attachment_metadata( $imageId );
+		if ( ! $attachmentId ) {
+			return $data;
+		}
+
+		$metaData = wp_get_attachment_metadata( $attachmentId );
 		if ( $metaData ) {
 			$data['width']  = $metaData['width'];
 			$data['height'] = $metaData['height'];
 		}
 
-		$caption = wp_get_attachment_caption( $imageId );
+		$caption = wp_get_attachment_caption( $attachmentId );
 		if ( false !== $caption || ! empty( $caption ) ) {
 			$data['caption'] = $caption;
 		}
-		return array_filter( $data );
+		return $data;
 	}
 
 	/**
@@ -65,18 +75,13 @@ abstract class Graph {
 			return [];
 		}
 
-		$caption = trim( sprintf( '%1$s %2$s', get_the_author_meta( 'first_name', $userId ), get_the_author_meta( 'last_name', $userId ) ) );
-		if ( ! $caption ) {
-			$caption = get_the_author_meta( 'display_name', $userId );
-		}
-
 		return array_filter( [
 			'@type'   => 'ImageObject',
 			'@id'     => aioseo()->schema->context['url'] . "#$graphId",
 			'url'     => $avatar['url'],
 			'width'   => $avatar['width'],
 			'height'  => $avatar['height'],
-			'caption' => $caption
+			'caption' => get_the_author_meta( 'display_name', $userId )
 		] );
 	}
 

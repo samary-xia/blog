@@ -1,0 +1,52 @@
+@media ( min-width: 991px ) {
+	.llms-checkout-col.llms-col-1 {
+		width: calc( 70% - 30px );
+		float: left;
+		margin-right: 30px;
+	}
+	.llms-checkout-col.llms-col-2 {
+		width: 30%;
+		float: right;
+	}
+}
+.llms-checkout-wrapper .llms-notice {
+	background:#fff;
+	border:0;
+}
+.llms-checkout-section {
+	border: 0;
+	background: #fff;
+	padding: 30px;
+}
+.llms-checkout-wrapper .llms-form-heading {
+	margin-top: 0!important;
+	margin-bottom: 20px;
+}
+.llms-form-field {
+	padding-left: 0;
+	padding-right: 0;
+}
+.llms-form-fields {
+	margin-left: 0;
+	margin-right: 0;
+}
+.llms-form-field.type-submit {
+	margin-top: 30px;
+}
+.llms-loop-item-content {
+	background: #fff;
+	padding-bottom: 15px;
+}
+.llms-author .name,
+.llms-author .avatar {
+	vertical-align: middle;
+}
+.llms-loop-item-content .llms-meta, .llms-loop-item-content .llms-author {
+	margin-bottom: 10px;
+}
+.llms-loop-item-content .llms-meta, .llms-loop-item-content .llms-author, .llms-loop-item-content .llms-loop-title {
+	padding: 0 20px;
+}
+.llms-loop-item-content .llms-loop-title {
+	margin-top: 15px;
+}

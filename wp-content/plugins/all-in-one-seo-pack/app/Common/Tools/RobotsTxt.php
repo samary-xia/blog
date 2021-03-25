@@ -1,6 +1,11 @@
 <?php
 namespace AIOSEO\Plugin\Common\Tools;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use AIOSEO\Plugin\Common\Models;
 
 class RobotsTxt {
@@ -350,7 +355,7 @@ class RobotsTxt {
 			'notification_name' => 'robots-physical-file',
 			'title'             => __( 'Physical Robots.txt File Detected', 'all-in-one-seo-pack' ),
 			'content'           => sprintf(
-				// Translators: 1 - The plugin name ("All in One SEO"), 2 - The plugin name ("All in One SEO").
+				// Translators: 1 - The plugin short name ("AIOSEO"), 2 - The plugin short name ("AIOSEO").
 				__( '%1$s has detected a physical robots.txt file in the root folder of your WordPress installation. We recommend removing this file as it could cause conflicts with WordPress\' dynamically generated one. %2$s can import this file and delete it, or you can simply delete it.', 'all-in-one-seo-pack' ), // phpcs:ignore Generic.Files.LineLength.MaxExceeded
 				AIOSEO_PLUGIN_SHORT_NAME,
 				AIOSEO_PLUGIN_SHORT_NAME

@@ -1,6 +1,11 @@
 <?php
 namespace AIOSEO\Plugin\Common\Main;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use AIOSEO\Plugin\Common\Meta;
 
 /**
@@ -125,7 +130,7 @@ class Head {
 	 * @return void
 	 */
 	public function rewriteTitle() {
-		$content   = ob_get_clean();
+		$content   = apply_filters( 'aioseo_flush_output_buffer', true ) ? ob_get_clean() : ob_get_contents();
 		$split     = explode( '</head>', $content );
 		$head      = $split[0] . '</head>';
 
@@ -165,7 +170,7 @@ class Head {
 		) . " -->\n";
 
 		foreach ( $views as $view ) {
-			require_once( $view );
+			require( $view );
 		}
 
 		echo "\t\t<!-- " . esc_html( AIOSEO_PLUGIN_NAME ) . " -->\n\n";

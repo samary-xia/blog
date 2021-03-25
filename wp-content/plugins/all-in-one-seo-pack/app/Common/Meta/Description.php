@@ -1,6 +1,11 @@
 <?php
 namespace AIOSEO\Plugin\Common\Meta;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Handles the (Open Graph) description.
  *
@@ -99,7 +104,7 @@ class Description {
 
 		$description = '';
 		if ( ! empty( $metaData->description ) && ! $default ) {
-			$description = $this->prepareDescription( $metaData->description, $post->ID );
+			$description = $this->prepareDescription( $metaData->description, $post->ID, false, false );
 		}
 
 		if (
@@ -111,7 +116,7 @@ class Description {
 		}
 
 		if ( ! $description ) {
-			$description = $this->prepareDescription( $this->getPostTypeDescription( $post->post_type ), $post->ID, $default );
+			$description = $this->prepareDescription( $this->getPostTypeDescription( $post->post_type ), $post->ID, $default, false );
 		}
 
 		$generateDescriptions = apply_filters( 'aioseo_generate_descriptions_from_content', true, [ $post ] );
@@ -125,10 +130,9 @@ class Description {
 				$description = aioseo()->helpers->getContent( $post );
 			}
 
-			$description = $this->prepareDescription( $description, $post->ID, $default );
-
+			$description = $this->prepareDescription( $description, $post->ID, $default, false );
 			if ( ! $description && $generateDescriptions && $post->post_content ) {
-				$description = $this->prepareDescription( aioseo()->helpers->getContent( $post ), $post->ID, $default );
+				$description = $this->prepareDescription( aioseo()->helpers->getContent( $post ), $post->ID, $default, false );
 			}
 		}
 
@@ -139,11 +143,9 @@ class Description {
 					$description = preg_replace( '/#description/', $description, $descriptionFormat );
 				}
 			}
-
-			$description = $this->prepareDescription( $description, $post->ID, $default );
 		}
 
-		return $description ? $description : $this->prepareDescription( term_description( '' ), $post->ID, $default );
+		return $description ? $this->prepareDescription( $description, $post->ID, $default ) : $this->prepareDescription( term_description( '' ), $post->ID, $default );
 	}
 
 	/**
@@ -186,7 +188,7 @@ class Description {
 		if ( ! $description && $options->searchAppearance->dynamic->taxonomies->has( $term->taxonomy ) ) {
 			$description = $this->prepareDescription( aioseo()->options->searchAppearance->dynamic->taxonomies->{$term->taxonomy}->metaDescription, false, $default );
 		}
-		return $description ? $description : $this->prepareDescription( wp_strip_all_tags( term_description( $term->term_id ) ), false, $default );
+		return $description ? $description : $this->prepareDescription( term_description( $term->term_id ), false, $default );
 	}
 
 	/**
@@ -194,13 +196,14 @@ class Description {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param  string  $description The description.
-	 * @param  int     $id          The ID of the page or post.
-	 * @param  boolean $default     Whether we want the default value, not the post one.
-	 * @return string  $description The sanitized description.
+	 * @param  string  $description  The description.
+	 * @param  int     $id           The ID of the page or post.
+	 * @param  boolean $default      Whether we want the default value, not the post one.
+	 * @param  boolean $addPaged     Whether the paged format should be added to the description.
+	 * @return string  $description  The sanitized description.
 	 */
-	public function prepareDescription( $description, $id = false, $default = false ) {
-		if ( ! empty( $description ) && ! is_admin() && 1 < aioseo()->helpers->getPageNumber() ) {
+	public function prepareDescription( $description, $id = false, $default = false, $addPaged = true ) {
+		if ( ! empty( $description ) && ! is_admin() && $addPaged && 1 < aioseo()->helpers->getPageNumber() ) {
 			$description .= '&nbsp;' . trim( aioseo()->options->searchAppearance->advanced->pagedFormat );
 		}
 

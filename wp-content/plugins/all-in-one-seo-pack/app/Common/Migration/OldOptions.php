@@ -1,6 +1,11 @@
 <?php
 namespace AIOSEO\Plugin\Common\Migration;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Updates and holds the old options from V3.
  *

@@ -1,0 +1,14 @@
+body {
+	background: $color__background-body; // Fallback for when there is no custom background color defined.
+
+	&.woocommerce-page {
+		background-color: #fff;
+
+		.bottom-header-bar {
+			border-bottom: 1px solid #ebebeb;
+		}
+	}
+}
+.v-align {
+	@include v-align;
+}

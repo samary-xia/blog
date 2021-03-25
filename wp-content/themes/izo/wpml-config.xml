@@ -1,0 +1,18 @@
+<wpml-config>
+  <admin-texts>
+    <key name="theme_mods_izo">
+      <key name="header_custom_text"/>
+      <key name="header_phone"/>
+      <key name="header_mail"/>
+      <key name="header_button_text"/>
+      <key name="header_button_url"/>
+      <key name="mobile_menu_label"/>
+      <key name="main_header_button_text"/>
+      <key name="main_header_button_url"/>
+      <key name="main_header_custom_text"/>
+      <key name="logo_transparent"/>
+      <key name="footer_credits"/>
+      <key name="header_social_profiles"/>
+    </key>
+  </admin-texts>
+</wpml-config>

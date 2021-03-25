@@ -1,6 +1,11 @@
 <?php
 namespace AIOSEO\Plugin\Common\ImportExport\RankMath;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use AIOSEO\Plugin\Common\Models;
 
 // phpcs:disable WordPress.Arrays.ArrayDeclarationSpacing.AssociativeArrayFound
@@ -172,8 +177,8 @@ class PostMeta {
 					case 'rank_math_title':
 					case 'rank_math_description':
 						if ( 'page' === $post->post_type ) {
-							$value = preg_replace( '#%category%#', '', $value );
-							$value = preg_replace( '#%excerpt%#', '', $value );
+							$value = aioseo()->helpers->pregReplace( '#%category%#', '', $value );
+							$value = aioseo()->helpers->pregReplace( '#%excerpt%#', '', $value );
 						}
 						$value = aioseo()->importExport->rankMath->helpers->macrosToSmartTags( $value );
 					default:

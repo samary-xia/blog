@@ -1,6 +1,11 @@
 <?php
 namespace AIOSEO\Plugin\Common\Models;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * The Notification DB Model.
  *

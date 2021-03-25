@@ -1,6 +1,11 @@
 <?php
 namespace AIOSEO\Plugin\Common\Utils;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use AIOSEO\Plugin\Common\Models;
 use AIOSEO\Plugin\Common\Traits;
 
@@ -247,6 +252,7 @@ TEMPLATE
 					'nofollow'          => [ 'type' => 'boolean', 'default' => false ],
 					'noindexPaginated'  => [ 'type' => 'boolean', 'default' => true ],
 					'nofollowPaginated' => [ 'type' => 'boolean', 'default' => true ],
+					'noindexFeed'       => [ 'type' => 'boolean', 'default' => true ],
 					'noarchive'         => [ 'type' => 'boolean', 'default' => false ],
 					'noimageindex'      => [ 'type' => 'boolean', 'default' => false ],
 					'notranslate'       => [ 'type' => 'boolean', 'default' => false ],
@@ -507,7 +513,7 @@ TEMPLATE
 
 			// Search appearance
 			$defaultTitle       = '#post_title #separator_sa #site_title';
-			$defaultDescription = '#post_content';
+			$defaultDescription = $postType['hasExcerpt'] ? '#post_excerpt' : '#post_content';
 			$defaultSchemaType  = 'WebPage';
 			$defaultWebPageType = 'WebPage';
 			$defaultArticleType = 'BlogPosting';
@@ -791,17 +797,12 @@ TEMPLATE
 	public function sanitizeAndSave( $options ) {
 		$sitemapOptions           = ! empty( $options['sitemap'] ) && ! empty( $options['sitemap']['general'] ) ? $options['sitemap']['general'] : null;
 		$oldSitemapOptions        = aioseo()->options->sitemap->general->all();
-		$deprecatedSitemapOptions = ! empty( $options['deprecated'] ) &&
-			! empty( $options['deprecated']['sitemap'] ) &&
-			! empty( $options['deprecated']['sitemap']['general'] )
+		$deprecatedSitemapOptions = ! empty( $options['deprecated']['sitemap']['general'] )
 				? $options['deprecated']['sitemap']['general']
 				: null;
 		$oldDeprecatedSitemapOptions = aioseo()->options->deprecated->sitemap->general->all();
 		$oldPhoneOption              = aioseo()->options->searchAppearance->global->schema->phone;
-		$phoneNumberOptions          = ! empty( $options['searchAppearance'] ) &&
-			! empty( $options['searchAppearance']['global'] ) &&
-			! empty( $options['searchAppearance']['global']['schema'] ) &&
-			isset( $options['searchAppearance']['global']['schema']['phone'] )
+		$phoneNumberOptions          = isset( $options['searchAppearance']['global']['schema']['phone'] )
 				? $options['searchAppearance']['global']['schema']['phone']
 				: null;
 
@@ -908,57 +909,45 @@ TEMPLATE
 			$this->options['sitemap']['general']['additionalPages']['pages']['value']         = $this->sanitizeField( $options['sitemap']['general']['additionalPages']['pages'], 'array' );
 			$this->options['sitemap']['general']['advancedSettings']['excludePosts']['value'] = $this->sanitizeField( $options['sitemap']['general']['advancedSettings']['excludePosts'], 'array' );
 			$this->options['sitemap']['general']['advancedSettings']['excludeTerms']['value'] = $this->sanitizeField( $options['sitemap']['general']['advancedSettings']['excludeTerms'], 'array' );
+			$this->options['sitemap']['rss']['postTypes']['included']['value']                = $this->sanitizeField( $options['sitemap']['rss']['postTypes']['included'], 'array' );
 		}
 
+		// Advanced options.
 		if ( ! empty( $options['advanced'] ) ) {
-			if (
-				! empty( $options['advanced']['postTypes'] ) &&
-				isset( $options['advanced']['postTypes']['included'] )
-			) {
+			if ( isset( $options['advanced']['postTypes']['included'] ) ) {
 				$this->options['advanced']['postTypes']['included']['value'] = $this->sanitizeField( $options['advanced']['postTypes']['included'], 'array' );
 			}
 
-			if (
-				! empty( $options['advanced']['taxonomies'] ) &&
-				isset( $options['advanced']['taxonomies']['included'] )
-			) {
+			if ( isset( $options['advanced']['taxonomies']['included'] ) ) {
 				$this->options['advanced']['taxonomies']['included']['value'] = $this->sanitizeField( $options['advanced']['taxonomies']['included'], 'array' );
 			}
 		}
 
+		// Tools.
 		if ( ! empty( $options['tools'] ) ) {
-			if (
-				! empty( $options['tools']['robots'] ) &&
-				isset( $options['tools']['robots']['rules'] )
-			) {
+			if ( isset( $options['tools']['robots']['rules'] ) ) {
 				$this->options['tools']['robots']['rules']['value'] = $this->sanitizeField( $options['tools']['robots']['rules'], 'array' );
 			}
 		}
 
+		// Deprecated options.
 		if ( ! empty( $options['deprecated'] ) ) {
 
-			if (
-				! empty( $options['deprecated']['webmasterTools'] ) &&
-				! empty( $options['deprecated']['webmasterTools']['googleAnalytics'] ) &&
-				isset( $options['deprecated']['webmasterTools']['googleAnalytics']['excludeUsers'] )
-			) {
+			if ( isset( $options['deprecated']['webmasterTools']['googleAnalytics']['excludeUsers'] ) ) {
 				$this->options['deprecated']['webmasterTools']['googleAnalytics']['excludeUsers']['value'] = $this->sanitizeField( $options['deprecated']['webmasterTools']['googleAnalytics']['excludeUsers'], 'array' ); // phpcs:ignore Generic.Files.LineLength.MaxExceeded
 			}
-			if (
-				! empty( $options['deprecated']['searchAppearance'] ) &&
-				! empty( $options['deprecated']['searchAppearance']['advanced'] ) &&
-				isset( $options['deprecated']['searchAppearance']['advanced']['excludePosts'] )
-			) {
+			if ( isset( $options['deprecated']['searchAppearance']['advanced']['excludePosts'] ) ) {
 				$this->options['deprecated']['searchAppearance']['advanced']['excludePosts']['value'] = $this->sanitizeField( $options['deprecated']['searchAppearance']['advanced']['excludePosts'], 'array' ); // phpcs:ignore Generic.Files.LineLength.MaxExceeded
 			}
 
-			if (
-				! empty( $options['deprecated']['searchAppearance'] ) &&
-				! empty( $options['deprecated']['searchAppearance']['advanced'] ) &&
-				isset( $options['deprecated']['searchAppearance']['advanced']['excludeTerms'] )
-			) {
+			if ( isset( $options['deprecated']['searchAppearance']['advanced']['excludeTerms'] ) ) {
 				$this->options['deprecated']['searchAppearance']['advanced']['excludeTerms']['value'] = $this->sanitizeField( $options['deprecated']['searchAppearance']['advanced']['excludeTerms'], 'array' ); // phpcs:ignore Generic.Files.LineLength.MaxExceeded
 			}
+		}
+
+		// Social networks.
+		if ( isset( $options['social']['profiles']['sameUsername']['included'] ) ) {
+			$this->options['social']['profiles']['sameUsername']['included']['value'] = $this->sanitizeField( $options['social']['profiles']['sameUsername']['included'], 'array' );
 		}
 
 		// Update localized options.

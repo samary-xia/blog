@@ -1,6 +1,11 @@
 <?php
 namespace AIOSEO\Plugin\Lite\Admin;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use AIOSEO\Plugin\Common\Admin as CommonAdmin;
 
 /**
@@ -36,7 +41,7 @@ class Admin extends CommonAdmin\Admin {
 				'parent' => 'aioseo-main',
 				'title'  => '<span class="aioseo-menu-highlight">' . __( 'Upgrade to Pro', 'all-in-one-seo-pack' ) . '</span>',
 				'id'     => 'aioseo-pro-upgrade',
-				'href'   => aioseo()->helpers->utmUrl( AIOSEO_MARKETING_URL . 'lite-upgrade/', 'admin-bar' ),
+				'href'   => apply_filters( 'aioseo_upgrade_link', aioseo()->helpers->utmUrl( AIOSEO_MARKETING_URL . 'lite-upgrade/', 'admin-bar', null, false ) ),
 				'meta'   => [ 'target' => '_blank' ],
 			];
 		}
@@ -60,7 +65,7 @@ class Admin extends CommonAdmin\Admin {
 			$submenu[ $this->pageSlug ][] = [
 				'<span class="aioseo-menu-highlight">' . esc_html__( 'Upgrade to Pro', 'all-in-one-seo-pack' ) . '</span>',
 				apply_filters( 'aioseo_manage_seo', 'aioseo_manage_seo' ),
-				aioseo()->helpers->utmUrl( AIOSEO_MARKETING_URL . 'lite-upgrade/', 'admin-menu' )
+				apply_filters( 'aioseo_upgrade_link', aioseo()->helpers->utmUrl( AIOSEO_MARKETING_URL . 'lite-upgrade/', 'admin-menu', null, false ) )
 			];
 		}
 	}

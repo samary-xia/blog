@@ -1,6 +1,11 @@
 <?php
 namespace AIOSEO\Plugin\Common\Social;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Contains helper methods specific to the Social Meta.
  *
@@ -37,20 +42,25 @@ class Helpers {
 	 */
 	public function getAllTags( $postId = 0 ) {
 		$names = [];
-		$tags  = get_the_tags( $postId );
-		if ( $tags && count( $tags ) ) {
+
+		$tags = get_the_tags( $postId );
+		if ( ! empty( $tags ) && ! is_wp_error( $tags ) ) {
 			foreach ( $tags as $tag ) {
-				$names[] = aioseo()->helpers->internationalize( $tag->name );
+				if ( ! empty( $tag->name ) ) {
+					$names[] = aioseo()->helpers->internationalize( $tag->name );
+				}
 			}
 		}
 
 		// Ultimate Tag Warrior integration.
 		global $utw;
-		if ( $utw ) {
+		if ( is_object( $utw ) ) {
 			$tags = $utw->GetTagsForPost( $postId );
-			if ( $tags && count( $tags ) ) {
+			if ( ! empty( $tags ) && ! is_wp_error( $tags ) ) {
 				foreach ( $tags as $tag ) {
-					$names[] = stripslashes( preg_replace( '#(-|_)#', $tag->tag ) );
+					if ( ! empty( $tag->tag ) ) {
+						$names[] = stripslashes( preg_replace( '#(-|_)#', $tag->tag ) );
+					}
 				}
 			}
 		}

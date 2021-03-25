@@ -2,6 +2,11 @@
 
 namespace AIOSEO\Plugin\Common\Social;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Outputs our social meta.
  *
@@ -22,7 +27,7 @@ class Output {
 			! is_singular() &&
 			! aioseo()->helpers->isWooCommerceShopPage()
 		) {
-			return;
+			return [];
 		}
 
 		return apply_filters( 'aioseo_social_meta_tags', $this->getMetaHelper() );

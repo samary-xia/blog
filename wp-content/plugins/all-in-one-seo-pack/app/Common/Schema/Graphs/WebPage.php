@@ -1,6 +1,11 @@
 <?php
 namespace AIOSEO\Plugin\Common\Schema\Graphs;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * WebPage graph class.
  *

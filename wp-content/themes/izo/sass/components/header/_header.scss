@@ -1,0 +1,300 @@
+.site-header {
+	position: relative;
+	background-color: #fff;
+	margin-bottom: 60px;
+}
+.custom-logo {
+	vertical-align: top;
+}
+.site-title,
+.site-description {
+	margin: 0;
+}
+
+.site-description {
+	color: #716f6f;
+	line-height: 1.1;
+}
+
+.top-header-bar {
+	background-color: #f0f3f5;
+	padding-top: 10px;
+	padding-bottom: 10px;
+
+	.header-social {
+		a:hover {
+			.izo-icon {
+				fill: $color__accent;
+			}
+		}
+	}
+}
+
+.bottom-header-bar {
+	background-color: #fff;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.top-header-bar,
+.bottom-header-bar {
+	color: $color__text-main;
+
+	a {
+		color: $color__text-main;
+	}
+}
+
+.top-header-bar-inner,
+.bottom-header-bar-inner {
+	display: grid;
+	grid-gap: 10px;
+	align-items: center;
+}
+
+.top-header-bar-inner {
+	grid-template-columns: 1fr 1fr;
+	grid-template-areas:
+		"top-bar-left top-bar-right";	
+}
+
+.header-area-top-left {
+	grid-area: top-bar-left;
+}
+
+.header-area-top-right {
+	grid-area: top-bar-right;
+}
+
+.bottom-header-bar-inner {
+	grid-template-columns: 1fr 3fr;
+	grid-template-areas:
+		"bottom-bar-left bottom-bar-right";	
+}
+
+.menu-layout-centered {
+	@include media-min-992 {
+		&:not(.is-sticky) {
+			.bottom-header-bar-inner {
+				display: block;
+			}
+		
+			.header-area-bottom-left,
+			.header-area-bottom-right {
+				text-align: center;
+			}
+		
+			.header-area-bottom-left {
+				margin-bottom: 15px;
+			}
+		}
+	}
+}
+
+.mobile-layout-centered {
+	@include media-max-991 {
+		&:not(.is-sticky) {
+			.bottom-header-bar-inner {
+				display: block;
+			}
+		
+			.header-area-bottom-left,
+			.header-area-bottom-right {
+				text-align: center;
+			}
+		
+			.header-area-bottom-left {
+				margin-bottom: 15px;
+			}
+
+			.menu-toggle {
+				float: none;
+			}
+		}
+	}
+}
+
+
+.header-area-bottom-left {
+	grid-area: bottom-bar-left;
+}
+
+.header-area-bottom-right {
+	grid-area: bottom-bar-right;
+}
+
+.header-area-top-right,
+.header-area-bottom-right {
+	text-align: right;
+}
+
+/* Header components */
+a.header-button {
+	color: #fff;
+}
+.header-contact {
+	a {
+		&:first-of-type {
+			margin-right: 30px;
+		}
+	}
+
+	.izo-icon {
+		fill: $color__accent;
+	}
+}
+
+.is-merged {
+	&.bottom-header-bar {
+		position: absolute;
+		left: 0;
+		width: 100%;
+		background: transparent;
+		z-index: 99;
+		color: #fff;
+
+		.site-description,
+		.menu > li > a,
+		.site-title a {
+			color: #fff;
+		}
+
+		.izo-icon {
+			fill: #fff;
+		}
+	}
+	&.bottom-header-bar {
+		border-top-color: rgba(#fff,0.1);
+	}
+}
+
+.menu-last-item {
+	.button {
+		color: #fff;
+		&:hover {
+			color: #fff;
+		}
+	}
+
+	.header-search-toggle {
+		cursor: pointer;
+
+		&.stacked {
+			display: inline-block;
+			background-color: $color__accent;
+			width: 30px;
+			height: 30px;
+			line-height: 30px;
+			text-align: center;
+			border-radius: 50%;
+			color: #fff;
+			font-size:14px;
+		}
+	}
+}
+
+.main-navigation {
+
+	li {
+		transition: opacity 0.3s;
+	}
+	&.hide {
+
+		li:not(.menu-last-item):not(.header-search-form) {
+			opacity: 0;
+		}
+	}
+}
+.main-navigation .header-search-form {
+	opacity: 0;
+	position: absolute;
+	top: -12px;
+	left: -99999em;
+	transition: opacity 0.3s;
+
+	.search-submit {
+		display: none;
+	}
+
+	.search-field {
+		width: 100%;
+	}
+
+	&.show {
+		opacity: 1;
+		left: auto;
+		right: 70px;
+		width: 100%;
+		max-width: 400px;
+	}
+}
+
+.main-navigation {
+	.customize-partial-edit-shortcut {
+		margin-top: 15px;
+	}
+}
+
+/* Sticky menu */
+
+
+.has-sticky-menu {
+	.bottom-header-bar {
+		width: 100%;
+		left: 0;
+		transition: all 0.3s;
+
+		&.is-sticky {
+			position: fixed;
+			top: 0 !important;
+			left: 0;
+			width: 100%;
+			z-index: 99;
+
+			background-color: rgba(255,255,255,0.8);
+			color: $color__text-main;
+
+			a {
+				color: $color__text-main;
+			}
+
+			&.is-shrinked {
+				padding-top: 10px;
+				padding-bottom: 10px;
+			}
+		}		
+	}
+
+	&.admin-bar {
+		.bottom-header-bar {
+			&.is-sticky {
+				top: 32px !important;
+			}
+		}
+	}
+}
+
+.header-image {
+	margin-top: -60px;
+	margin-bottom: 60px;
+}
+
+.footer-social,
+.header-social {
+	.izo-icon {
+		margin-right: 0;
+		transition: fill 0.3s;
+
+		&:hover {
+			fill: $color__accent;
+		}		
+	}
+	a {
+		padding: 5px;
+		margin-right: 7px;
+
+		&:last-of-type {
+			margin-right: 0;
+		}
+	}
+}

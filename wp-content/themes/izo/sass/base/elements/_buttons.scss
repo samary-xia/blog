@@ -1,0 +1,44 @@
+button,
+.button,
+.wp-block-button__link,
+input[type="button"],
+input[type="reset"],
+input[type="submit"],
+.wpforms-form button[type=submit],
+div.wpforms-container-full .wpforms-form button[type=submit],
+div.nf-form-content input[type=button] {
+	border: 0;
+	box-shadow: none;
+	background: $color__accent;
+	color: #fff;
+	padding: 14px 24px;
+	cursor: pointer;
+	display: inline-block;
+	transition: all 0.3s;
+	border-radius: 0;
+	height: auto;
+	line-height: 1;
+
+	&:hover {
+		color: #fff;
+		background-color: $color__accent_dark;
+	}
+
+	&:active,
+	&:focus {
+		color: #fff;
+	}
+}
+.is-style-outline .wp-block-button__link,
+.wp-block-button__link.is-style-outline {
+	color: $color__accent;
+	border: 2px solid $color__accent;
+
+	&:hover {
+		color: #fff;
+		border-color: $color__accent_dark;
+	}
+}
+.wp-block-button {
+	margin-bottom: 20px;
+}

@@ -1,0 +1,37 @@
+.gallery {
+	margin-bottom: 25px;
+}
+
+.gallery-item {
+	display: inline-block;
+	text-align: center;
+	vertical-align: top;
+	width: 100%;
+	margin: 0;
+
+	a {
+		display: block;
+
+		img {
+			vertical-align: top;
+		}
+	}
+
+	// Loops to enumerate the classes for gallery columns.
+	@for $i from 2 through 9 {
+		.gallery-columns-#{$i} & {
+			max-width: map-get( $columns, $i );
+		}
+	}
+}
+
+.gallery-caption {
+	display: block;
+	margin-bottom: 20px;
+}
+
+.elementor-image-gallery {
+	.gallery {
+		margin-bottom: 0;
+	}
+}

@@ -4,6 +4,12 @@
  *
  * @since 4.0.0
  */
+
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
  // phpcs:disable
 ?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

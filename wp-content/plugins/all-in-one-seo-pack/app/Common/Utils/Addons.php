@@ -1,6 +1,11 @@
 <?php
 namespace AIOSEO\Plugin\Common\Utils;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use AIOSEO\Plugin\Common\Utils;
 
 /**
@@ -311,7 +316,7 @@ class Addons {
 	 *
 	 * @return array An array of addons.
 	 */
-	private function getDefaultAddons() {
+	protected function getDefaultAddons() {
 		return json_decode( wp_json_encode( [
 			[
 				'sku'                => 'aioseo-image-seo',

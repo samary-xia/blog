@@ -1,6 +1,11 @@
 <?php
 namespace AIOSEO\Plugin\Common\Main;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Updater class.
  *
@@ -282,7 +287,7 @@ class Updates {
 	 *
 	 * @return void
 	 */
-	protected function removeDuplicateRecords() {
+	public function removeDuplicateRecords() {
 		$duplicates = aioseo()->db->start( 'aioseo_posts' )
 			->select( 'post_id, min(id) as id' )
 			->groupBy( 'post_id having count(post_id) > 1' )

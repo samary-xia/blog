@@ -1,6 +1,11 @@
 <?php
 namespace AIOSEO\Plugin\Common\Api;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Api class for the admin.
  *
@@ -101,7 +106,10 @@ class Api {
 			'sitemap/delete-static-files'                         => [ 'callback' => [ 'Sitemaps', 'deleteStaticFiles' ] ],
 			'tools/delete-robots-txt'                             => [ 'callback' => [ 'Tools', 'deleteRobotsTxt' ], 'access' => 'aioseo_tools_settings' ],
 			'tools/import-robots-txt'                             => [ 'callback' => [ 'Tools', 'importRobotsTxt' ], 'access' => 'aioseo_tools_settings' ],
-			'wizard'                                              => [ 'callback' => [ 'Wizard', 'saveWizard' ], 'access' => 'aioseo_setup_wizard' ]
+			'wizard'                                              => [ 'callback' => [ 'Wizard', 'saveWizard' ], 'access' => 'aioseo_setup_wizard' ],
+			'integration/semrush/authenticate'                    => [ 'callback' => [ 'Integrations', 'semrushAuthenticate' ] ], // @TODO: Set access.
+			'integration/semrush/refresh'                         => [ 'callback' => [ 'Integrations', 'semrushRefresh' ] ], // @TODO: Set access.
+			'integration/semrush/keyphrases'                      => [ 'callback' => [ 'Integrations', 'semrushGetKeyphrases' ] ] // @TODO: Set access.
 		],
 		'DELETE' => [
 			'backup' => [ 'callback' => [ 'Tools', 'deleteBackup' ], 'access' => 'aioseo_tools_settings' ]

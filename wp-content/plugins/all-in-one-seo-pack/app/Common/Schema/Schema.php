@@ -1,6 +1,11 @@
 <?php
 namespace AIOSEO\Plugin\Common\Schema;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Builds our schema.
  *
@@ -83,7 +88,7 @@ class Schema {
 			}
 		}
 
-		$schema['@graph'] = $this->cleanData( $schema['@graph'] );
+		$schema['@graph'] = array_values( $this->cleanData( $schema['@graph'] ) );
 
 		return isset( $_GET['aioseo-dev'] ) ? wp_json_encode( $schema, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) : wp_json_encode( $schema );
 	}

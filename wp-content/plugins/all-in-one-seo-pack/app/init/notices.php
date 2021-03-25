@@ -1,4 +1,9 @@
 <?php
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 // phpcs:disable Generic.Arrays.DisallowLongArraySyntax.Found
 if ( ! function_exists( 'aioseo_php_notice' ) ) {
 	/**

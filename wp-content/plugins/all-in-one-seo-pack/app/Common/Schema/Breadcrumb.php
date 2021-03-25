@@ -1,6 +1,11 @@
 <?php
 namespace AIOSEO\Plugin\Common\Schema;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Determines the breadcrumb trail.
  *
@@ -129,7 +134,7 @@ class Breadcrumb {
 					break;
 				case '%author%':
 					$breadcrumb = [
-						'name'        => trim( sprintf( '%1$s %2$s', get_the_author_meta( 'first_name', $post->post_author ), get_the_author_meta( 'last_name', $post->post_author ) ) ),
+						'name'        => get_the_author_meta( 'display_name', $post->post_author ),
 						'description' => aioseo()->meta->description->prepareDescription( aioseo()->options->searchAppearance->archives->author->metaDescription ),
 						'url'         => $url[0],
 						'type'        => 'ProfilePage'

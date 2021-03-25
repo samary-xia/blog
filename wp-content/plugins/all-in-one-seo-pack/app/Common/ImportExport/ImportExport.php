@@ -1,6 +1,11 @@
 <?php
 namespace AIOSEO\Plugin\Common\ImportExport;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use AIOSEO\Plugin\Common\Models;
 
 /**
@@ -72,7 +77,7 @@ class ImportExport {
 					$sections[ $sectionLabel ][ $matches[1] ] = '';
 				}
 			} else {
-				return false;
+				continue;
 			}
 		}
 

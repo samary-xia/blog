@@ -1,6 +1,11 @@
 <?php
 namespace AIOSEO\Plugin\Common\ImportExport\RankMath;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use AIOSEO\Plugin\Common\ImportExport;
 
 // phpcs:disable WordPress.Arrays.ArrayDeclarationSpacing.AssociativeArrayFound
@@ -67,22 +72,22 @@ class Helpers extends ImportExport\Helpers {
 
 		if ( preg_match_all( '#%customfield\(([^%\s]*)\)%#', $string, $matches ) && ! empty( $matches[1] ) ) {
 			foreach ( $matches[1] as $name ) {
-				$string = preg_replace( "#%customfield\($name\)%#", "#custom_field-$name", $string );
+				$string = aioseo()->helpers->pregReplace( "#%customfield\($name\)%#", "#custom_field-$name", $string );
 			}
 		}
 
 		if ( preg_match_all( '#%customterm\(([^%\s]*)\)%#', $string, $matches ) && ! empty( $matches[1] ) ) {
 			foreach ( $matches[1] as $name ) {
-				$string = preg_replace( "#%customterm\($name\)%#", "#tax_name-$name", $string );
+				$string = aioseo()->helpers->pregReplace( "#%customterm\($name\)%#", "#tax_name-$name", $string );
 			}
 		}
 
 		foreach ( $macros as $macro => $tag ) {
-			$string = preg_replace( "#$macro(?![a-zA-Z0-9_])#im", $tag, $string );
+			$string = aioseo()->helpers->pregReplace( "#$macro(?![a-zA-Z0-9_])#im", $tag, $string );
 		}
 
 		// Strip out all remaining tags.
-		$string = preg_replace( '/%[^\%\s]*\([^\%]*\)%/i', '', preg_replace( '/%[^\%\s]*%/i', '', $string ) );
+		$string = aioseo()->helpers->pregReplace( '/%[^\%\s]*\([^\%]*\)%/i', '', aioseo()->helpers->pregReplace( '/%[^\%\s]*%/i', '', $string ) );
 		return trim( $string );
 	}
 }

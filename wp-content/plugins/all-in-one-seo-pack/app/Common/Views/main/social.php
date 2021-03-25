@@ -4,12 +4,18 @@
  *
  * @since 4.0.0
  */
+
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 // phpcs:disable VariableAnalysis.CodeAnalysis.VariableAnalysis.UndefinedVariable
 // phpcs:disable Generic.WhiteSpace.ScopeIndent.Incorrect
 // phpcs:disable Generic.WhiteSpace.ScopeIndent.IncorrectExact
 
 // Set context for meta class to social meta.
-$socialMeta = aioseo()->social->output->getMeta();
+$socialMeta = array_filter( aioseo()->social->output->getMeta() );
 if ( ! $socialMeta || ! count( $socialMeta ) ) {
 	return;
 }

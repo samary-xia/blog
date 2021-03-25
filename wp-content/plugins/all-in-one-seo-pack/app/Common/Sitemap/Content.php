@@ -1,6 +1,11 @@
 <?php
 namespace AIOSEO\Plugin\Common\Sitemap;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Determines which content should be included in the sitemap.
  *
@@ -184,6 +189,11 @@ class Content {
 			return $entry;
 		}
 
+		static $activeLanguages = null;
+		if ( null === $activeLanguages ) {
+			$activeLanguages = apply_filters( 'wpml_active_languages', null );
+		}
+
 		$parentId = apply_filters( 'wpml_object_id', $post->ID, $postType, false, self::$wpml );
 		if ( ! empty( $parentId ) && $parentId !== $post->ID && ! $rss ) {
 			// Skip adding a translation to the entries.
@@ -206,19 +216,22 @@ class Content {
 				! empty( $entry['guid'] ) ? $entry['guid'] : ''
 			);
 
-			$location = apply_filters( 'wpml_permalink', $permalink, $translation->language_code );
+			$location = apply_filters( 'wpml_permalink', $permalink, $translation->language_code, true );
 			if ( $rss ) {
 				$entry['guid'] = $location;
 				continue;
 			}
 
+			$currentLanguage = ! empty( $activeLanguages[ $translation->language_code ] ) ? $activeLanguages[ $translation->language_code ] : null;
+			$languageCode    = ! empty( $currentLanguage['tag'] ) ? $currentLanguage['tag'] : $translation->language_code;
+
 			if ( $location === $permalink ) {
-				$entry['language'] = $translation->language_code;
+				$entry['language'] = $languageCode;
 				continue;
 			}
 
 			$entry['languages'][] = [
-				'language' => $translation->language_code,
+				'language' => $languageCode,
 				'location' => $location
 			];
 		}
@@ -239,8 +252,12 @@ class Content {
 	 */
 	private function postArchive() {
 		$entries = [];
-		foreach ( aioseo()->sitemap->helpers->includedPostTypes() as $postType ) {
-			if ( in_array( $postType, [ 'post', 'page', 'product' ], true ) ) {
+		foreach ( aioseo()->sitemap->helpers->includedPostTypes( true ) as $postType ) {
+			if (
+				aioseo()->options->noConflict()->searchAppearance->dynamic->archives->has( $postType ) &&
+				! aioseo()->options->searchAppearance->dynamic->archives->$postType->advanced->robotsMeta->default &&
+				aioseo()->options->searchAppearance->dynamic->archives->$postType->advanced->robotsMeta->noindex
+			) {
 				continue;
 			}
 

@@ -1,5 +1,9 @@
 <?php
 namespace AIOSEO\Plugin {
+	// Exit if accessed directly.
+	if ( ! defined( 'ABSPATH' ) ) {
+		exit;
+	}
 
 	/**
 	 * Main AIOSEO class.
@@ -277,7 +281,7 @@ namespace AIOSEO\Plugin {
 				$this->main             = $this->pro ? new Pro\Main\Main() : new Common\Main\Main();
 				$this->schema           = $this->pro ? new Pro\Schema\Schema() : new Common\Schema\Schema();
 				$this->head             = $this->pro ? new Pro\Main\Head() : new Common\Main\Head();
-				$this->activate         = $this->pro ? new Pro\Main\Activate() : new Lite\Main\Activate();
+				$this->activate         = $this->pro ? new Pro\Main\Activate() : new Common\Main\Activate();
 				$this->filters          = $this->pro ? new Pro\Main\Filters() : new Lite\Main\Filters();
 				$this->dashboard        = $this->pro ? new Pro\Admin\Dashboard() : new Common\Admin\Dashboard();
 				$this->api              = $this->pro ? new Pro\Api\Api() : new Lite\Api\Api();
@@ -328,6 +332,10 @@ namespace AIOSEO\Plugin {
 }
 
 namespace {
+	// Exit if accessed directly.
+	if ( ! defined( 'ABSPATH' ) ) {
+		exit;
+	}
 
 	/**
 	 * The function which returns the one AIOSEO instance.

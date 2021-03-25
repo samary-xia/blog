@@ -1,0 +1,137 @@
+@media ( max-width: 991px ) {
+
+    .site-header {
+        .search-form {
+            display: none;
+        }
+    }
+
+    .site-title,
+    h1 {
+        @include font-size(36);
+    }
+    h2 {
+        @include font-size(28);
+    }
+    h3 {
+        @include font-size(24);
+    }
+    h4 {
+        @include font-size(20);
+    }
+    h5 {
+        @include font-size(16);
+    }
+
+    .widget-area {
+        margin-top: 50px;
+    }
+
+    .bottom-header-bar-inner,
+    .top-header-bar-inner {
+        grid-template-columns: auto;
+    }
+
+    .footer-widgets {
+        .izo-container {
+            grid-template-columns: 1fr !important;
+        }
+    }
+}
+
+@media ( max-width: 767px ) {
+    .izo-elementor-blog {
+        grid-template-columns: repeat(2, minmax(0,1fr));        
+    }
+    .posts-loop.layout-2colssb, .posts-loop.layout-3cols {
+        display: block;
+    }
+    .posts-loop.layout-3colsmas article,
+    .posts-loop.layout-2colsmas article {
+        width: 100%;
+    }
+}
+
+@media (max-width: 575px) {
+    h1 {
+        @include font-size(28);
+    }
+    .site-title,
+    h2 {
+        @include font-size(22);
+    }
+    h3 {
+        @include font-size(18);
+    }
+    h4 {
+        @include font-size(16);
+    }
+    h5 {
+        @include font-size(16);
+    }
+    .header-area-top-right,
+    .top-header-bar-inner {
+        display: block;
+        text-align: center;
+    }
+    .header-area-top-right {
+        margin-top: 5px;
+    }
+    .header-image,
+    .site-header {
+        margin-bottom: 30px;
+    }
+    .site-footer {
+        margin-top: 30px;
+    }
+    .page-banner {
+        margin-top: -30px;
+    }
+    .entry-footer .comments-link, .entry-footer .tags-links {
+        float: none;
+        display: block;
+    }
+    .page-header {
+        padding: 30px;
+    }
+
+	.single-product div.single-product-top {
+        display: block;
+        
+        .woocommerce-product-gallery {
+            margin-bottom: 15px;
+        }
+    }    
+    
+    .woocommerce-cart .woocommerce-cart-form .actions .coupon,
+    .woocommerce-cart .woocommerce-cart-form .actions .button {
+        float: none !important;
+    }
+    .woocommerce-cart .woocommerce-cart-form .actions .coupon {
+        margin-bottom: 15px;
+    }
+    .cart-collaterals {
+        display: block !important;
+    }
+    td.actions {
+        text-align: center !important;
+    }
+    .woocommerce-cart article,
+    .woocommerce-checkout article {
+        padding: 15px;
+    }
+
+    .izo-elementor-blog {
+        grid-template-columns: repeat(1, minmax(0,1fr));        
+    }    
+    .header-contact {
+        a {
+            display: block;
+
+            &:first-of-type {
+                margin-right: 0;
+                margin-bottom: 0;
+            }
+        }
+    }
+}

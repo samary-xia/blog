@@ -1,6 +1,11 @@
 <?php
 namespace AIOSEO\Plugin\Common\Sitemap;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Handles our sitemap search engine ping feature.
  *

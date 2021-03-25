@@ -1,6 +1,11 @@
 <?php
 namespace AIOSEO\Plugin\Common\Utils;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class Access {
 	/**
 	 * Capabilities for our users.

@@ -1,6 +1,11 @@
 <?php
 namespace AIOSEO\Plugin\Common\Migration;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 // phpcs:disable WordPress.Arrays.ArrayDeclarationSpacing.AssociativeArrayFound
 
 use AIOSEO\Plugin\Common\Models;
@@ -394,7 +399,7 @@ class Meta {
 		$oldOptions  = get_option( 'aioseo_options_v3' );
 		$titleFormat = isset( $oldOptions[ "aiosp_${postType}_title_format" ] ) ? $oldOptions[ "aiosp_${postType}_title_format" ] : '';
 
-		$seoTitle = preg_replace( '/(%post_title%|%page_title%)/', $seoTitle, $titleFormat );
+		$seoTitle = aioseo()->helpers->pregReplace( '/(%post_title%|%page_title%)/', $seoTitle, $titleFormat );
 		return aioseo()->helpers->sanitizeOption( aioseo()->migration->helpers->macrosToSmartTags( $seoTitle ) );
 	}
 }

@@ -1,0 +1,18 @@
+blockquote {
+	border-left: 4px solid #000;
+    margin: 0 0 28px;
+	padding-left: 1em;
+	
+	cite {
+		color: #716f6f;
+	}
+}	
+.wp-block-pullquote {
+	border: 4px solid #000;
+
+	blockquote {
+		border: 0;
+		padding: 0;
+		margin: 0;
+	}
+}

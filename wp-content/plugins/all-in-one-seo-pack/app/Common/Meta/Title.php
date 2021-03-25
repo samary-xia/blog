@@ -1,6 +1,11 @@
 <?php
 namespace AIOSEO\Plugin\Common\Meta;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Handles the title.
  *
@@ -142,7 +147,7 @@ class Title {
 		$options = aioseo()->options->noConflict();
 		if ( ! $title && $options->searchAppearance->dynamic->taxonomies->has( $term->taxonomy ) ) {
 			$newTitle = aioseo()->options->searchAppearance->dynamic->taxonomies->{$term->taxonomy}->title;
-			$newTitle = preg_replace( '/#taxonomy_title/', $term->name, $newTitle );
+			$newTitle = preg_replace( '/#taxonomy_title/', aioseo()->helpers->escapeRegexReplacement( $term->name ), $newTitle );
 			$title    = $this->prepareTitle( $newTitle, false, $default );
 		}
 		return $title ? $title : '';

@@ -1,6 +1,11 @@
 <?php
 namespace AIOSEO\Plugin\Common\Admin;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use AIOSEO\Plugin\Common\Models;
 use AIOSEO\Plugin\Common\Migration;
 
@@ -157,16 +162,31 @@ class Admin {
 
 			add_action( 'admin_init', [ $this, 'addPluginScripts' ] );
 
-			add_action( 'wp_enqueue_editor', [ $this, 'addClassicLinkFormatScript' ], 999999 );
+			$this->registerLinkFormatHooks();
+		}
+	}
 
-			global $wp_version;
-			include_once ABSPATH . 'wp-admin/includes/plugin.php';
-			if ( version_compare( $wp_version, '5.3', '>=' ) || is_plugin_active( 'gutenberg/gutenberg.php' ) ) {
-				add_action( 'admin_init', [ $this, 'addGutenbergLinkFormatScript' ] );
-				add_action( 'enqueue_block_editor_assets', function() {
-					wp_enqueue_script( 'aioseo-link-format' );
-				} );
-			}
+	/**
+	 * Registers our custom link format hooks.
+	 *
+	 * @since 4.0.16
+	 *
+	 * @return void
+	 */
+	private function registerLinkFormatHooks() {
+		if ( apply_filters( 'aioseo_disable_link_format', false ) ) {
+			return;
+		}
+
+		add_action( 'wp_enqueue_editor', [ $this, 'addClassicLinkFormatScript' ], 999999 );
+
+		global $wp_version;
+		include_once ABSPATH . 'wp-admin/includes/plugin.php';
+		if ( version_compare( $wp_version, '5.3', '>=' ) || is_plugin_active( 'gutenberg/gutenberg.php' ) ) {
+			add_action( 'admin_init', [ $this, 'addGutenbergLinkFormatScript' ] );
+			add_action( 'enqueue_block_editor_assets', function() {
+				wp_enqueue_script( 'aioseo-link-format' );
+			} );
 		}
 	}
 
@@ -1037,8 +1057,7 @@ class Admin {
 
 		// Remove all AIOSEO transients.
 		if ( isset( $_GET['aioseo-clear-cache'] ) ) {
-			$table = aioseo()->db->db->options;
-			aioseo()->db->db->query( "DELETE FROM {$table} WHERE option_name LIKE '\_aioseo\_cache\_%'" );
+			aioseo()->transients->clearCache();
 		}
 
 		if ( isset( $_GET['aioseo-image-rescan'] ) ) {

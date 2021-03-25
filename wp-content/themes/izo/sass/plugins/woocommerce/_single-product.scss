@@ -1,0 +1,167 @@
+.single-product {
+
+	.single-product-top {
+		display: grid;
+		grid-gap: 30px;
+		grid-template-columns: 1fr 1fr;
+		grid-template-areas:
+		"single-product-top-left single-product-top-right";		
+	}
+
+	.woocommerce-product-rating {
+		margin-bottom: 20px;
+		a {
+			display: none;
+		}
+	}
+
+	div.product {
+		position: relative;
+
+		span.onsale {
+			right: auto;
+			left: 15px;
+			z-index: 11;
+		}
+
+		.quantity {
+			float: left;
+			max-width: 70px;
+			margin-right: 10px;
+
+			input {
+				max-width: 100%;
+			}
+		}
+
+		.product_meta {
+
+			border-top: 1px solid #ebebeb;
+			padding-top: 20px;
+
+			& > span {
+				display: block;
+				margin-bottom: 10px;
+
+				.sku,
+				a {
+					color: #716f6f;
+				}
+
+				a {
+					&:hover {
+						color: $color__accent;
+					}
+				}
+			}
+		}
+
+		form.cart {
+			margin-bottom: 30px;
+		}
+
+		figure {
+			margin: 0;
+		}
+
+		.entry-summary {
+			grid-area: single-product-top-right;
+		}
+
+		.woocommerce-product-gallery {
+			position: relative;
+			float: left;
+			grid-area: single-product-top-left;
+
+			.woocommerce-product-gallery__trigger {
+				position: absolute;
+				top: 15px;
+				right: 15px;
+				display: block;
+				z-index: 99;
+			}
+
+			.flex-viewport {
+				margin-bottom: 1em;
+			}
+
+			.flex-control-thumbs {
+				margin: 0;
+				padding: 0;
+
+				li {
+					list-style: none;
+					cursor: pointer;
+					float: left;
+
+					img {
+						opacity: 0.5;
+
+						&.flex-active {
+							opacity: 1;
+						}
+					}
+
+					&:hover {
+
+						img {
+							opacity: 1;
+						}
+					}
+				}
+			}
+
+			@for $i from 2 through 5 {
+
+				&.woocommerce-product-gallery--columns-#{$i} {
+
+					.flex-control-thumbs {
+
+						li {
+
+							@include column-width($i);
+
+							&:nth-child(#{$i}n) {
+								margin-right: 0;
+							}
+
+							&:nth-child(#{$i}n+1) {
+								clear: both;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+.stock {
+
+	&:empty::before {
+		display: none;
+	}
+
+	&.in-stock {
+		color: $woocommerce__color-success;
+	}
+
+	&.out-of-stock {
+		color: $woocommerce__color-error;
+	}
+}
+
+.upsells.products {
+	padding-top: 15px;
+	border-top: 1px solid #ebebeb;
+}
+.related.products {
+	padding-top: 15px;
+	border-top: 1px solid #ebebeb;
+}
+.upsells.products,
+.related.products {
+	& > h2 {
+		@include font-size(24);
+	}
+}

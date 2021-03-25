@@ -1,6 +1,11 @@
 <?php
 namespace AIOSEO\Plugin\Common\ImportExport\YoastSeo;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use AIOSEO\Plugin\Common\ImportExport;
 
 // phpcs:disable WordPress.Arrays.ArrayDeclarationSpacing.AssociativeArrayFound
@@ -77,7 +82,7 @@ class Helpers extends ImportExport\Helpers {
 		if ( preg_match_all( '#%%cf_([^%]*)%%#', $string, $matches ) && ! empty( $matches[1] ) ) {
 			foreach ( $matches[1] as $name ) {
 				if ( ! preg_match( '#\s#', $name ) ) {
-					$string = preg_replace( "#%%cf_$name%%#", "#custom_field-$name", $string );
+					$string = aioseo()->helpers->pregReplace( "#%%cf_$name%%#", "#custom_field-$name", $string );
 				}
 			}
 		}
@@ -85,17 +90,17 @@ class Helpers extends ImportExport\Helpers {
 		if ( preg_match_all( '#%%tax_([^%]*)%%#', $string, $matches ) && ! empty( $matches[1] ) ) {
 			foreach ( $matches[1] as $name ) {
 				if ( ! preg_match( '#\s#', $name ) ) {
-					$string = preg_replace( "#%%tax_$name%%#", "#tax_name-$name", $string );
+					$string = aioseo()->helpers->pregReplace( "#%%tax_$name%%#", "#tax_name-$name", $string );
 				}
 			}
 		}
 
 		foreach ( $macros as $macro => $tag ) {
-			$string = preg_replace( "#$macro(?![a-zA-Z0-9_])#im", $tag, $string );
+			$string = aioseo()->helpers->pregReplace( "#$macro(?![a-zA-Z0-9_])#im", $tag, $string );
 		}
 
 		// Strip out all remaining tags.
-		$string = preg_replace( '/%[^\%\s]*\([^\%]*\)%/i', '', preg_replace( '/%[^\%\s]*%/i', '', $string ) );
+		$string = aioseo()->helpers->pregReplace( '/%[^\%\s]*\([^\%]*\)%/i', '', aioseo()->helpers->pregReplace( '/%[^\%\s]*%/i', '', $string ) );
 		return trim( $string );
 	}
 }
