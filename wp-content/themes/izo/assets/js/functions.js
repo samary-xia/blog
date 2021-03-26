@@ -46,7 +46,7 @@ izo.navigation = {
 			//Toggle submenus
 			const submenuToggles 	= siteNavigation.querySelectorAll( '.submenu-toggle' );
 			for ( const submenuToggle of submenuToggles ) {
-				submenuToggle.addEventListener( 'click', function(e) {
+				submenuToggle.addEventListener( 'touchstart', function(e) {
 					e.preventDefault();
 					submenuToggle.getElementsByTagName( 'span' )[0].classList.toggle( 'submenu-exp' );
 					var parent = submenuToggle.parentNode.parentNode;

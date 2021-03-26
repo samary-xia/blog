@@ -9,6 +9,10 @@
     border-top: 1px solid #ebebeb;
 	margin-bottom: 30px;
 
+	.layout-stretched & {
+		margin-top: 0;
+	}
+
 	.entry-header {
 		margin-bottom: 0 !important;
 
@@ -393,3 +397,4 @@ p.has-large-font-size {
 		margin-bottom: 60px;
 	}
 }
+.layout-stretched.page article {margin-bottom:0;}

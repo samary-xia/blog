@@ -9,7 +9,7 @@
 
 if ( ! defined( 'IZO_VERSION' ) ) {
 	// Replace the version number of the theme on each release.
-	define( 'IZO_VERSION', '1.0.0' );
+	define( 'IZO_VERSION', '1.0.9' );
 }
 
 if ( ! function_exists( 'izo_setup' ) ) :
@@ -255,6 +255,11 @@ require get_template_directory() . '/inc/class_izo_breadcrumbs.php';
  * Gutenberg custom styles
  */
 require get_template_directory() . '/inc/editor-styles.php';
+
+/**
+ * Review notice
+ */
+require get_template_directory() . '/inc/class_izo_theme_review_notice.php';
 
 /**
  * Load compatibility files.

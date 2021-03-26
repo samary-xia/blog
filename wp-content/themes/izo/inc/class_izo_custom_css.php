@@ -233,7 +233,8 @@ if ( !class_exists( 'Izo_Custom_CSS' ) ) :
 
 
 			$css .= $this->get_background_color_css( 'mobile_menu_background_color', '#fff', '.main-navigation.toggled');
-			$css .= $this->get_color_css( 'mobile_menu_items_color', '#1d1d1d', '.main-navigation.toggled, .main-navigation.toggled a');
+			$css .= $this->get_color_css( 'mobile_menu_items_color', '#1d1d1d', '.main-navigation.toggled, .main-navigation.toggled a, .is-merged.bottom-header-bar .main-navigation.toggled, .is-merged.bottom-header-bar .main-navigation.toggled a:not(.button)');
+			$css .= $this->get_fill_color_css( 'mobile_menu_items_color', '#1d1d1d', '.main-navigation.toggled .izo-icon, .is-merged.bottom-header-bar .main-navigation.toggled .izo-icon');
 
 			$css .= $this->get_color_css( 'top_header_text_color', '', '.top-header-bar .header-custom-text');
 			$css .= $this->get_fill_color_css( 'top_header_wc_icons_color', '', '.top-header-bar .woocommerce-links .izo-icon');

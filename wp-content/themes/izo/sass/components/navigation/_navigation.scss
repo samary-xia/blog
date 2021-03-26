@@ -285,6 +285,14 @@
 		margin: 0;
 	}
 
+	.is-merged.bottom-header-bar & {
+		a:not(.button) {
+			color: $color__text-main;			
+		}
+		.izo-icon {
+			fill: $color__text-main;
+		}
+	}
 	a {
 		color: $color__text-main;
 	}

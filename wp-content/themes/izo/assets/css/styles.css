@@ -1405,6 +1405,12 @@ a.header-button {
   padding: 0;
   margin: 0;
 }
+.is-merged.bottom-header-bar .main-navigation.toggled a:not(.button) {
+  color: #1d1d1f;
+}
+.is-merged.bottom-header-bar .main-navigation.toggled .izo-icon {
+  fill: #1d1d1f;
+}
 .main-navigation.toggled a {
   color: #1d1d1f;
 }
@@ -1621,6 +1627,9 @@ a.header-button {
   margin-top: -60px;
   border-top: 1px solid #ebebeb;
   margin-bottom: 30px;
+}
+.layout-stretched .page-banner {
+  margin-top: 0;
 }
 .page-banner .entry-header {
   margin-bottom: 0 !important;
@@ -1976,6 +1985,10 @@ p.has-large-font-size {
     margin-top: -60px;
     margin-bottom: 60px;
   }
+}
+
+.layout-stretched.page article {
+  margin-bottom: 0;
 }
 
 /* Comments
