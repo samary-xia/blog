@@ -1,8 +1,8 @@
 
 # BEGIN WPForms
-# 在`BEGIN WPForms`与`END WPForms`之间的指令（行）是
-# 动态生成的，只应被WordPress过滤器修改。
-# 任何对标记之间的指令的修改都会被覆盖。
+# The directives (lines) between `BEGIN WPForms` and `END WPForms` are
+# dynamically generated, and should only be modified via WordPress filters.
+# Any changes to the directives between these markers will be overwritten.
 # Disable PHP and Python scripts parsing.
 <Files *>
   SetHandler none
