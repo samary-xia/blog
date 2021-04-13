@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'Google\\Site_Kit\\Context' => $baseDir . '/Context.php',
+    'Google\\Site_Kit\\Core\\Admin\\Available_Tools' => $baseDir . '/Core/Admin/Available_Tools.php',
     'Google\\Site_Kit\\Core\\Admin\\Dashboard' => $baseDir . '/Core/Admin/Dashboard.php',
     'Google\\Site_Kit\\Core\\Admin\\Notice' => $baseDir . '/Core/Admin/Notice.php',
     'Google\\Site_Kit\\Core\\Admin\\Notices' => $baseDir . '/Core/Admin/Notices.php',
@@ -148,6 +149,8 @@ return array(
     'Google\\Site_Kit\\Modules\\Analytics\\Settings' => $baseDir . '/Modules/Analytics/Settings.php',
     'Google\\Site_Kit\\Modules\\Analytics\\Tag_Guard' => $baseDir . '/Modules/Analytics/Tag_Guard.php',
     'Google\\Site_Kit\\Modules\\Analytics\\Web_Tag' => $baseDir . '/Modules/Analytics/Web_Tag.php',
+    'Google\\Site_Kit\\Modules\\Analytics_4' => $baseDir . '/Modules/Analytics_4.php',
+    'Google\\Site_Kit\\Modules\\Analytics_4\\Settings' => $baseDir . '/Modules/Analytics_4/Settings.php',
     'Google\\Site_Kit\\Modules\\Optimize' => $baseDir . '/Modules/Optimize.php',
     'Google\\Site_Kit\\Modules\\Optimize\\Settings' => $baseDir . '/Modules/Optimize/Settings.php',
     'Google\\Site_Kit\\Modules\\PageSpeed_Insights' => $baseDir . '/Modules/PageSpeed_Insights.php',
