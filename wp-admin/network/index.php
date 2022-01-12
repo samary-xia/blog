@@ -7,7 +7,7 @@
  * @since 3.0.0
  */
 
-/** Load WordPress Administration Bootstrap */
+/** Load WordPress Administration Bootstrap1 */
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
 /** Load WordPress dashboard API */

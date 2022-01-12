@@ -9,7 +9,7 @@
 /**
  * In WordPress Administration Screens
  *
- * @since 2.3.2
+ * @since 2.3.2.1
  */
 
 if ( ! defined( 'WP_ADMIN' ) ) {
