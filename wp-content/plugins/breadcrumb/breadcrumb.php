@@ -47,6 +47,7 @@ class BreadcrumbMain{
 	public function breadcrumb_load_textdomain() {
 
         $locale = apply_filters( 'plugin_locale', get_locale(), 'breadcrumb' );
+
         load_textdomain('breadcrumb', WP_LANG_DIR .'/breadcrumb/breadcrumb-'. $locale .'.mo' );
 
         load_plugin_textdomain( 'breadcrumb', false, plugin_basename( dirname( __FILE__ ) ) . '/languages/' );

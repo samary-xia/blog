@@ -5,6 +5,7 @@ if ( ! defined('ABSPATH')) exit;  // if direct access
 add_action('breadcrumb_main', 'breadcrumb_main_items');
 
 function breadcrumb_main_items(){
+
     $breadcrumb_items = breadcrumb_trail_array_list();
 
     $breadcrumb_items = apply_filters('breadcrumb_items_array', $breadcrumb_items);
