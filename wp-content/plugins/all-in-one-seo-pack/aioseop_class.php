@@ -19,6 +19,7 @@ require_once( AIOSEOP_PLUGIN_DIR . 'inc/general/aioseop-robots-meta.php' ); // I
  *
  * The main class.
  */
+
 class All_in_One_SEO_Pack extends All_in_One_SEO_Pack_Module {
 
 	/**

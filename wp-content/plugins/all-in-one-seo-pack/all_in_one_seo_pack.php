@@ -38,6 +38,7 @@ if ( ! defined( 'AIOSEO_PHP_VERSION_DIR' ) ) {
 	define( 'AIOSEO_PHP_VERSION_DIR', basename( dirname( __FILE__ ) ) );
 }
 
+
 require_once( dirname( __FILE__ ) . '/app/init/notices.php' );
 require_once( dirname( __FILE__ ) . '/app/init/activation.php' );
 

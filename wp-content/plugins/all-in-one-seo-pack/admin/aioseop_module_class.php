@@ -8,6 +8,7 @@
 
 if ( ! class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 
+
 	/**
 	 * The module base class; handles settings, options, menus, metaboxes, etc.
 	 */

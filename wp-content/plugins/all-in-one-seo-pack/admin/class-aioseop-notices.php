@@ -11,6 +11,7 @@
  * @since 3.0
  */
 
+
 if ( ! class_exists( 'AIOSEOP_Notices' ) ) {
 	/**
 	 * AIOSEOP Notice.

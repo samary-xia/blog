@@ -10,6 +10,7 @@
 
 if ( ! class_exists( 'All_in_One_SEO_Pack_Module_Manager' ) ) {
 
+
 	/**
 	 * Class All_in_One_SEO_Pack_Module_Manager
 	 */

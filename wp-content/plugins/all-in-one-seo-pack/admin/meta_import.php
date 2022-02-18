@@ -6,6 +6,7 @@
  * @since ?
  */
 
+
 if ( class_exists( 'WPSEO_Import_Hooks' ) ) {
 
 	/**

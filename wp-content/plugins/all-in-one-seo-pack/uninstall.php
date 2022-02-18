@@ -15,6 +15,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
 
+
 // Load plugin file.
 require_once 'all_in_one_seo_pack.php';
 
