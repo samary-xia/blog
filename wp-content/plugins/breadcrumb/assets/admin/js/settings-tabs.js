@@ -1,35 +1,34 @@
-jQuery(document).ready(function($){
+jQuery(document).ready(function ($) {
 
-    $( ".settings-tabs-loading").fadeOut();
-    $( ".settings-tabs").fadeIn();
+    $(".settings-tabs-loading").fadeOut();
+    $(".settings-tabs").fadeIn();
 
-    accordion = $( ".settings-tabs .accordion").accordion({
-        heightStyle:'content',
+    accordion = $(".settings-tabs .accordion").accordion({
+        heightStyle: 'content',
         active: 99,
         header: "> div > h3",
         collapsible: true,
     });
 
-    $( ".settings-tabs .accordion[sortable='true']").sortable({
+    $(".settings-tabs .accordion[sortable='true']").sortable({
         axis: "y",
         handle: "h3",
-        stop: function( event, ui ) {
+        stop: function (event, ui) {
             // IE doesn't register the blur when sorting
             // so trigger focusout handlers to remove .ui-state-focus
-            ui.item.children( "h3" ).triggerHandler( "focusout" );
+            ui.item.children("h3").triggerHandler("focusout");
 
             // Refresh accordion to handle new order
-            $( this ).accordion( "refresh" );
+            $(this).accordion("refresh");
         }
     })
 
 
+    $(".settings-tabs .sortable").sortable({handle: ".sort"});
 
-    $(".settings-tabs .sortable" ).sortable({ handle: ".sort" });
+    $(document).on('click', '.settings-tabs .tab-nav', function () {
 
-	$(document).on('click','.settings-tabs .tab-nav',function(){
-
-		$(this).parent().parent().children('.tab-navs').children('.tab-nav').removeClass('active');
+        $(this).parent().parent().children('.tab-navs').children('.tab-nav').removeClass('active');
 
         $(this).addClass('active');
 
@@ -37,19 +36,17 @@ jQuery(document).ready(function($){
         $('input[name="tab"]').val(id);
 
 
-		//console.log('Hello click');
+        //console.log('Hello click');
         //console.log(id);
 
         $(this).parent().parent().children('.tab-content').removeClass('active');
-        $(this).parent().parent().children('.tab-content#'+id).addClass('active');
+        $(this).parent().parent().children('.tab-content#' + id).addClass('active');
 
         $(this).parent().parent().children('.settings-tabs-right-panel').children('.right-panel-content').removeClass('active');
-        $(this).parent().parent().children('.settings-tabs-right-panel').children('.right-panel-content-'+id).addClass('active');
-
+        $(this).parent().parent().children('.settings-tabs-right-panel').children('.right-panel-content-' + id).addClass('active');
 
 
     })
-
 
 
     // $(document).on('click','.settings-tabs .media-upload',function(){
@@ -75,8 +72,7 @@ jQuery(document).ready(function($){
     // })
 
 
-
-    $(document).on('click','.settings-tabs .field-media-wrapper .media-upload',function(e){
+    $(document).on('click', '.settings-tabs .field-media-wrapper .media-upload', function (e) {
         var side_uploader;
         this_ = $(this);
         //alert(target_input);
@@ -95,7 +91,7 @@ jQuery(document).ready(function($){
             multiple: false
         });
         //When a file is selected, grab the URL and set it as the text field's value
-        side_uploader.on('select', function() {
+        side_uploader.on('select', function () {
             attachment = side_uploader.state().get('selection').first().toJSON();
 
             attachmentId = attachment.id;
@@ -104,7 +100,7 @@ jQuery(document).ready(function($){
 
             $(this_).prev().val(attachmentId);
 
-            $(this_).parent().children('.media-preview-wrap').children('img').attr('src',src_url);
+            $(this_).parent().children('.media-preview-wrap').children('img').attr('src', src_url);
 
         });
 
@@ -114,8 +110,7 @@ jQuery(document).ready(function($){
     })
 
 
-
-    $(document).on('click','.settings-tabs .field-media-url-wrapper .media-upload',function(e){
+    $(document).on('click', '.settings-tabs .field-media-url-wrapper .media-upload', function (e) {
         var side_uploader;
         this_ = $(this);
         //alert(target_input);
@@ -134,7 +129,7 @@ jQuery(document).ready(function($){
             multiple: false
         });
         //When a file is selected, grab the URL and set it as the text field's value
-        side_uploader.on('select', function() {
+        side_uploader.on('select', function () {
             attachment = side_uploader.state().get('selection').first().toJSON();
 
             attachmentId = attachment.id;
@@ -143,7 +138,7 @@ jQuery(document).ready(function($){
 
             $(this_).prev().val(src_url);
 
-            $(this_).parent().children('.media-preview-wrap').children('img').attr('src',src_url);
+            $(this_).parent().children('.media-preview-wrap').children('img').attr('src', src_url);
 
         });
 
@@ -153,8 +148,7 @@ jQuery(document).ready(function($){
     })
 
 
-
-    jQuery(document).on('click', '.settings-tabs .input-text-multi-wrapper .add-item',function(){
+    jQuery(document).on('click', '.settings-tabs .input-text-multi-wrapper .add-item', function () {
 
         dataName = $(this).attr('data-name');
         dataSort = $(this).attr('data-sort');
@@ -162,17 +156,15 @@ jQuery(document).ready(function($){
         dataPlaceholder = $(this).attr('data-placeholder');
 
         html = '<div class="item">';
-        html += '<input  type="text" name="'+dataName+'" placeholder="'+dataPlaceholder+'" />';
+        html += '<input  type="text" name="' + dataName + '" placeholder="' + dataPlaceholder + '" />';
 
-        if(dataClone){
+        if (dataClone) {
             html += ' <span class="button clone"><i class="far fa-clone"></i></span>';
         }
 
-        if(dataSort){
+        if (dataSort) {
             html += ' <span class="button sort" ><i class="fas fa-arrows-alt"></i></span>';
         }
-
-
 
 
         html += ' <span class="button remove" onclick="jQuery(this).parent().remove()"><i class="fas fa-times"></i></span>';
@@ -182,63 +174,36 @@ jQuery(document).ready(function($){
         jQuery(this).parent().children('.field-list').append(html);
 
 
-       // $(".sortable" ).sortable({ handle: ".sort" });
+        // $(".sortable" ).sortable({ handle: ".sort" });
 
 
     })
 
 
-
-    jQuery(document).on("click", ".settings-tabs .field-repeatable-wrapper .collapsible .header .title-text", function() {
-        if(jQuery(this).parent().parent().hasClass("active")){
+    jQuery(document).on("click", ".settings-tabs .field-repeatable-wrapper .collapsible .header .title-text", function () {
+        if (jQuery(this).parent().parent().hasClass("active")) {
             jQuery(this).parent().parent().removeClass("active");
-        }else{
+        } else {
             jQuery(this).parent().parent().addClass("active");
         }
     })
 
 
-
-    jQuery(document).on("click", ".settings-tabs .field-repeatable-wrapper .clone", function() {
-
+    jQuery(document).on("click", ".settings-tabs .field-repeatable-wrapper .clone", function () {
 
 
     })
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    $(document).on('click', '.settings-tabs .expandable .expand', function(){
-        if($(this).parent().parent().hasClass('active'))
-        {
+    $(document).on('click', '.settings-tabs .expandable .expand', function () {
+        if ($(this).parent().parent().hasClass('active')) {
             $(this).parent().parent().removeClass('active');
-        }
-        else
-        {
+        } else {
             $(this).parent().parent().addClass('active');
         }
 
 
     })
 
-
-
-
-
- 		
 
 });

@@ -1,17 +1,14 @@
 <?php
 
 
+if (!defined('ABSPATH')) exit;  // if direct access
 
-if ( ! defined('ABSPATH')) exit;  // if direct access 
 
-
-	
-	
-	
-function breadcrumb_themes_css($theme){
+function breadcrumb_themes_css($theme)
+{
 
     $breadcrumb_themes_css = array();
-    $breadcrumb_bg_color = get_option('breadcrumb_bg_color','#278df4');
+    $breadcrumb_bg_color = get_option('breadcrumb_bg_color', '#278df4');
 
     ob_start();
     ?>
@@ -20,6 +17,7 @@ function breadcrumb_themes_css($theme){
             margin: 0;
             padding: 0;
         }
+
         .breadcrumb-container.theme1 a {
             background: <?php echo $breadcrumb_bg_color; ?>;
             display: inline-block;
@@ -41,6 +39,7 @@ function breadcrumb_themes_css($theme){
             margin: 0;
             padding: 0;
         }
+
         .breadcrumb-container.theme2 a {
             background: <?php echo $breadcrumb_bg_color; ?>;
             border-bottom: 1px solid rgb(139, 139, 139);
@@ -54,7 +53,6 @@ function breadcrumb_themes_css($theme){
     <?php
 
     $breadcrumb_themes_css['theme2'] = ob_get_clean();
-
 
 
     ob_start();
@@ -103,7 +101,7 @@ function breadcrumb_themes_css($theme){
             margin: 0;
             padding: 5px 10px;
             text-decoration: none;
-            position:relative;
+            position: relative;
         }
 
 
@@ -112,7 +110,7 @@ function breadcrumb_themes_css($theme){
             -moz-border-left-colors: none;
             -moz-border-right-colors: none;
             -moz-border-top-colors: none;
-            border-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) <?php echo $breadcrumb_bg_color; ?>;
+            border-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) rgba(0, 0, 0, 0)<?php echo $breadcrumb_bg_color; ?>;
             border-image: none;
             border-style: solid;
             border-width: 13px;
@@ -135,7 +133,6 @@ function breadcrumb_themes_css($theme){
     $breadcrumb_themes_css['theme4'] = ob_get_clean();
 
 
-
     ob_start();
 
     ?>
@@ -155,7 +152,7 @@ function breadcrumb_themes_css($theme){
             margin: 0;
             padding: 5px 10px;
             text-decoration: none;
-            position:relative;
+            position: relative;
         }
 
         .breadcrumb-container.theme5 a::before {
@@ -175,12 +172,13 @@ function breadcrumb_themes_css($theme){
             top: 0;
             width: 0;
         }
+
         .breadcrumb-container.theme5 a::after {
             -moz-border-bottom-colors: none;
             -moz-border-left-colors: none;
             -moz-border-right-colors: none;
             -moz-border-top-colors: none;
-            border-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) <?php echo $breadcrumb_bg_color; ?>;
+            border-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) rgba(0, 0, 0, 0)<?php echo $breadcrumb_bg_color; ?>;
             border-image: none;
             border-style: solid;
             border-width: 13px;
@@ -208,9 +206,7 @@ function breadcrumb_themes_css($theme){
     //echo '<pre>'.var_export($breadcrumb_themes_css, true).'</pre>';
 
     return isset($breadcrumb_themes_css[$theme]) ? $breadcrumb_themes_css[$theme] : '';
-						
-				
-				
+
 
 }
 	
