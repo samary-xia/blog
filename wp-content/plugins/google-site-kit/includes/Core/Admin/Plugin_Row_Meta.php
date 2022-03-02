@@ -17,39 +17,42 @@ namespace Google\Site_Kit\Core\Admin;
  * @access private
  * @ignore
  */
-class Plugin_Row_Meta {
+class Plugin_Row_Meta
+{
 
-	/**
-	 * Registers functionality through WordPress hooks.
-	 *
-	 * @since 1.24.0
-	 */
-	public function register() {
-		add_filter(
-			'plugin_row_meta',
-			function ( $meta, $plugin_file ) {
-				if ( GOOGLESITEKIT_PLUGIN_BASENAME === $plugin_file ) {
-					return array_merge( $meta, $this->get_plugin_row_meta() );
-				}
-				return $meta;
-			},
-			10,
-			2
-		);
-	}
+    /**
+     * Registers functionality through WordPress hooks.
+     *
+     * @since 1.24.0
+     */
+    public function register()
+    {
+        add_filter(
+            'plugin_row_meta',
+            function ($meta, $plugin_file) {
+                if (GOOGLESITEKIT_PLUGIN_BASENAME === $plugin_file) {
+                    return array_merge($meta, $this->get_plugin_row_meta());
+                }
+                return $meta;
+            },
+            10,
+            2
+        );
+    }
 
-	/**
-	 * Builds an array of anchor elements to be shown in the plugin row.
-	 *
-	 * @since 1.24.0
-	 *
-	 * @return string[] Array of links as HTML strings.
-	 */
-	private function get_plugin_row_meta() {
-		return array(
-			'<a href="https://wordpress.org/support/plugin/google-site-kit/reviews/#new-post">' . __( 'Rate Site Kit', 'google-site-kit' ) . '</a>',
-			'<a href="https://wordpress.org/support/plugin/google-site-kit/#new-post">' . __( 'Support', 'google-site-kit' ) . '</a>',
-		);
-	}
+    /**
+     * Builds an array of anchor elements to be shown in the plugin row.
+     *
+     * @return string[] Array of links as HTML strings.
+     * @since 1.24.0
+     *
+     */
+    private function get_plugin_row_meta()
+    {
+        return array(
+            '<a href="https://wordpress.org/support/plugin/google-site-kit/reviews/#new-post">' . __('Rate Site Kit', 'google-site-kit') . '</a>',
+            '<a href="https://wordpress.org/support/plugin/google-site-kit/#new-post">' . __('Support', 'google-site-kit') . '</a>',
+        );
+    }
 
 }

