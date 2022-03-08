@@ -2,7 +2,7 @@
 /**
  * All wp-ulike functionalities starting from here...
  *
- * 
+ *
  * @package    wp-ulike
  * @author     TechnoWich 2021
  * @link       https://wpulike.com
@@ -17,47 +17,47 @@
  * License:           GPL2
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Domain Path:       /languages/
- * Tested up to: 	  5.7
-
- /------------------------------------------\
-  _     __     _ _____      _  _  _   _
- | |   /  \   | | ___ \    | |(_)| | / /
- | |  / /\ \  | | |_/ /   _| || || |/ / ___
- | | / /  \ \ | |  __/ | | | || ||   | / _ \
- | |/ /    \ \| | |  | |_| | || || |\ \  __/
- \___/      \__/\_|   \__,_|_||_||_| \_\___|
-
- \--> Alimir, 2021 <--/
-
- Thanks for using WP ULike plugin!
-
- \------------------------------------------/
-*/
+ * Tested up to:      5.7
+ *
+ * /------------------------------------------\
+ * _     __     _ _____      _  _  _   _
+ * | |   /  \   | | ___ \    | |(_)| | / /
+ * | |  / /\ \  | | |_/ /   _| || || |/ / ___
+ * | | / /  \ \ | |  __/ | | | || ||   | / _ \
+ * | |/ /    \ \| | |  | |_| | || || |\ \  __/
+ * \___/      \__/\_|   \__,_|_||_||_| \_\___|
+ *
+ * \--> Alimir, 2021 <--/
+ *
+ * Thanks for using WP ULike plugin!
+ *
+ * \------------------------------------------/
+ */
 
 // If this file is called directly, abort.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
+if (!defined('ABSPATH')) {
+    exit; // Exit if accessed directly.
 }
 
 // Do not change these values
-define( 'WP_ULIKE_PLUGIN_URI'   , 'https://wpulike.com/' 		 );
-define( 'WP_ULIKE_VERSION'      , '4.4.7' 					 	 );
-define( 'WP_ULIKE_DB_VERSION'   , '2.1' 					 	 );
-define( 'WP_ULIKE_SLUG'         , 'wp-ulike' 					 );
-define( 'WP_ULIKE_NAME'         , __( 'WP ULike', WP_ULIKE_SLUG ));
+define('WP_ULIKE_PLUGIN_URI', 'https://wpulike.com/');
+define('WP_ULIKE_VERSION', '4.4.7');
+define('WP_ULIKE_DB_VERSION', '2.1');
+define('WP_ULIKE_SLUG', 'wp-ulike');
+define('WP_ULIKE_NAME', __('WP ULike', WP_ULIKE_SLUG));
 
-define( 'WP_ULIKE_DIR'          , plugin_dir_path( __FILE__ ) 	 );
-define( 'WP_ULIKE_URL'          , plugins_url( '', __FILE__ ) 	 );
-define( 'WP_ULIKE_BASENAME'     , plugin_basename( __FILE__ ) 	 );
+define('WP_ULIKE_DIR', plugin_dir_path(__FILE__));
+define('WP_ULIKE_URL', plugins_url('', __FILE__));
+define('WP_ULIKE_BASENAME', plugin_basename(__FILE__));
 
-define( 'WP_ULIKE_ADMIN_DIR'    , WP_ULIKE_DIR . 'admin' 		 );
-define( 'WP_ULIKE_ADMIN_URL'    , WP_ULIKE_URL . '/admin' 		 );
+define('WP_ULIKE_ADMIN_DIR', WP_ULIKE_DIR . 'admin');
+define('WP_ULIKE_ADMIN_URL', WP_ULIKE_URL . '/admin');
 
-define( 'WP_ULIKE_INC_DIR'      , WP_ULIKE_DIR . 'includes' 	 );
-define( 'WP_ULIKE_INC_URL'      , WP_ULIKE_URL . '/includes'     );
+define('WP_ULIKE_INC_DIR', WP_ULIKE_DIR . 'includes');
+define('WP_ULIKE_INC_URL', WP_ULIKE_URL . '/includes');
 
-define( 'WP_ULIKE_ASSETS_DIR'   , WP_ULIKE_DIR . 'assets' 		 );
-define( 'WP_ULIKE_ASSETS_URL'   , WP_ULIKE_URL . '/assets' 		 );
+define('WP_ULIKE_ASSETS_DIR', WP_ULIKE_DIR . 'assets');
+define('WP_ULIKE_ASSETS_URL', WP_ULIKE_URL . '/assets');
 
 /**
  * Initialize the plugin
@@ -65,21 +65,23 @@ define( 'WP_ULIKE_ASSETS_URL'   , WP_ULIKE_URL . '/assets' 		 );
 
 require WP_ULIKE_INC_DIR . '/action.php';
 // Register hooks that are fired when the plugin is activated or deactivated.
-register_activation_hook  ( __FILE__, array( 'wp_ulike_register_action_hook', 'activate'   ) );
-register_deactivation_hook( __FILE__, array( 'wp_ulike_register_action_hook', 'deactivate' ) );
+register_activation_hook(__FILE__, array('wp_ulike_register_action_hook', 'activate'));
+register_deactivation_hook(__FILE__, array('wp_ulike_register_action_hook', 'deactivate'));
 
-if ( ! class_exists( 'WpUlikeInit' ) ) {
-	// Include plugin starter
-	require WP_ULIKE_INC_DIR . '/plugin.php';
+if (!class_exists('WpUlikeInit')) {
+    // Include plugin starter
+    require WP_ULIKE_INC_DIR . '/plugin.php';
 
 } else {
 
-	function wp_ulike_two_instances_error() {
-		$class   = 'notice notice-error';
-		$message = __( 'You are using two instances of WP ULike plugin at same time, please deactive one of them.', WP_ULIKE_SLUG );
-		printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_html( $message ) );
-	}
-	add_action( 'admin_notices', 'wp_ulike_two_instances_error' );
+    function wp_ulike_two_instances_error()
+    {
+        $class = 'notice notice-error';
+        $message = __('You are using two instances of WP ULike plugin at same time, please deactive one of them.', WP_ULIKE_SLUG);
+        printf('<div class="%1$s"><p>%2$s</p></div>', esc_attr($class), esc_html($message));
+    }
+
+    add_action('admin_notices', 'wp_ulike_two_instances_error');
 
 }
 /*============================================================================*/

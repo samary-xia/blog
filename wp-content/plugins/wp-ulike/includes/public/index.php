@@ -1,14 +1,14 @@
 <?php
 /**
  * Include Public Files
- * 
+ *
  * @package    wp-ulike
  * @author     TechnoWich 2021
  * @link       https://wpulike.com
  */
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
+if (!defined('WPINC')) {
     die('No Naughty Business Please !');
 }
 
