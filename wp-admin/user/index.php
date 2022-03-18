@@ -1,4 +1,4 @@
-<?php
+¬<?php
 /**
  * User Dashboard Administration Screen
  *
