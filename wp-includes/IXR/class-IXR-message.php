@@ -9,12 +9,12 @@
  */
 class IXR_Message
 {
-    var $message     = false;
+    var $message = false;
     var $messageType = false;  // methodCall / methodResponse / fault
-    var $faultCode   = false;
+    var $faultCode = false;
     var $faultString = false;
-    var $methodName  = '';
-    var $params      = array();
+    var $methodName = '';
+    var $params = array();
 
     // Current variable stacks
     var $_arraystructs = array();   // The stack used to keep track of the current array/struct
@@ -27,65 +27,66 @@ class IXR_Message
     // The XML parser
     var $_parser;
 
-	/**
-	 * PHP5 constructor.
-	 */
-    function __construct( $message )
+    /**
+     * PHP5 constructor.
+     */
+    function __construct($message)
     {
         $this->message =& $message;
     }
 
-	/**
-	 * PHP4 constructor.
-	 */
-	public function IXR_Message( $message ) {
-		self::__construct( $message );
-	}
+    /**
+     * PHP4 constructor.
+     */
+    public function IXR_Message($message)
+    {
+        self::__construct($message);
+    }
 
     function parse()
     {
-        if ( ! function_exists( 'xml_parser_create' ) ) {
-            trigger_error( __( "PHP's XML extension is not available. Please contact your hosting provider to enable PHP's XML extension." ) );
+        if (!function_exists('xml_parser_create')) {
+            trigger_error(__("PHP's XML extension is not available. Please contact your hosting provider to enable PHP's XML extension."));
             return false;
         }
 
         // first remove the XML declaration
         // merged from WP #10698 - this method avoids the RAM usage of preg_replace on very large messages
-        $header = preg_replace( '/<\?xml.*?\?'.'>/s', '', substr( $this->message, 0, 100 ), 1 );
-        $this->message = trim( substr_replace( $this->message, $header, 0, 100 ) );
-        if ( '' == $this->message ) {
+        $header = preg_replace('/<\?xml.*?\?' . '>/s', '', substr($this->message, 0, 100), 1);
+        $this->message = trim(substr_replace($this->message, $header, 0, 100));
+        if ('' == $this->message) {
             return false;
         }
 
         // Then remove the DOCTYPE
-        $header = preg_replace( '/^<!DOCTYPE[^>]*+>/i', '', substr( $this->message, 0, 200 ), 1 );
-        $this->message = trim( substr_replace( $this->message, $header, 0, 200 ) );
-        if ( '' == $this->message ) {
+        $header = preg_replace('/^<!DOCTYPE[^>]*+>/i', '', substr($this->message, 0, 200), 1);
+        $this->message = trim(substr_replace($this->message, $header, 0, 200));
+        if ('' == $this->message) {
             return false;
         }
 
         // Check that the root tag is valid
-        $root_tag = substr( $this->message, 0, strcspn( substr( $this->message, 0, 20 ), "> \t\r\n" ) );
-        if ( '<!DOCTYPE' === strtoupper( $root_tag ) ) {
+        $root_tag = substr($this->message, 0, strcspn(substr($this->message, 0, 20), "> \t\r\n"));
+        if ('<!DOCTYPE' === strtoupper($root_tag)) {
             return false;
         }
-        if ( ! in_array( $root_tag, array( '<methodCall', '<methodResponse', '<fault' ) ) ) {
+        if (!in_array($root_tag, array('<methodCall', '<methodResponse', '<fault'))) {
             return false;
         }
 
         // Bail if there are too many elements to parse
         $element_limit = 30000;
-        if ( function_exists( 'apply_filters' ) ) {
+        if (function_exists('apply_filters')) {
             /**
              * Filters the number of elements to parse in an XML-RPC response.
              *
+             * @param int $element_limit Default elements limit.
              * @since 4.0.0
              *
-             * @param int $element_limit Default elements limit.
              */
-            $element_limit = apply_filters( 'xmlrpc_element_limit', $element_limit );
+            $element_limit = apply_filters('xmlrpc_element_limit', $element_limit);
         }
-        if ( $element_limit && 2 * $element_limit < substr_count( $this->message, '<' ) ) {
+        if ($element_limit && 2 * $element_limit < substr_count($this->message, '<')) {
             return false;
         }
 
@@ -103,11 +104,11 @@ class IXR_Message
         /**
          * Filters the chunk size that can be used to parse an XML-RPC response message.
          *
+         * @param int $chunk_size Chunk size to parse in bytes.
          * @since 4.4.0
          *
-         * @param int $chunk_size Chunk size to parse in bytes.
          */
-        $chunk_size = apply_filters( 'xmlrpc_chunk_parsing_size', $chunk_size );
+        $chunk_size = apply_filters('xmlrpc_chunk_parsing_size', $chunk_size);
 
         $final = false;
         do {
@@ -137,13 +138,13 @@ class IXR_Message
     {
         $this->_currentTagContents = '';
         $this->currentTag = $tag;
-        switch($tag) {
+        switch ($tag) {
             case 'methodCall':
             case 'methodResponse':
             case 'fault':
                 $this->messageType = $tag;
                 break;
-                /* Deal with stacks of arrays and structs */
+            /* Deal with stacks of arrays and structs */
             case 'data':    // data is to all intents and puposes more interesting than array
                 $this->_arraystructstypes[] = 'array';
                 $this->_arraystructs[] = array();
@@ -163,7 +164,7 @@ class IXR_Message
     function tag_close($parser, $tag)
     {
         $valueFlag = false;
-        switch($tag) {
+        switch ($tag) {
             case 'int':
             case 'i4':
                 $value = (int)trim($this->_currentTagContents);
@@ -196,7 +197,7 @@ class IXR_Message
                 $value = base64_decode($this->_currentTagContents);
                 $valueFlag = true;
                 break;
-                /* Deal with stacks of arrays and structs */
+            /* Deal with stacks of arrays and structs */
             case 'data':
             case 'struct':
                 $value = array_pop($this->_arraystructs);
@@ -217,12 +218,12 @@ class IXR_Message
         if ($valueFlag) {
             if (count($this->_arraystructs) > 0) {
                 // Add value to struct or array
-                if ($this->_arraystructstypes[count($this->_arraystructstypes)-1] == 'struct') {
+                if ($this->_arraystructstypes[count($this->_arraystructstypes) - 1] == 'struct') {
                     // Add to struct
-                    $this->_arraystructs[count($this->_arraystructs)-1][$this->_currentStructName[count($this->_currentStructName)-1]] = $value;
+                    $this->_arraystructs[count($this->_arraystructs) - 1][$this->_currentStructName[count($this->_currentStructName) - 1]] = $value;
                 } else {
                     // Add to array
-                    $this->_arraystructs[count($this->_arraystructs)-1][] = $value;
+                    $this->_arraystructs[count($this->_arraystructs) - 1][] = $value;
                 }
             } else {
                 // Just add as a parameter
