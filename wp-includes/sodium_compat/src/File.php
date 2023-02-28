@@ -3,6 +3,7 @@
 if (class_exists('ParagonIE_Sodium_File', false)) {
     return;
 }
+
 /**
  * Class ParagonIE_Sodium_File
  */
@@ -16,10 +17,10 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
      * ParagonIE_Sodium_Compat::crypto_box(), but produces
      * the same result.
      *
-     * @param string $inputFile  Absolute path to a file on the filesystem
+     * @param string $inputFile Absolute path to a file on the filesystem
      * @param string $outputFile Absolute path to a file on the filesystem
-     * @param string $nonce      Number to be used only once
-     * @param string $keyPair    ECDH secret key and ECDH public key concatenated
+     * @param string $nonce Number to be used only once
+     * @param string $keyPair ECDH secret key and ECDH public key concatenated
      *
      * @return bool
      * @throws SodiumException
@@ -151,9 +152,9 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
      * ParagonIE_Sodium_Compat::crypto_box_seal(), but produces
      * the same result.
      *
-     * @param string $inputFile  Absolute path to a file on the filesystem
+     * @param string $inputFile Absolute path to a file on the filesystem
      * @param string $outputFile Absolute path to a file on the filesystem
-     * @param string $publicKey  ECDH public key
+     * @param string $publicKey ECDH public key
      *
      * @return bool
      * @throws SodiumException
@@ -336,9 +337,9 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
     /**
      * Calculate the BLAKE2b hash of a file.
      *
-     * @param string      $filePath     Absolute path to a file on the filesystem
-     * @param string|null $key          BLAKE2b key
-     * @param int         $outputLength Length of hash output
+     * @param string $filePath Absolute path to a file on the filesystem
+     * @param string|null $key BLAKE2b key
+     * @param int $outputLength Length of hash output
      *
      * @return string                   BLAKE2b hash
      * @throws SodiumException
@@ -362,7 +363,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
             if (!is_numeric($outputLength)) {
                 throw new TypeError('Argument 3 must be an integer, ' . gettype($outputLength) . ' given.');
             }
-            $outputLength = (int) $outputLength;
+            $outputLength = (int)$outputLength;
         }
 
         /* Input validation: */
@@ -414,10 +415,10 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
      * ParagonIE_Sodium_Compat::crypto_secretbox(), but produces
      * the same result.
      *
-     * @param string $inputFile  Absolute path to a file on the filesystem
+     * @param string $inputFile Absolute path to a file on the filesystem
      * @param string $outputFile Absolute path to a file on the filesystem
-     * @param string $nonce      Number to be used only once
-     * @param string $key        Encryption key
+     * @param string $nonce Number to be used only once
+     * @param string $key Encryption key
      *
      * @return bool
      * @throws SodiumException
@@ -471,6 +472,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         fclose($ofp);
         return $res;
     }
+
     /**
      * Seal a file (rather than a string). Uses less memory than
      * ParagonIE_Sodium_Compat::crypto_secretbox_open(), but produces
@@ -547,7 +549,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
      * ParagonIE_Sodium_Compat::crypto_sign_detached(), but produces
      * the same result.
      *
-     * @param string $filePath  Absolute path to a file on the filesystem
+     * @param string $filePath Absolute path to a file on the filesystem
      * @param string $secretKey Secret signing key
      *
      * @return string           Ed25519 signature
@@ -641,8 +643,8 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
      * ParagonIE_Sodium_Compat::crypto_sign_verify_detached(), but
      * produces the same result.
      *
-     * @param string $sig       Ed25519 signature
-     * @param string $filePath  Absolute path to a file on the filesystem
+     * @param string $sig Ed25519 signature
+     * @param string $filePath Absolute path to a file on the filesystem
      * @param string $publicKey Signing public key
      *
      * @return bool
@@ -681,7 +683,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         /* Security checks */
         if (
             (ParagonIE_Sodium_Core_Ed25519::chrToInt($sig[63]) & 240)
-                &&
+            &&
             ParagonIE_Sodium_Core_Ed25519::check_S_lt_L(self::substr($sig, 32, 32))
         ) {
             throw new SodiumException('S < L - Invalid signature');
@@ -753,9 +755,9 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
     /**
      * @param resource $ifp
      * @param resource $ofp
-     * @param int      $mlen
-     * @param string   $nonce
-     * @param string   $boxKeypair
+     * @param int $mlen
+     * @param string $nonce
+     * @param string $boxKeypair
      * @return bool
      * @throws SodiumException
      * @throws TypeError
@@ -790,9 +792,9 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
     /**
      * @param resource $ifp
      * @param resource $ofp
-     * @param int      $mlen
-     * @param string   $nonce
-     * @param string   $boxKeypair
+     * @param int $mlen
+     * @param string $nonce
+     * @param string $boxKeypair
      * @return bool
      * @throws SodiumException
      * @throws TypeError
@@ -1042,10 +1044,11 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
      */
     protected static function onetimeauth_verify(
         ParagonIE_Sodium_Core_Poly1305_State $state,
-        $ifp,
-        $tag = '',
-        $mlen = 0
-    ) {
+                                             $ifp,
+                                             $tag = '',
+                                             $mlen = 0
+    )
+    {
         /** @var int $pos */
         $pos = self::ftell($ifp);
 
@@ -1139,7 +1142,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
      * ParagonIE_Sodium_Compat::crypto_sign_detached(), but produces
      * the same result. (32-bit)
      *
-     * @param string $filePath  Absolute path to a file on the filesystem
+     * @param string $filePath Absolute path to a file on the filesystem
      * @param string $secretKey Secret signing key
      *
      * @return string           Ed25519 signature
@@ -1220,8 +1223,8 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
      * ParagonIE_Sodium_Compat::crypto_sign_verify_detached(), but
      * produces the same result. (32-bit)
      *
-     * @param string $sig       Ed25519 signature
-     * @param string $filePath  Absolute path to a file on the filesystem
+     * @param string $sig Ed25519 signature
+     * @param string $filePath Absolute path to a file on the filesystem
      * @param string $publicKey Signing public key
      *
      * @return bool
@@ -1514,10 +1517,11 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
      */
     protected static function onetimeauth_verify_core32(
         ParagonIE_Sodium_Core32_Poly1305_State $state,
-        $ifp,
-        $tag = '',
-        $mlen = 0
-    ) {
+                                               $ifp,
+                                               $tag = '',
+                                               $mlen = 0
+    )
+    {
         /** @var int $pos */
         $pos = self::ftell($ifp);
 
@@ -1556,6 +1560,6 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         if (!is_int($return)) {
             throw new SodiumException('ftell() returned false');
         }
-        return (int) $return;
+        return (int)$return;
     }
 }
